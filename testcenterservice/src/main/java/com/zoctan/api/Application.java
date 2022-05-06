@@ -29,18 +29,20 @@ import java.util.TimeZone;
 @ServletComponentScan(basePackages = ProjectConstant.FILTER_PACKAGE)
 public class Application extends SpringBootServletInitializer {
 
-  @PostConstruct
-  void started() {
-    TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
-  }
+    @PostConstruct
+    void started() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
+    }
 
-  public static void main(final String[] args) {
-    SpringApplication.run(Application.class, args);
-  }
+    public static void main(final String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
-  /** 容器启动配置 */
-  @Override
-  protected SpringApplicationBuilder configure(final SpringApplicationBuilder builder) {
-    return builder.sources(Application.class);
-  }
+    /**
+     * 容器启动配置
+     */
+    @Override
+    protected SpringApplicationBuilder configure(final SpringApplicationBuilder builder) {
+        return builder.sources(Application.class);
+    }
 }
