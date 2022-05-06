@@ -76,6 +76,7 @@ sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/conditionservice/config/applicat
 sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/dispatchservice/config/application.yml
 sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/slaverservice/config/application.yml
 sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/testcenterservice/config/application.yml
+sed -i "" "s/127.0.0.1/${local_ip}/g" ../Beta/testcenterapp/dist/static/config.js
 sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/testcenterapp/dist/static/config.js
 echo "修改IP成功"
 docker-compose -f docker-compose.yaml up -d 
