@@ -68,13 +68,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('apicondition:update') && scope.row.id !== id"
+            v-if="hasPermission('apicondition:update')"
             @click.native.prevent="showUpdateapiconditionDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('apicondition:delete') && scope.row.id !== id"
+            v-if="hasPermission('apicondition:delete')"
             @click.native.prevent="removeapicondition(scope.$index)"
           >删除</el-button>
         </template>

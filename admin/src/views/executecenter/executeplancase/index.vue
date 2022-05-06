@@ -62,7 +62,6 @@
       ref="fileTable"
       :data="executeplancaseList"
       :key="itemplanKey"
-      @row-click="handleClickTableRow"
       @selection-change="handleSelectionChange"
       v-loading.body="listLoading"
       element-loading-text="loading"
@@ -98,7 +97,7 @@
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('executeplan:delete') && scope.row.id !== id"
+            v-if="hasPermission('executeplan:delete')"
             @click.native.prevent="removeexecuteplantestcase(scope.$index)"
           >删除</el-button>
         </template>
@@ -216,6 +215,7 @@
     },
     data() {
       return {
+        show: false,
         itemplanKey: null,
         itemcaseKey: null,
         tmpplancasedeployunitname: null,
@@ -291,8 +291,6 @@
       this.getexecuteplancaseList()
       this.getdepunitLists()
       this.getloaddepunitLists()
-      this.getenviromentallList()
-      this.getdatabydiccodeList()
     },
 
     methods: {

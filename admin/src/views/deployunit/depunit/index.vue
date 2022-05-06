@@ -65,13 +65,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('depunit:update') && scope.row.id !== id"
+            v-if="hasPermission('depunit:update')"
             @click.native.prevent="showUpdatedepunitDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('depunit:delete') && scope.row.id !== id"
+            v-if="hasPermission('depunit:delete')"
             @click.native.prevent="removedepunit(scope.$index)"
           >删除</el-button>
         </template>

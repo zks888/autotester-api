@@ -1,11 +1,14 @@
 import com.zoctan.api.core.rsa.RsaUtils;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * RSA工具测试
@@ -72,5 +75,10 @@ public class RsaEncryptor {
     public void test3() throws Exception {
         String str = "用例运行结束保存记录CaseFinish发生异常，请检查!";
         System.out.println("截取后：" + str.substring(0, Math.min(str.length(), 16000)));
+
+        Date now2 = new Date();
+        Date startDate = DateUtils.addDays(now2, -15);
+        String endDate = new SimpleDateFormat("yyyy-MM-dd").format(startDate.getTime());
+        System.out.println("方法五：lang3中的工具类DateUtils获取当前日期30天的日期为："+endDate);
     }
 }

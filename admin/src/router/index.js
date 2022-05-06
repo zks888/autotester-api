@@ -34,14 +34,14 @@ export const constantRouterMap = [
   //     }
   //   ]
   // }
-
   {
     path: '',
     component: Layout,
+    redirect: '/dashboard',
     name: 'Dashboard',
     icon: 'dashboard',
     children: [
-      { path: 'Dashboard', name: '首页', component: _import('dashboard/dashboard/index'), meta: { title: '首页', icon: 'dashboard', noCache: true }},
+      { path: 'dashboard', name: '首页', component: _import('dashboard/dashboard/index'), meta: { title: '首页', icon: 'dashboard', noCache: true }},
       { path: 'myinfo', name: '我的总览', component: _import('dashboard/myinfo/index'), meta: { title: '我的总览', icon: 'dashboard', noCache: true }}
     ]
   }
@@ -96,7 +96,6 @@ export const asyncRouterMap = [
   },
   // nestedRouterTestManager,
   // nestedRouterSubCondition,
-
   {
     path: '/executecenter',
     component: Layout,
@@ -146,7 +145,6 @@ export const asyncRouterMap = [
       { path: 'delaycondition/list', name: '延时子条件', component: _import('condition/delaycondition/index'), meta: { title: '延时子条件', permission: ['delaycondition:list'] }}
     ]
   },
-
   {
     path: '/testvariables',
     component: Layout,
@@ -161,60 +159,18 @@ export const asyncRouterMap = [
       // { path: 'testvariablesvalue/list', name: '变量结果', component: _import('testvariables/testvariablesvalue/index'), meta: { title: '变量结果', permission: ['testvariablesvalue:list'] }}
     ]
   },
-  // {
-  //   path: '/test',
-  //   component: Layout,
-  //   name: '测试工作管理',
-  //   icon: 'dashboard',
-  //   children: [
-  //     { path: 'account/list', name: '测试项目任务管理', component: _import('system/account/list'), meta: { permission: ['account:list'] }},
-  //     { path: 'role/list', name: '测试排期管理', component: _import('system/role/list'), meta: { permission: ['role:detail'] }},
-  //     { path: 'role/list', name: '测试文档库CF', component: _import('system/role/list'), meta: { permission: ['role:detail'] }},
-  //     { path: 'role/list', name: '测试经验分享', component: _import('system/role/list'), meta: { permission: ['role:detail'] }},
-  //     { path: 'role/list', name: '测试资金管理', component: _import('system/role/list'), meta: { permission: ['role:detail'] }}
-  //   ]
-  // },
-
-  //
-  // {
-  //   path: '/test',
-  //   component: Layout,
-  //   name: '数据统计',
-  //   icon: 'dashboard',
-  //   children: [
-  //     { path: 'account/list', name: 'API测试分析', component: _import('system/account/list'), meta: { permission: ['account:list'] }},
-  //     { path: 'role/list', name: '提测发布分析', component: _import('system/role/list'), meta: { permission: ['role:detail'] }}
-  //   ]
-  // },
-  //
-
   {
     path: '/system',
     component: Layout,
     name: '系统管理',
     icon: 'sys',
     children: [
-      { path: 'account/list', name: '账户管理', component: _import('system/account/list'), meta: { title: '账户管理', permission: ['account:detail'] }},
+      { path: 'account/list', name: '账户管理', component: _import('system/account/list'), meta: { title: '账户管理', permission: ['account:list'] }},
       { path: 'role/list', name: '角色管理', component: _import('system/role/list'), meta: { title: '角色管理', permission: ['role:detail'] }},
       // { path: 'deploytestcase/list', name: '发布用例', component: _import('system/deploytestcase/index'), meta: { permission: ['deploytestcase:list'] }},
       { path: 'dictionary/list', name: '字典管理', component: _import('system/dictionary/index'), meta: { title: '字典管理', permission: ['dictionary:list'] }}
     ]
   },
-
-  // {
-  //   path: '/account',
-  //   component: Layout,
-  //   redirect: '/account/list',
-  //   icon: 'name',
-  //   noDropDown: true,
-  //   children: [{
-  //     path: 'list',
-  //     name: '账户管理',
-  //     component: _import('account/list'),
-  //     meta: { permission: ['account:list'] }
-  //   }]
-  // },
-
   {
     path: '/account',
     component: Layout,
@@ -223,21 +179,8 @@ export const asyncRouterMap = [
     children: [{
       path: 'detail',
       name: '账户中心',
-      component: _import('system/account/detail')
+      component: _import('system/account/detail'),
+      meta: { title: '账户中心', permission: ['account:detail'] }
     }]
   }
-
-  // {
-  //   path: '/role',
-  //   component: Layout,
-  //   redirect: '/role/list',
-  //   icon: 'role',
-  //   noDropDown: true,
-  //   children: [{
-  //     path: 'list',
-  //     name: '角色管理',
-  //     component: _import('role/list'),
-  //     meta: { permission: ['role:list'] }
-  //   }]
-  // }
 ]

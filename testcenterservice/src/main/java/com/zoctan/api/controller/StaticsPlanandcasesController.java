@@ -7,10 +7,12 @@ import com.zoctan.api.core.response.ResultGenerator;
 import com.zoctan.api.dto.StaticsDataForLine;
 import com.zoctan.api.entity.StaticsPlanandcases;
 import com.zoctan.api.service.StaticsPlanandcasesService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.web.bind.annotation.*;
-
+import tk.mybatis.mapper.entity.Condition;
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -58,39 +60,39 @@ public class StaticsPlanandcasesController {
 
     @GetMapping("/getlastdays")
     public Result getlastdays() {
-        List<String> lastdaylist=new ArrayList<>();
-        for(int i=15;i>0;i--)
-        {
+        List<String> lastdaylist = new ArrayList<>();
+        for (int i = 15; i > 0; i--) {
             Date date = new Date();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            calendar.add(Calendar.DATE,-i);
-            int MONTH = calendar.get(Calendar.MONTH)+1;
+            calendar.add(Calendar.DATE, -i);
+            int MONTH = calendar.get(Calendar.MONTH) + 1;
             int Day = calendar.get(Calendar.DAY_OF_MONTH);
-            lastdaylist.add(MONTH+"-"+Day);
+            lastdaylist.add(MONTH + "-" + Day);
         }
         return ResultGenerator.genOkResult(lastdaylist);
     }
 
     @GetMapping("/getplanstatics")
     public Result getplanstatics() {
-        List<StaticsPlanandcases> list = staticsPlanandcasesService.listAll();
-        List<StaticsDataForLine> staticsDataForLineList=new ArrayList<>();
-        HashMap<String,List<Double>> tmp=new HashMap<>();
-        for (StaticsPlanandcases staticsPlanandcases: list) {
-            if(!tmp.containsKey(staticsPlanandcases.getTestplanname()))
-            {
-                List<Double> planstaticsdatelist=new ArrayList<>();
+        Condition planstaticscond = new Condition(StaticsPlanandcases.class);
+        Date startDate = DateUtils.addDays(new Date(), -15);
+        String startDateStr = new SimpleDateFormat("yyyy-MM-dd").format(startDate.getTime());
+        planstaticscond.createCriteria().andCondition("statics_date >= '" + startDateStr + " 00:00:00'");
+        List<StaticsPlanandcases> list = staticsPlanandcasesService.listByCondition(planstaticscond);
+        List<StaticsDataForLine> staticsDataForLineList = new ArrayList<>();
+        HashMap<String, List<Double>> tmp = new HashMap<>();
+        for (StaticsPlanandcases staticsPlanandcases : list) {
+            if (!tmp.containsKey(staticsPlanandcases.getTestplanname())) {
+                List<Double> planstaticsdatelist = new ArrayList<>();
                 planstaticsdatelist.add(staticsPlanandcases.getPassrate());
-                tmp.put(staticsPlanandcases.getTestplanname(),planstaticsdatelist);
-            }
-            else
-            {
+                tmp.put(staticsPlanandcases.getTestplanname(), planstaticsdatelist);
+            } else {
                 tmp.get(staticsPlanandcases.getTestplanname()).add(staticsPlanandcases.getPassrate());
             }
         }
-        for (String PlanName:tmp.keySet()) {
-            StaticsDataForLine staticsDataForLine=new StaticsDataForLine();
+        for (String PlanName : tmp.keySet()) {
+            StaticsDataForLine staticsDataForLine = new StaticsDataForLine();
             staticsDataForLine.setExecPlanName(PlanName);
             staticsDataForLine.setPassPecent(tmp.get(PlanName));
             staticsDataForLineList.add(staticsDataForLine);
@@ -101,12 +103,12 @@ public class StaticsPlanandcasesController {
     public static void main(String[] args) throws ParseException {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE,-1);
-        int Year=calendar.get(Calendar.YEAR);
-        int MONTH = calendar.get(Calendar.MONTH)+1;
+        calendar.add(Calendar.DATE, -1);
+        int Year = calendar.get(Calendar.YEAR);
+        int MONTH = calendar.get(Calendar.MONTH) + 1;
         int Day = calendar.get(Calendar.DATE);
-        String StaticsDay=Year+"-"+MONTH+"-"+Day;
-            System.out.println("MONTH Day is "+StaticsDay);
+        String StaticsDay = Year + "-" + MONTH + "-" + Day;
+        System.out.println("MONTH Day is " + StaticsDay);
 
 //        for(int i=15;i>0;i--)
 //        {

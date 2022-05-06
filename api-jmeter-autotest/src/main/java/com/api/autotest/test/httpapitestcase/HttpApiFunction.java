@@ -14,7 +14,8 @@ import org.apache.jmeter.samplers.SampleResult;
 import java.util.*;
 
 public class HttpApiFunction extends AbstractJavaSamplerClient {
-    TestCore Core=null;
+    TestCore Core = null;
+
     // 初始化方法，实际运行时每个线程仅执行一次，在测试方法运行前执行，类似于LoadRunner中的init方法
     public void setupTest(JavaSamplerContext context) {
         super.setupTest(context);
@@ -34,7 +35,6 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
 
     // 测试执行的循环体，根据线程数和循环次数的不同可执行多次，类似于LoadRunner中的Action方法
     public SampleResult runTest(JavaSamplerContext ctx) {
-
         String SlaverId = ctx.getParameter("SlaverId");
         String DispatchIds = ctx.getParameter("DispatchIds");
         String mysqlurl = ctx.getParameter("mysqlurl");
@@ -49,7 +49,7 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
         Map<String, List<RequestObject>> BatchRequestObjectMap = InitalTestData(Core, ctx);
         for (String BatchName : BatchRequestObjectMap.keySet()) {
             getLogger().info("BatchName 。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。:" + BatchName + " size is" + BatchRequestObjectMap.get(BatchName).size());
-            String TestPlanID="";
+            String TestPlanID = "";
             if (BatchRequestObjectMap.get(BatchName).size() > 0) {
                 TestPlanID = BatchRequestObjectMap.get(BatchName).get(0).getTestplanid();
                 getLogger().info("TestPlanID 。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。:" + TestPlanID);
@@ -85,10 +85,9 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
                         AssertInfo = Core.FixAssert(TestAssert, requestObject.getApicasesAssertList(), responeData);
                     } catch (Exception ex) {
                         getLogger().error("CaseException start。。。。。。。。。。。。。!" + ex.getMessage());
-                        String ExceptionMess=ex.getMessage();
-                        if(ExceptionMess.contains("Illegal character in path at"))
-                        {
-                            ExceptionMess="Url不合法，请检查是否有无法替换的变量，或者有相关非法字符："+ex.getMessage();
+                        String ExceptionMess = ex.getMessage();
+                        if (ExceptionMess.contains("Illegal character in path at")) {
+                            ExceptionMess = "Url不合法，请检查是否有无法替换的变量，或者有相关非法字符：" + ex.getMessage();
                         }
                         ErrorInfo = CaseException(results, TestAssert, ExceptionMess);
                     } finally {
@@ -107,7 +106,7 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
                 //收集本次运行的功能用例统计结果
                 CollectionBatchDeployReportStatics(Core, apicasesReportstatics, BatchName, BatchDeployTotalCaseNums, BatchDeployTotalPassNums, BatchDeployTotalFailNUms, AllCostTime, SlaverId);
             }
-            FinisBatchCase(Core,TestPlanID,BatchName,SlaverId);
+            FinisBatchCase(Core, TestPlanID, BatchName, SlaverId);
         }
         //Jmeter事务，表示这是事务的结束点
         results.sampleEnd();
@@ -146,6 +145,7 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
     //用例运行过程中的异常信息处理
     private String CaseException(SampleResult results, TestAssert testAssert, String exceptionMessage) {
         // 断言用例运行结果为失败
+        results.setSuccessful(false);
         testAssert.setCaseresult(false);
         String ErrorInfo = exceptionMessage.replace("'", "");
         getLogger().error("用例执行发生异常，请检查!" + exceptionMessage);
@@ -163,12 +163,12 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
             core.savetestcaseresult(testAssert.isCaseresult(), time, ActualResult, assertInfo, ErrorInfo, requestObject, ctx);
             core.updatedispatchcasestatus(requestObject.getTestplanid(), requestObject.getCaseid(), requestObject.getSlaverid(), requestObject.getBatchid());
         } catch (Exception ex) {
-            getLogger().error( "用例运行结束保存记录CaseFinish发生异常，请检查!" + ex.getMessage());
+            getLogger().error("用例运行结束保存记录CaseFinish发生异常，请检查!" + ex.getMessage());
         }
     }
 
     //功能用例统计批次发布单元用例执行信息
-    private void CollectionBatchDeployReportStatics(TestCore core, ApicasesReportstatics apicasesReportstatics, String BatchName, int TotalCaseNums, int TotalPassNums, int TotalFailNUms, long AllCostTime, String SlaverId)  {
+    private void CollectionBatchDeployReportStatics(TestCore core, ApicasesReportstatics apicasesReportstatics, String BatchName, int TotalCaseNums, int TotalPassNums, int TotalFailNUms, long AllCostTime, String SlaverId) {
         apicasesReportstatics.setBatchname(BatchName);
         apicasesReportstatics.setTotalcases(String.valueOf(TotalCaseNums));
         apicasesReportstatics.setTotalpasscases(String.valueOf(TotalPassNums));
@@ -177,18 +177,18 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
         core.SaveReportStatics(apicasesReportstatics);
     }
 
-    private void  FinisBatchCase(TestCore core,String planid, String BatchName, String SlaverId)  {
+    private void FinisBatchCase(TestCore core, String planid, String BatchName, String SlaverId) {
         getLogger().info("SlaverId 。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。:" + SlaverId);
         getLogger().info("功能用例统计收集信息 完成。。。。。。。。。。。。。。。。");
         //查询此计划下的批次调度是否已经全部完成，如果完成，刷新计划批次状态为finish
-        long DispatchNotFinishNums= core.PlanBatchAllDipatchFinish(planid,BatchName);
+        long DispatchNotFinishNums = core.PlanBatchAllDipatchFinish(planid, BatchName);
 
         if (DispatchNotFinishNums > 0) {
             getLogger().info("查询计划下的批次调度未完成数量：" + DispatchNotFinishNums);
         } else {
             core.UpdateReportStatics(planid, BatchName, "已完成");
-            core.SendMessageDingDing(planid,BatchName);
-            core.SendMailByFinishPlanCase(planid,BatchName);
+            core.SendMessageDingDing(planid, BatchName);
+            core.SendMailByFinishPlanCase(planid, BatchName);
         }
     }
 
@@ -205,16 +205,16 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
 
     // 本地调试
     public static void main(String[] args) {
-        String s=System.getProperty("line.separator");
+        String s = System.getProperty("line.separator");
         System.out.println(System.getProperty("line.separator"));
 
-        String teststr=" ";
-        if ((teststr!=null)&&(!teststr.isEmpty())) {
+        String teststr = " ";
+        if ((teststr != null) && (!teststr.isEmpty())) {
             System.out.println("ok");
         }
 
-        String teststr1=null;
-        if ((teststr1!=null)&&(!teststr1.isEmpty())) {
+        String teststr1 = null;
+        if ((teststr1 != null) && (!teststr1.isEmpty())) {
             System.out.println("1111");
         }
 

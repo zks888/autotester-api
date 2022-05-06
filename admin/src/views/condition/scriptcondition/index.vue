@@ -76,13 +76,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('scriptcondition:update') && scope.row.id !== id"
+            v-if="hasPermission('scriptcondition:update')"
             @click.native.prevent="showUpdatescriptconditionDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('scriptcondition:delete') && scope.row.id !== id"
+            v-if="hasPermission('scriptcondition:delete')"
             @click.native.prevent="removescriptcondition(scope.$index)"
           >删除</el-button>
         </template>

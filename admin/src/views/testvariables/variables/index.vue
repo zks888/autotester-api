@@ -60,13 +60,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('variables:update') && scope.row.id !== id"
+            v-if="hasPermission('variables:update')"
             @click.native.prevent="showUpdatevariablesDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('variables:delete') && scope.row.id !== id"
+            v-if="hasPermission('variables:delete')"
             @click.native.prevent="removevariables(scope.$index)"
           >删除</el-button>
         </template>

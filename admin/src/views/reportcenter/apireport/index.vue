@@ -15,7 +15,7 @@
         <span v-if="hasPermission('apireport:search')">
           <el-form-item label="测试集合" prop="testplanname" >
           <el-select v-model="search.testplanname" placeholder="测试集合" @change="testplanselectChanged($event)">
-            <el-option label="请选择"/>
+            <el-option label="请选择" value=""/>
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
             </div>
@@ -23,7 +23,7 @@
         </el-form-item>
           <el-form-item label="执行计划" prop="batchname" >
             <el-select v-model="search.batchname" placeholder="执行计划">
-            <el-option label="请选择"/>
+            <el-option label="请选择" value=""/>
             <div v-for="(planbatch, index) in planbatchList" :key="index">
               <el-option :label="planbatch.batchname" :value="planbatch.batchname" />
             </div>
@@ -173,14 +173,6 @@
             auto-complete="off"
             v-model="tmpapireport.apireportname"
           />
-        </el-form-item>
-        <el-form-item label="访问方式" prop="visittype" required>
-          <el-select v-model="tmpapireport.visittype" placeholder="访问方式">
-            <el-option label="请选择" value="''" style="display: none" />
-            <div v-for="(vistype, index) in visittypeList" :key="index">
-              <el-option :label="vistype.dicitmevalue" :value="vistype.dicitmevalue" required/>
-            </div>
-          </el-select>
         </el-form-item>
         <el-form-item label="资源路径" prop="path" required>
           <el-input

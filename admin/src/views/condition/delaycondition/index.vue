@@ -68,13 +68,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('delaycondition:update') && scope.row.id !== id"
+            v-if="hasPermission('delaycondition:update')"
             @click.native.prevent="showUpdatedelayconditionDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('delaycondition:delete') && scope.row.id !== id"
+            v-if="hasPermission('delaycondition:delete')"
             @click.native.prevent="removedelaycondition(scope.$index)"
           >删除</el-button>
         </template>

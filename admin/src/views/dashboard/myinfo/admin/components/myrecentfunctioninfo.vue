@@ -3,7 +3,6 @@
     <el-table
       style="width: 290vh"
       :data="list"
-      v-loading.body="listLoading"
       element-loading-text="loading"
       border
       fit

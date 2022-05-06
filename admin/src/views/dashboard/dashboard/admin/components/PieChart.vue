@@ -43,7 +43,7 @@ export default {
       this.initChart()
     },
     typeValueData(val) {
-      console.error(val)
+      console.log(val)
       this.typeValueData = val
       this.initChart()
     }

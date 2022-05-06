@@ -61,13 +61,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('ApicasesVariables:update') && scope.row.id !== id"
+            v-if="hasPermission('ApicasesVariables:update')"
             @click.native.prevent="showUpdateApicasesVariablesDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('ApicasesVariables:delete') && scope.row.id !== id"
+            v-if="hasPermission('ApicasesVariables:delete')"
             @click.native.prevent="removeApicasesVariables(scope.$index)"
           >删除</el-button>
         </template>

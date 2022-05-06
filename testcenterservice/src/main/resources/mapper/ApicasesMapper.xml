@@ -72,7 +72,7 @@
   </update>
 
   <select id="getstaticsdeployunitcases" resultMap="BaseResultMap">
-    SELECT deployunitname ,count(*) as apiid
+    SELECT deployunitname,count(*) as apiid
     FROM apicases group by deployunitname
   </select>
 
@@ -85,8 +85,4 @@
     SELECT *
     FROM apicases WHERE apiid = #{apiid}
   </select>
-
-
-
-
 </mapper>

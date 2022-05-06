@@ -63,13 +63,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('dictionary:update') && scope.row.id !== id"
+            v-if="hasPermission('dictionary:update')"
             @click.native.prevent="showUpdateDictionaryDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('dictionary:delete') && scope.row.id !== id"
+            v-if="hasPermission('dictionary:delete')"
             @click.native.prevent="removeDictionary(scope.$index)"
           >删除</el-button>
         </template>
@@ -206,11 +206,9 @@
         }
       }
     },
-
     created() {
       this.getDictionaryList()
     },
-
     methods: {
       unix2CurrentTime,
 

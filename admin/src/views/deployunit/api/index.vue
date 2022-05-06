@@ -99,28 +99,28 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('api:update') && scope.row.id !== id"
+            v-if="hasPermission('api:update')"
             @click.native.prevent="showUpdateapiDialog(scope.$index)"
           >修改
           </el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('api:delete') && scope.row.id !== id"
+            v-if="hasPermission('api:delete')"
             @click.native.prevent="removeapi(scope.$index)"
           >删除
           </el-button>
           <!--          <el-button-->
           <!--            type="primary"-->
           <!--            size="mini"-->
-          <!--            v-if="hasPermission('api:delete') && scope.row.id !== id"-->
+          <!--            v-if="hasPermission('api:delete')"-->
           <!--            @click.native.prevent="ShowParamsDialog(scope.$index)"-->
           <!--          >API参数-->
           <!--          </el-button>-->
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('api:delete') && scope.row.id !== id"
+            v-if="hasPermission('api:delete')"
             @click.native.prevent="ShowNewParamsDialog(scope.$index)"
           >API参数
           </el-button>
@@ -365,14 +365,14 @@
             <el-button
               type="warning"
               size="mini"
-              v-if="hasPermission('apiparams:update') && scope.row.id !== id"
+              v-if="hasPermission('apiparams:update')"
               @click.native.prevent="showUpdateapiparamsDialog(scope.$index)"
             >修改
             </el-button>
             <el-button
               type="danger"
               size="mini"
-              v-if="hasPermission('apiparams:delete') && scope.row.id !== id"
+              v-if="hasPermission('apiparams:delete')"
               @click.native.prevent="removeapiparams(scope.$index)"
             >删除
             </el-button>
@@ -387,7 +387,7 @@
             <el-tabs v-model="activeName" type="card" ref="tabs">
               <el-tab-pane label="Header" name="zero">
                 <template>
-                  <el-table :data="Headertabledatas" border @selection-change="handleSelectionChange">
+                  <el-table :data="Headertabledatas" border>
                     <el-table-column label="参数" prop="keyname" align="center">
                       <template slot-scope="scope">
                         <el-input size="mini" placeholder="参数名" v-model="scope.row.keyname"></el-input>
@@ -410,7 +410,7 @@
               </el-tab-pane>
               <el-tab-pane label="Params" name="first">
                 <template>
-                  <el-table :data="Paramstabledatas" border @selection-change="handleSelectionChange">
+                  <el-table :data="Paramstabledatas" border>
                     <el-table-column label="参数" prop="keyname" align="center">
                       <template slot-scope="scope">
                         <el-input size="mini" placeholder="参数名" v-model="scope.row.keyname"></el-input>
@@ -790,8 +790,6 @@ export default {
     this.getrequestcontenttypeList()
     this.getresponecontenttypeList()
     this.getdepunitLists()
-    this.editAll()
-    this.editParamAll()
   },
   methods: {
     // 单个复制

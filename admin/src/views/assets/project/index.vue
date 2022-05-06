@@ -74,13 +74,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('project:update') && scope.row.id !== id"
+            v-if="hasPermission('project:update')"
             @click.native.prevent="showUpdateprojectDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('project:delete') && scope.row.id !== id"
+            v-if="hasPermission('project:delete')"
             @click.native.prevent="removeproject(scope.$index)"
           >删除</el-button>
         </template>

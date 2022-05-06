@@ -62,19 +62,19 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('dbvariables:update') && scope.row.id !== id"
+            v-if="hasPermission('dbvariables:update')"
             @click.native.prevent="showUpdatedbvariablesDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('dbvariables:delete') && scope.row.id !== id"
+            v-if="hasPermission('dbvariables:delete')"
             @click.native.prevent="removedbvariables(scope.$index)"
           >删除</el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('dbvariables:update') && scope.row.id !== id"
+            v-if="hasPermission('dbvariables:update')"
             @click.native.prevent="showDbconditionVariablesDialog(scope.$index)"
           >绑定数据库操作</el-button>
         </template>
@@ -266,13 +266,13 @@
             <el-button
               type="warning"
               size="mini"
-              v-if="hasPermission('ApicasesVariables:update') && scope.row.id !== id"
+              v-if="hasPermission('ApicasesVariables:update')"
               @click.native.prevent="showUpdateDBCconditionVariablesDialog(scope.$index)"
             >修改</el-button>
             <el-button
               type="danger"
               size="mini"
-              v-if="hasPermission('ApicasesVariables:delete') && scope.row.id !== id"
+              v-if="hasPermission('ApicasesVariables:delete')"
               @click.native.prevent="removedbconditionvariables(scope.$index)"
             >删除</el-button>
           </template>

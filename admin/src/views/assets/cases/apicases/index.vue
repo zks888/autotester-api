@@ -127,42 +127,42 @@
 <!--          <el-button-->
 <!--            type="primary"-->
 <!--            size="mini"-->
-<!--            v-if="hasPermission('apicases:params') && scope.row.id !== id"-->
+<!--            v-if="hasPermission('apicases:params')"-->
 <!--            @click.native.prevent="showUpdateapicasesparamsDialog(scope.$index)"-->
 <!--          >用例值-->
 <!--          </el-button>-->
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('apicases:update') && scope.row.id !== id"
+            v-if="hasPermission('apicases:update')"
             @click.native.prevent="showUpdateapicasesDialog(scope.$index)"
           >修改
           </el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('apicases:delete') && scope.row.id !== id"
+            v-if="hasPermission('apicases:delete')"
             @click.native.prevent="removeapicases(scope.$index)"
           >删除
           </el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('apicases:params') && scope.row.id !== id"
+            v-if="hasPermission('apicases:params')"
             @click.native.prevent="showAssertDialog(scope.$index)"
           >断言
           </el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('apicases:params') && scope.row.id !== id"
+            v-if="hasPermission('apicases:params')"
             @click.native.prevent="showTestDialog(scope.$index)"
           >调试
           </el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('apicases:params') && scope.row.id !== id"
+            v-if="hasPermission('apicases:params')"
             @click.native.prevent="showcasedataDialog(scope.$index)"
           >用例值
           </el-button>

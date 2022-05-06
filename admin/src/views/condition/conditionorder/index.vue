@@ -76,13 +76,13 @@
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('conditionorder:moveup') && scope.row.id !== id"
+            v-if="hasPermission('conditionorder:moveup')"
             @click.native.prevent="showUpdateconditionorderDialog(scope.$index)"
           >上移</el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('conditionorder:movedown') && scope.row.id !== id"
+            v-if="hasPermission('conditionorder:movedown')"
             @click.native.prevent="removeconditionorder(scope.$index)"
           >下移</el-button>
         </template>

@@ -2,23 +2,14 @@ package com.api.autotest.test.httpapitestcase;
 
 import com.api.autotest.core.TestAssert;
 import com.api.autotest.core.TestCore;
-import com.api.autotest.dto.ApicasesReportstatics;
 import com.api.autotest.dto.RequestObject;
-import com.api.autotest.dto.ResponeData;
 import com.api.autotest.dto.TestResponeData;
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.util.EntityUtils;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
-
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -134,9 +125,13 @@ public class HttpApiPerformance extends AbstractJavaSamplerClient {
     //用例运行结束收集信息
     private void CaseFinish(TestCore core, SampleResult results, TestAssert testAssert, String assertInfo, long time, String ErrorInfo, String ActualResult, JavaSamplerContext ctx, RequestObject requestObject) {
         //jmeter java实例执行完成，记录结果
-        results.setSuccessful(testAssert.isCaseresult());
-        //性能并发高时考虑先把结果放到redis，再批量放到mysql
-        core.savetestcaseresult(testAssert.isCaseresult(), time, ActualResult, assertInfo, ErrorInfo, requestObject, ctx);
+        try {
+            results.setSuccessful(testAssert.isCaseresult());
+            //性能并发高时考虑先把结果放到redis，再批量放到mysql
+            core.savetestcaseresult(testAssert.isCaseresult(), time, ActualResult, assertInfo, ErrorInfo, requestObject, ctx);
+        } catch (Exception ex) {
+            getLogger().error( "用例运行结束保存记录CaseFinish发生异常，请检查!" + ex.getMessage());
+        }
     }
 
     private void WriteToFile(TestAssert testAssert, String assertInfo, long time, String ErrorInfo, String ActualResult, JavaSamplerContext ctx, RequestObject requestObject, String LogFolder) {

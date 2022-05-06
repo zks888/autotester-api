@@ -74,8 +74,12 @@ export default {
 
   .chart-wrapper {
     background: #fff;
-    padding: 16px 16px 0;
+    padding: 16px 16px;
     margin-bottom: 10px;
+  }
+
+  label {
+    font-size: 10px;
   }
 }
 

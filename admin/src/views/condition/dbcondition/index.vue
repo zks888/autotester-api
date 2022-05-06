@@ -76,13 +76,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('dbcondition:update') && scope.row.id !== id"
+            v-if="hasPermission('dbcondition:update')"
             @click.native.prevent="showUpdatedbconditionDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('dbcondition:delete') && scope.row.id !== id"
+            v-if="hasPermission('dbcondition:delete')"
             @click.native.prevent="removedbcondition(scope.$index)"
           >删除</el-button>
         </template>
@@ -264,7 +264,6 @@
       this.getassembleallnameList()
       this.getdbconditionList()
       this.getenviromentallList()
-      this.getmachineLists()
     },
 
     methods: {

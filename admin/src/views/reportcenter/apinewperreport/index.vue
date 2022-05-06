@@ -18,7 +18,7 @@
         <span v-if="hasPermission('apireport:search')">
           <el-form-item label="性能测试集合" prop="testplanname" required>
           <el-select v-model="tmpquery.testplanname" placeholder="测试集合" @change="testplanselectChanged($event)">
-            <el-option label="请选择"/>
+            <el-option label="请选择" value=""/>
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
             </div>
@@ -26,7 +26,7 @@
         </el-form-item>
           <el-form-item label="执行计划" prop="batchname" required>
             <el-select v-model="tmpquery.batchname" placeholder="执行计划" @change="testbatchselectChanged($event)">
-            <el-option label="请选择"/>
+            <el-option label="请选择" value=""/>
             <div v-for="(planbatch, index) in planbatchList" :key="index">
               <el-option :label="planbatch.batchname" :value="planbatch.batchname" />
             </div>
@@ -40,7 +40,6 @@
     </div>
 
     <div class="dashboard-editor-container">
-      <github-corner class="github-corner" />
       <el-row :gutter="50">
         <el-col :xs="24" :sm="24" :lg="9">
           <div id="22" class="chart-wrapper">

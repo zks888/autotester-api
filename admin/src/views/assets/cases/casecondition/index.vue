@@ -109,21 +109,21 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('apicases_condition:update') && scope.row.id !== id"
+            v-if="hasPermission('apicases_condition:update')"
             @click.native.prevent="showUpdateapicases_conditionDialog(scope.$index)"
           >修改
           </el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('apicases_condition:delete') && scope.row.id !== id"
+            v-if="hasPermission('apicases_condition:delete')"
             @click.native.prevent="removeapicases_condition(scope.$index)"
           >删除
           </el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('apicases_condition:params') && scope.row.id !== id"
+            v-if="hasPermission('apicases_condition:params')"
             @click.native.prevent="showUpdateapicases_conditionparamsDialog(scope.$index)"
           >参数值
           </el-button>

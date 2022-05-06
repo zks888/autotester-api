@@ -89,19 +89,19 @@
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('executeplan:update') && scope.row.id !== id"
+            v-if="hasPermission('executeplan:update')"
             @click.native.prevent="showUpdateexecuteplanDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('executeplan:delete') && scope.row.id !== id"
+            v-if="hasPermission('executeplan:delete')"
             @click.native.prevent="removeexecuteplan(scope.$index)"
           >删除</el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('executeplan:update') && scope.row.id !== id"
+            v-if="hasPermission('executeplan:update')"
             @click.native.prevent="showplanparamsDialog(scope.$index)"
           >全局参数</el-button>
 
@@ -373,13 +373,13 @@
             <el-button
               type="warning"
               size="mini"
-              v-if="hasPermission('executeplan:update') && scope.row.id !== id"
+              v-if="hasPermission('executeplan:update')"
               @click.native.prevent="showUpdateparamsDialog(scope.$index)"
             >修改</el-button>
             <el-button
               type="danger"
               size="mini"
-              v-if="hasPermission('executeplan:delete') && scope.row.id !== id"
+              v-if="hasPermission('executeplan:delete')"
               @click.native.prevent="removeexecuteplanparam(scope.$index)"
             >删除</el-button>
           </template>
@@ -408,7 +408,6 @@
             prefix-icon="el-icon-message"
             auto-complete="off"
             v-model.trim="tmpparam.keyname"
-            :placeholder="keyholder"
           />
         </el-form-item>
         <el-form-item label="参数值：" prop="keyvalue" required>
@@ -418,7 +417,6 @@
             prefix-icon="el-icon-message"
             auto-complete="off"
             v-model.trim="tmpparam.keyvalue"
-            :placeholder="keyholder"
           />
         </el-form-item>
       </el-form>
@@ -472,6 +470,8 @@
     },
     data() {
       return {
+        itemKey: 0,
+        ParamsdialogStatus: '',
         datevisible: false,
         timevisible: false,
         itemplanKey: null,

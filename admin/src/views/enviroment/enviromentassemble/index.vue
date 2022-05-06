@@ -70,19 +70,19 @@
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('enviroment_assemble:update') && scope.row.id !== id"
+            v-if="hasPermission('enviroment_assemble:update')"
             @click.native.prevent="showassembletestDialog(scope.$index)"
           >测试</el-button>
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('enviroment_assemble:update') && scope.row.id !== id"
+            v-if="hasPermission('enviroment_assemble:update')"
             @click.native.prevent="showUpdateenviroment_assembleDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('enviroment_assemble:delete') && scope.row.id !== id"
+            v-if="hasPermission('enviroment_assemble:delete')"
             @click.native.prevent="removeenviroment_assemble(scope.$index)"
           >删除</el-button>
         </template>

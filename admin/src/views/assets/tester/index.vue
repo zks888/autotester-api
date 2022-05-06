@@ -81,14 +81,14 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('tester:update') && scope.row.id !== id"
+            v-if="hasPermission('tester:update')"
             @click.native.prevent="showUpdatetesterDialog(scope.$index)"
           >修改
           </el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('tester:delete') && scope.row.id !== id"
+            v-if="hasPermission('tester:delete')"
             @click.native.prevent="removetester(scope.$index)"
           >删除
           </el-button>

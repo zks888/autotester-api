@@ -48,7 +48,7 @@
         this.initChart()
       },
       PlanDateData(val) {
-        console.error(val)
+        console.log(val)
         this.PlanDateData = val
         this.initChart()
       }

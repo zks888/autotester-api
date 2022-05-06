@@ -64,19 +64,19 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('condition:update') && scope.row.id !== id"
+            v-if="hasPermission('condition:update')"
             @click.native.prevent="showUpdateconditionDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('condition:delete') && scope.row.id !== id"
+            v-if="hasPermission('condition:delete')"
             @click.native.prevent="removecondition(scope.$index)"
           >删除</el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('condition:update') && scope.row.id !== id"
+            v-if="hasPermission('condition:update')"
             @click.native.prevent="showconditionorderDialog(scope.$index)"
           >子条件排序</el-button>
         </template>

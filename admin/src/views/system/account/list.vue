@@ -65,7 +65,7 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('role:update') && scope.row.id !== id"
+            v-if="hasPermission('role:update') && scope.row.id !== accountId"
             @click.native.prevent="showUpdateAccountDialog(scope.$index)"
           >账户</el-button>
           <el-button
@@ -77,7 +77,7 @@
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('account:delete') && scope.row.id !== id"
+            v-if="hasPermission('account:delete') && scope.row.id !== accountId"
             @click.native.prevent="removeAccount(scope.$index)"
           >删除</el-button>
         </template>

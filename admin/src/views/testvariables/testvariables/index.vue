@@ -63,19 +63,19 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('testvariables:update') && scope.row.id !== id"
+            v-if="hasPermission('testvariables:update')"
             @click.native.prevent="showUpdatetestvariablesDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('testvariables:delete') && scope.row.id !== id"
+            v-if="hasPermission('testvariables:delete')"
             @click.native.prevent="removetestvariables(scope.$index)"
           >删除</el-button>
           <el-button
             type="primary"
             size="mini"
-            v-if="hasPermission('testvariables:update') && scope.row.id !== id"
+            v-if="hasPermission('testvariables:update')"
             @click.native.prevent="showApicasesVariablesDialog(scope.$index)"
           >绑定接口</el-button>
         </template>
@@ -295,13 +295,13 @@
             <el-button
               type="warning"
               size="mini"
-              v-if="hasPermission('ApicasesVariables:update') && scope.row.id !== id"
+              v-if="hasPermission('ApicasesVariables:update')"
               @click.native.prevent="showUpdateApicasesVariablesDialog(scope.$index)"
             >修改</el-button>
             <el-button
               type="danger"
               size="mini"
-              v-if="hasPermission('ApicasesVariables:delete') && scope.row.id !== id"
+              v-if="hasPermission('ApicasesVariables:delete')"
               @click.native.prevent="removeApicasesVariables(scope.$index)"
             >删除</el-button>
           </template>

@@ -61,13 +61,13 @@
           <el-button
             type="warning"
             size="mini"
-            v-if="hasPermission('envmachine:update') && scope.row.id !== id"
+            v-if="hasPermission('envmachine:update')"
             @click.native.prevent="showUpdateenvmachineDialog(scope.$index)"
           >修改</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('envmachine:delete') && scope.row.id !== id"
+            v-if="hasPermission('envmachine:delete')"
             @click.native.prevent="removeenvmachine(scope.$index)"
           >删除</el-button>
         </template>

@@ -14,8 +14,8 @@
 
         <span v-if="hasPermission('executeplanbatch:search')">
           <el-form-item label="集合：" prop="executeplanname" >
-          <el-select v-model="search.executeplanname" placeholder="集合" @change="testplanselectChanged($event)">
-            <el-option label="请选择" />
+          <el-select v-model="search.executeplanname" placeholder="集合">
+            <el-option label="请选择" value=""/>
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
             </div>
@@ -31,8 +31,6 @@
       ref="fileTable"
       :data="executeplanbatchList"
       :key="itemKey"
-      @row-click="handleClickTableRow"
-      @selection-change="handleSelectionChange"
       v-loading.body="listLoading"
       element-loading-text="loading"
       border
@@ -90,6 +88,7 @@
     },
     data() {
       return {
+        itemKey: '',
         execplanList: [], // 计划列表
         tmpexecuteplanbatchname: '',
         tmpexecuteplanname: '',

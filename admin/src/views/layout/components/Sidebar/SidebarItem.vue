@@ -16,15 +16,15 @@
           <icon-svg v-if="item.icon" :icon-class="item.icon" />
           {{ item.name }}
         </template>
-        <template v-for="child in item.children">
+        <template v-for="(child,index) in item.children">
           <div v-if="!child.hidden" :key="child.name">
             <sidebar-item
               class="menu-indent"
               v-if="child.children && child.children.length > 0"
               :routes="[child]"
-              :key="child"
+              :key="index"
             />
-            <router-link v-else class="menu-indent" :to="item.path + '/' + child.path" :key="child">
+            <router-link v-else class="menu-indent" :to="item.path + '/' + child.path" :key="index">
               <el-menu-item :index="item.path + '/' + child.path">{{ child.name }}</el-menu-item>
             </router-link>
           </div>
