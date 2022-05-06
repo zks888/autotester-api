@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoctan.api.mapper.ExecuteplanMapper">
+  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Executeplan">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="envid" jdbcType="BIGINT" property="envid" />
+    <result column="enviromentname" jdbcType="VARCHAR" property="enviromentname" />
+    <result column="executeplanname" jdbcType="VARCHAR" property="executeplanname" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="usetype" jdbcType="VARCHAR" property="usetype" />
+    <result column="businesstype" jdbcType="VARCHAR" property="businesstype" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="enviromentname" jdbcType="VARCHAR" property="enviromentname" />
+    <result column="runmode" jdbcType="VARCHAR" property="runmode" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="lastmodify_time" jdbcType="TIMESTAMP" property="lastmodifyTime" />
+  </resultMap>
+
+  <select id="findexplanWithName" resultMap="BaseResultMap">
+    SELECT b.enviromentname,a.*
+    FROM executeplan a inner join enviroment b on a.envid=b.id
+    <where>
+      <if test="businesstype != null and businesstype != ''">a.businesstype = #{businesstype} </if>
+      <if test="executeplanname != null and executeplanname != ''">and a.executeplanname like CONCAT('%',#{executeplanname},'%')</if>
+    </where>
+    order by lastmodify_time  DESC
+  </select>
+
+  <select id="findexplanWithid" resultMap="BaseResultMap">
+    SELECT a.*
+    FROM executeplan a
+    where a.id=#{id}
+  </select>
+
+  <select id="getallexplan" resultMap="BaseResultMap">
+    SELECT a.* FROM executeplan a
+  </select>
+
+  <select id="getallexplanbytype" resultMap="BaseResultMap">
+    SELECT a.* FROM executeplan a where usetype=#{usetype}
+  </select>
+
+  <select id="getexecuteplannum" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM executeplan a
+  </select>
+
+  <update id="updateexecuteplanname" parameterType="com.zoctan.api.entity.Executeplan">
+    update executeplan set executeplanname = #{executeplanname},envid = #{envid},businesstype=#{businesstype},enviromentname=#{enviromentname},
+     usetype=#{usetype}, memo = #{memo},runmode = #{runmode}, creator = #{creator}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
+    where id = #{id};
+  </update>
+
+
+  <update id="updatetestplanstatus">
+    update  executeplan set status=#{status} , lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%m:%s') where id = #{id}
+  </update>
+
+  <update id="createNewTable" parameterType="String">
+    CREATE TABLE ${tableName} (
+        `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+        `caseid` bigint(20) unsigned NOT NULL COMMENT '用例id',
+        `testplanid` bigint(20) unsigned NOT NULL COMMENT '执行计划id',
+        `batchname` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '批次',
+        `slaverid` bigint(20) unsigned NOT NULL COMMENT '执行机id',
+        `status` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '运行结果，成功，失败，异常',
+        `respone` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT '返回结果',
+        `assertvalue` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT '断言详细经过',
+        `runtime` bigint(20) NOT NULL COMMENT '运行时长',
+        `expect` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT '期望值',
+        `errorinfo` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT '错误信息',
+        `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+        `lastmodify_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '上一次修改时间',
+        `creator` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '创建者',
+        `requestheader` text COMMENT '请求头数据',
+        `requestdatas` text COMMENT '请求数据',
+        `url` varchar(200) DEFAULT NULL COMMENT '地址',
+        `requestmethod` varchar(20) DEFAULT NULL COMMENT '请求方式',
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='api用例报告表';
+  </update>
+
+
+
+  <select id="getstaticsplan" resultType="java.lang.String">
+    SELECT a.executeplanname
+    FROM executeplan a
+  </select>
+</mapper>
