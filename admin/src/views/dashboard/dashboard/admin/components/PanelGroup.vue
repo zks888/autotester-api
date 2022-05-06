@@ -7,7 +7,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            测试服务器
+            <router-link to="/enviroment/machine/list" class="router-test">
+              测试服务器
+            </router-link>
           </div>
           <count-to :start-val="machinenum.start" :end-val="machinenum.end" :duration="2600" class="card-panel-num" />
         </div>
@@ -20,7 +22,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            测试环境
+            <router-link to="/enviroment/testenviroment/list" class="router-test">
+              测试环境
+            </router-link>
           </div>
           <count-to :start-val="enviroemnt.start" :end-val="enviroemnt.end" :duration="2600" class="card-panel-num" />
         </div>
@@ -33,7 +37,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            发布单元
+            <router-link to="/deployunit/depunit/list" class="router-test">
+              发布单元
+            </router-link>
           </div>
           <count-to :start-val="deployunum.start" :end-val="deployunum.end" :duration="2600" class="card-panel-num" />
         </div>
@@ -46,7 +52,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            API
+            <router-link to="/deployunit/api/list" class="router-test">
+              API
+            </router-link>
           </div>
           <count-to :start-val="apinum.start" :end-val="apinum.end" :duration="2600" class="card-panel-num" />
         </div>
@@ -59,7 +67,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            功能用例
+            <router-link to="/assets/apicases/list" class="router-test">
+              功能用例
+            </router-link>
           </div>
           <count-to :start-val="funcasenum.start" :end-val="funcasenum.end" :duration="2600" class="card-panel-num" />
         </div>
@@ -72,7 +82,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            性能用例
+            <router-link to="/assets/apicases/list" class="router-test">
+              性能用例
+            </router-link>
           </div>
           <count-to :start-val="percasenum.start" :end-val="percasenum.end" :duration="2600" class="card-panel-num" />
         </div>
@@ -85,7 +97,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            执行计划
+            <router-link to="/executecenter/executeplanbatch/list" class="router-test">
+              执行计划
+            </router-link>
           </div>
           <count-to :start-val="execplan.start" :end-val="execplan.end" :duration="2600" class="card-panel-num" />
         </div>
@@ -98,7 +112,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            测试执行机
+            <router-link to="/dispatch/slaver/list" class="router-test">
+              测试执行机
+            </router-link>
           </div>
           <count-to :start-val="slavernum.start" :end-val="slavernum.end" :duration="2600" class="card-panel-num" />
         </div>
