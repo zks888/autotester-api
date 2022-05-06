@@ -79,4 +79,4 @@ sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/testcenterservice/config/applica
 sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/testcenterapp/dist/static/config.js
 echo "修改IP成功"
 docker-compose -f docker-compose.yaml up -d 
-echo "AutoMeter部署成功，执行完增量sql后，访问入口 http://$local_ip:8084  默认账户密码admin admin123"
+echo "AutoMeter部署成功，执行完增量sql后，访问入口 http://$local_ip:8084  默认账户密码admin wawa521"
