@@ -64,21 +64,8 @@ export const asyncRouterMap = [
       { path: 'testenviroment/list', name: '环境管理', component: _import('enviroment/testenviroment/index'), meta: { title: '环境管理', permission: ['enviroment:list'] }},
       // { path: 'envmachine/list', name: '环境服务器', component: _import('enviroment/envmachine/index'), meta: { title: '环境服务器', permission: ['envmachine:list'] }},
       { path: 'enviromentassemble/list', name: '环境组件', component: _import('enviroment/enviromentassemble/index'), meta: { title: '环境组件', permission: ['enviroment_assemble:list'] }},
-      { path: 'macdepunit/list', name: '环境部署', component: _import('enviroment/macdepunit/index'), meta: { title: '环境部署', permission: ['macdepunit:list'] }
-      }
-    ]
-  },
-  {
-    path: '/deployunit',
-    component: Layout,
-    name: '发布单元',
-    alwaysShow: true,
-    activeMenu: '/deployunit',
-    icon: 'deploy',
-    children: [
-      { path: 'depunit/list', name: '发布单元', component: _import('deployunit/depunit/index'), meta: { title: '发布单元', permission: ['depunit:list'] }, icon: 'testmanager' },
-      { path: 'api/list', name: 'API管理', component: _import('deployunit/api/index'), meta: { title: 'API管理', permission: ['api:list'] }}
-      // { path: 'apiparams/list', name: 'API参数', component: _import('deployunit/apiparams/index'), meta: { title: 'API参数', permission: ['apiparams:list'] }}
+      { path: 'macdepunit/list', name: '环境部署', component: _import('enviroment/macdepunit/index'), meta: { title: '环境部署', permission: ['macdepunit:list'] }},
+      { path: 'depunit/list', name: '发布单元', component: _import('deployunit/depunit/index'), meta: { title: '发布单元', permission: ['depunit:list'] }}
     ]
   },
   {
@@ -89,9 +76,24 @@ export const asyncRouterMap = [
     activeMenu: '/assets',
     icon: 'testmanager',
     children: [
-      { path: 'apicases/list', name: '用例库', component: _import('assets/cases/apicases/index'), meta: { title: '用例库', permission: ['apicases:list'] }, icon: 'testmanager' }
+      { path: 'api/list', name: 'API管理', component: _import('deployunit/api/index'), meta: { title: 'API管理', permission: ['api:list'] }},
+      { path: 'apicases/list', name: '用例库', component: _import('assets/cases/apicases/index'), meta: { title: '用例库', permission: ['apicases:list'] }},
+      { path: 'executeplancase/list', name: '集合用例', component: _import('executecenter/executeplancase/index'), meta: { title: '集合用例', permission: ['executeplan:list'] }}
       // { path: 'project/list', name: '项目/迭代', component: _import('assets/project/index'), meta: { title: '项目/迭代', permission: ['project:list'] }, icon: 'testmanager' }
       // { path: 'apiparams/list', name: 'API参数', component: _import('deployunit/apiparams/index'), meta: { title: 'API参数', permission: ['apiparams:list'] }}
+    ]
+  },
+  {
+    path: '/condition',
+    component: Layout,
+    name: '条件管理',
+    icon: 'condition',
+    children: [
+      { path: 'condition/list', name: '父条件管理', component: _import('condition/condition/index'), meta: { title: '父条件管理', permission: ['condition:list'] }},
+      { path: 'apicondition/list', name: '接口子条件', component: _import('condition/apicondition/index'), meta: { title: '接口子条件', permission: ['apicondition:list'] }},
+      { path: 'dbcondition/list', name: '数据库子条件', component: _import('condition/dbcondition/index'), meta: { title: 'DB子条件', permission: ['dbcondition:list'] }},
+      { path: 'scriptcondition/list', name: '脚本子条件', component: _import('condition/scriptcondition/index'), meta: { title: '脚本子条件', permission: ['scriptcondition:list'] }},
+      { path: 'delaycondition/list', name: '延时子条件', component: _import('condition/delaycondition/index'), meta: { title: '延时子条件', permission: ['delaycondition:list'] }}
     ]
   },
   // nestedRouterTestManager,
@@ -103,7 +105,6 @@ export const asyncRouterMap = [
     icon: 'execute',
     children: [
       { path: 'executeplan/list', name: '测试集合', component: _import('executecenter/executeplan/index'), meta: { title: '测试集合', permission: ['executeplan:list'] }},
-      { path: 'executeplancase/list', name: '集合用例', component: _import('executecenter/executeplancase/index'), meta: { title: '集合用例', permission: ['executeplan:list'] }},
       { path: 'executeplanbatch/list', name: '计划执行', component: _import('executecenter/executeplanbatch/index'), meta: { title: '计划执行', permission: ['executeplanbatch:list'] }}
     ]
   },
@@ -130,19 +131,6 @@ export const asyncRouterMap = [
       // { path: 'apireportstatics/list', name: '功能统计报告', component: _import('reportcenter/apireportstatics/index'), meta: { title: '功能统计报告', permission: ['apireportstatics:list'] }},
       // { path: 'apiperformancereport/list', name: '性能明细报告', component: _import('reportcenter/apiperformancereport/index'), meta: { title: '性能明细报告', permission: ['apiperformancereport:list'] }},
       { path: 'apiperformancestatistics/list', name: '性能统计报告', component: _import('reportcenter/apiperformancestatistics/index'), meta: { title: '性能统计报告', permission: ['apiperformancestatistics:list'] }}
-    ]
-  },
-  {
-    path: '/condition',
-    component: Layout,
-    name: '条件管理',
-    icon: 'condition',
-    children: [
-      { path: 'condition/list', name: '父条件管理', component: _import('condition/condition/index'), meta: { title: '父条件管理', permission: ['condition:list'] }},
-      { path: 'apicondition/list', name: '接口子条件', component: _import('condition/apicondition/index'), meta: { title: '接口子条件', permission: ['apicondition:list'] }},
-      { path: 'dbcondition/list', name: '数据库子条件', component: _import('condition/dbcondition/index'), meta: { title: 'DB子条件', permission: ['dbcondition:list'] }},
-      { path: 'scriptcondition/list', name: '脚本子条件', component: _import('condition/scriptcondition/index'), meta: { title: '脚本子条件', permission: ['scriptcondition:list'] }},
-      { path: 'delaycondition/list', name: '延时子条件', component: _import('condition/delaycondition/index'), meta: { title: '延时子条件', permission: ['delaycondition:list'] }}
     ]
   },
   {

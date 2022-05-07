@@ -877,7 +877,7 @@
 
           <el-form-item label="前置调试父条件:"  prop="conditionname" required>
             <el-select v-model="searchnotexistcase.conditionname" placeholder="前置父条件" @change="notexistconditionnameselectChanged($event)">
-              <el-option label="请选择" value />
+              <el-option label="请选择" value="" />
               <div v-for="(testcase, index) in conditionList" :key="index">
                 <el-option :label="testcase.conditionname" :value="testcase.conditionname" />
               </div>
@@ -886,7 +886,7 @@
 
           <el-form-item label="发布单元:" prop="deployunitname" required>
             <el-select v-model="searchnotexistcase.deployunitname" placeholder="发布单元" @change="notexistdeployunitnameselectChanged($event)">
-              <el-option label="请选择" value />
+              <el-option label="请选择" value="" />
               <div v-for="(depname, index) in deployunitList" :key="index">
                 <el-option :label="depname.deployunitname" :value="depname.deployunitname" />
               </div>
