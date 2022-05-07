@@ -40,8 +40,6 @@ public class ExecuteplanbatchController {
     private SlaverMapper slaverMapper;
     @Resource
     private ExecuteplanMapper executeplanMapper;
-    @Autowired
-    private RouteperformancereportService routeperformancereportService;
 
     @PostMapping
     public Result add(@RequestBody Executeplanbatch executeplanbatch) {
@@ -59,16 +57,6 @@ public class ExecuteplanbatchController {
                 executeplanbatch.setStatus("待执行");
                 executeplanbatch.setSource("平台");
                 executeplanbatchService.save(executeplanbatch);
-                if ("性能".equalsIgnoreCase(plantype)) {
-                    //增加动态表
-                    String TableName = "apicases_report_performance_" + executeplan.getId();
-                    executeplanService.createNewTable(TableName);
-                    //如果是性能测试集合，新增路由表
-                    Routeperformancereport routeperformancereport = new Routeperformancereport();
-                    routeperformancereport.setExecuteplanid(executeplan.getId());
-                    routeperformancereport.setTablename(TableName);
-                    routeperformancereportService.save(routeperformancereport);
-                }
                 return ResultGenerator.genOkResult();
             } else {
                 return ResultGenerator.genFailedResult("未找到可用的" + plantype + "类型的执行机，请到调度中心-测试执行机查看是否有类型为" + plantype + "的执行机，并且不是已下线状态");
