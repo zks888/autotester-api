@@ -104,9 +104,9 @@ public class FixPerformanceResultFileScheduleTask {
                     List<Performancereportsource> performancereportsourceList = performancereportsourceService.findperformancereportsourcebyids(caseid, slaverid, planid, batchid);
                     if (performancereportsourceList.size() > 0) {
                         Performancereportsource performancereportsource = performancereportsourceList.get(0);
-                        performancereportsource.setTotalcasenums(totalcasenums);
-                        performancereportsource.setTotalcasepassnums(totalcasepassnums);
-                        performancereportsource.setTotalcasefailnums(totalcasefailnums);
+                        performancereportsource.setTotalcasenums(totalcasenums + performancereportsource.getTotalcasenums());
+                        performancereportsource.setTotalcasepassnums(totalcasepassnums + performancereportsource.getTotalcasepassnums());
+                        performancereportsource.setTotalcasefailnums(totalcasefailnums + performancereportsource.getTotalcasefailnums());
                         performancereportsourceService.update(performancereportsource);
                     }
                     //更新性能结果日志表
