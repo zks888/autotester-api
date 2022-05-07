@@ -17,17 +17,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @author zks888
-* @date 2020/09/11
-*/
+ * @author zks888
+ * @date 2020/09/11
+ */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ApicasesServiceImpl extends AbstractService<Apicases> implements ApicasesService {
-@Resource
-private ApicasesMapper apicasesMapper;
+    @Resource
+    private ApicasesMapper apicasesMapper;
     @Resource
     private ExecuteplanTestcaseMapper executeplanTestcaseMapper;
-
 
 
     @Override
@@ -37,35 +36,10 @@ private ApicasesMapper apicasesMapper;
 
     @Override
     public List<Apicases> findApiCaseleft(Map<String, Object> params) {
-        String  casetype= params.get("casetype").toString();
-        Long executeplanid= Long.parseLong(params.get("executeplanid").toString());
-        Long deployunitid= Long.parseLong(params.get("deployunitid").toString());
-        List<Apicases> apicasesPlanList= executeplanTestcaseMapper.findcasebyplanid(executeplanid,deployunitid,casetype);
-        return apicasesPlanList;
-
-//        List<Apicases> last=new ArrayList<>();
-//        List<Apicases> apicasesList= apicasesMapper.getcasebydeployunitid(deployunitid);
-//        List<ExecuteplanTestcase> apicasesPlanList= executeplanTestcaseMapper.findcasebyplanid(executeplanid);
-//        HashMap<Long,ExecuteplanTestcase> executeplanTestcaseHashMap=new HashMap<>();
-//
-//        for (ExecuteplanTestcase executeplanTestcase :apicasesPlanList) {
-//            executeplanTestcaseHashMap.put(executeplanTestcase.getTestcaseid(),executeplanTestcase);
-//        }
-//
-//        if(executeplanTestcaseHashMap.size()>0)
-//        {
-//            for (Apicases apicases :apicasesList) {
-//                if(!executeplanTestcaseHashMap.containsKey(apicases.getId()))
-//                {
-//                    last.add(apicases);
-//                }
-//            }
-//        }
-//        else
-//        {
-//            last=apicasesList;
-//        }
-//        return last;
+        String casetype = params.get("casetype").toString();
+        long executeplanid = Long.parseLong(params.get("executeplanid").toString());
+        long deployunitid = Long.parseLong(params.get("deployunitid").toString());
+        return executeplanTestcaseMapper.findcasebyplanid(executeplanid, deployunitid, casetype);
     }
 
     @Override
@@ -91,7 +65,7 @@ private ApicasesMapper apicasesMapper;
 
     @Override
     public List<Apicases> getapicasebyName(long deployunitid, long apiid) {
-        return apicasesMapper.getapicasebyName(deployunitid,apiid);
+        return apicasesMapper.getapicasebyName(deployunitid, apiid);
     }
 
     @Override

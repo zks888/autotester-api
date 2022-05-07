@@ -1,6 +1,7 @@
 package com.api.autotest.test.httpapitestcase;
 
 import com.api.autotest.core.TestAssert;
+import com.api.autotest.core.TestCaseData;
 import com.api.autotest.core.TestCore;
 import com.api.autotest.dto.RequestObject;
 import com.api.autotest.dto.TestResponeData;
@@ -8,13 +9,11 @@ import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -181,8 +180,15 @@ public class HttpApiPerformance extends AbstractJavaSamplerClient {
             stringBuilder.append(requestObject.getResource()).append("$$");
             stringBuilder.append(requestObject.getRequestmMthod());
 
-            String LogFileName = requestObject.getTestplanid() + "-" + requestObject.getBatchid() + "-" + requestObject.getSlaverid();
-            fw = new FileWriter(LogFolder + "/" + LogFileName + ".txt", true);
+            long ThreadId = Thread.currentThread().getId();
+            String FileName = requestObject.getTestplanid() + "-" + requestObject.getBatchid() + "-" + requestObject.getCaseid() + "-" + requestObject.getSlaverid() + "-" + ThreadId;
+            String PathName = LogFolder + "/" + FileName + ".txt";
+            File file = new File(PathName);
+            if (!file.exists() && file.createNewFile()) {
+                Core.generalperformancelogfile(requestObject.getTestplanid(), requestObject.getCaseid(), requestObject.getSlaverid(), requestObject.getBatchid(), FileName, "待处理");
+                getLogger().info(TestCaseData.logplannameandcasename + "generalperformancelogfile完成");
+            }
+            fw = new FileWriter(file, true);
             fw.write(stringBuilder.toString() + System.getProperty("line.separator"));
         } catch (Exception ex) {
             getLogger().error("用例运行结束保存日志发生异常，请检查!" + ex.getMessage());

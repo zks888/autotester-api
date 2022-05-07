@@ -587,8 +587,7 @@ public class TestMysqlHelp {
             Date d = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateNowStr = sdf.format(d);
-            String sql = "";
-            sql = "update dispatch set status='已完成',lastmodify_time='" + dateNowStr + "' where slaverid=" + slaverid + " and execplanid=" + testplanid + " and batchid=" + batchid + " and testcaseid=" + caseid;
+            String sql = "update dispatch set status='已完成',lastmodify_time='" + dateNowStr + "' where slaverid=" + slaverid + " and execplanid=" + testplanid + " and batchid=" + batchid + " and testcaseid=" + caseid;
             logger.info(logplannameandcasename + "获取数据库 更新调度用例状态 result sql is...........: " + sql);
             logger.info(logplannameandcasename + "获取数据库 更新用例调度结果 is...........: " + MysqlConnectionUtils.update(sql));
         } catch (Exception ex) {
@@ -602,9 +601,8 @@ public class TestMysqlHelp {
             Date d = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String dateNowStr = sdf.format(d);
-            String sql = "";
-            sql = "insert performancereportfilelog (execplanid,batchid,caseid,slaverid,filename,status,create_time,lastmodify_time)" +
-                    " values(" + testplanid + "," + batchid + " , " + caseid + ", " + slaverid + " , '" + filename + "' , '" + status + "' , '" + dateNowStr + "', '" + dateNowStr + "' )";
+            String sql = "insert performancereportfilelog (execplanid,batchid,caseid,slaverid,filename,status,create_time,lastmodify_time)" +
+                " values(" + testplanid + "," + batchid + " , " + caseid + ", " + slaverid + " , '" + filename + "' , '" + status + "' , '" + dateNowStr + "', '" + dateNowStr + "' )";
             logger.info(logplannameandcasename + "获取数据库 新增性能日志用例记录结果 result sql is...........: " + sql);
             logger.info(logplannameandcasename + "获取数据库 新增性能日志用例记录结果 is...........: " + MysqlConnectionUtils.update(sql));
         } catch (Exception ex) {
@@ -617,9 +615,8 @@ public class TestMysqlHelp {
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateNowStr = sdf.format(d);
-        String sql = "";
-        sql = "insert performancereportsource (planid,batchid,batchname,slaverid,caseid,testclass,runtime,source,status,create_time,lastmodify_time,creator,totalcasenums,totalcasepassnums,totalcasefailnums)" +
-                " values(" + testplanid + "," + batchid + ", '" + batchname.replace("'", "''") + "', " + slaverid + ", " + caseid + " , '" + testclass + "' ," + costtime + " , '" + casereportfolder + "', '待解析', '" + dateNowStr + "', '" + dateNowStr + "', '" + Creator + "' , 0,0,0)";
+        String sql = "insert performancereportsource (planid,batchid,batchname,slaverid,caseid,testclass,runtime,source,status,create_time,lastmodify_time,creator,totalcasenums,totalcasepassnums,totalcasefailnums)" +
+            " values(" + testplanid + "," + batchid + ", '" + batchname.replace("'", "''") + "', " + slaverid + ", " + caseid + " , '" + testclass + "' ," + costtime + " , '" + casereportfolder + "', '待解析', '" + dateNowStr + "', '" + dateNowStr + "', '" + Creator + "' , 0,0,0)";
         logger.info(logplannameandcasename + "获取数据库 保存性能统计结果 sql is...........: " + sql);
         logger.info(logplannameandcasename + "获取数据库 保存性能统计结果 is...........: " + MysqlConnectionUtils.update(sql));
     }

@@ -19,27 +19,24 @@ public class postcondition extends AbstractJavaSamplerClient {
     public Arguments getDefaultParameters() {
         Arguments params = new Arguments();
         //定义一个参数，显示到Jmeter的参数列表中，第一个参数为参数默认的显示名称，第二个参数为默认值
-        params.addArgument("testplanid", "12");
-        params.addArgument("caseid", "1");
-        params.addArgument("batchid", "41");
-        params.addArgument("slaverid", "5");
-        params.addArgument("batchname", "xxxxxxxxxxxxxxxxxxxxx");
-        params.addArgument("casetype", "/opt/");
-        params.addArgument("casereportfolder", "/opt/");
-        params.addArgument("testclass", "/opt/");
-        params.addArgument("start", "1608107091283");
-
+        params.addArgument("testplanid", "");
+        params.addArgument("caseid", "");
+        params.addArgument("batchid", "");
+        params.addArgument("slaverid", "");
+        params.addArgument("batchname", "");
+        params.addArgument("casetype", "");
+        params.addArgument("casereportfolder", "");
+        params.addArgument("testclass", "");
+        params.addArgument("start", "");
         params.addArgument("mysqlurl", "jdbc:mysql://127.0.0.1:3306/testcenter?useUnicode=true&useSSL=false&allowMultiQueries=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=UTC");
         params.addArgument("mysqlusername", "root");
-        params.addArgument("mysqlpassword", "root");
+        params.addArgument("mysqlpassword", "123456");
         params.addArgument("creator", "admin");
         return params;
     }
 
     // 测试执行的循环体，根据线程数和循环次数的不同可执行多次，类似于LoadRunner中的Action方法
     public SampleResult runTest(JavaSamplerContext ctx) {
-//        SampleResult results = new SampleResult();
-//        results.sampleEnd();
         return null;
     }
 
@@ -56,10 +53,8 @@ public class postcondition extends AbstractJavaSamplerClient {
         String casereportfolder = ctx.getParameter("casereportfolder").replace("Autometer", " ");
         String testclass = ctx.getParameter("testclass");
         String creator = ctx.getParameter("creator");
-
         String start = ctx.getParameter("start");
         getLogger().info("postcondition teardownTest 。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。:");
-
         try {
             long canceldispatch = core.PlanBatchAllDipatchCancel(testplanid, batchname);
             if (canceldispatch > 0) {
@@ -75,18 +70,12 @@ public class postcondition extends AbstractJavaSamplerClient {
                     getLogger().info(TestCaseData.logplannameandcasename + "更新计划批次表状态完成");
                 }
             }
-            //新增性能日志记录表
-            String FileName = testplanid + "-" + batchid + "-" + slaverid;
-            core.generalperformancelogfile(testplanid, caseid, slaverid, batchid, FileName, "待处理");
-            getLogger().info(TestCaseData.logplannameandcasename + "generalperformancelogfile完成");
             core.SendMessageDingDing(testplanid, batchname);
             core.SendMailByFinishPlanCase(testplanid, batchname);
             getLogger().info(TestCaseData.logplannameandcasename + "发送mail，dingding完成");
-
         } catch (Exception ex) {
             getLogger().info(TestCaseData.logplannameandcasename + "性能测试teardownTest异常：" + ex.getMessage());
-        }
-        finally {
+        } finally {
             try {
                 core.UpdateSlaverStatus(slaverid, "空闲");
             } catch (Exception ex) {
@@ -121,15 +110,13 @@ public class postcondition extends AbstractJavaSamplerClient {
         params.addArgument("batchid", "2");
         params.addArgument("slaverid", "5");
         params.addArgument("batchname", "xxxxxxxxxxxxxxxxxxxxx");
-
         params.addArgument("casereportfolder", "/Users/fanseasn/Desktop/testresult/13-2-x100001");
         params.addArgument("casetype", "性能");
         params.addArgument("testclass", "retrySendSmsOrFindShortUrl");
         params.addArgument("start", "1608107091283");
-
         params.addArgument("mysqlurl", "jdbc:mysql://127.0.0.1:3306/testcenter?useUnicode=true&useSSL=false&allowMultiQueries=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=UTC");
         params.addArgument("mysqlusername", "root");
-        params.addArgument("mysqlpassword", "root");
+        params.addArgument("mysqlpassword", "123456");
 
         JavaSamplerContext ctx = new JavaSamplerContext(params);
         postcondition test = new postcondition();
