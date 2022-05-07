@@ -200,7 +200,7 @@
           <span v-if="hasPermission('apicases:search')">
           <el-form-item label="发布单元:" prop="deployunitname" required>
             <el-select v-model="searchcase.deployunitname" placeholder="发布单元" @change="selectChanged($event)">
-              <el-option label="请选择" value />
+              <el-option label="请选择" value="" />
               <div v-for="(depname, index) in deployunitList" :key="index">
                 <el-option :label="depname.deployunitname" :value="depname.deployunitname" required/>
               </div>
@@ -208,7 +208,7 @@
           </el-form-item>
           <el-form-item label="API:">
             <el-select v-model="searchcase.apiname" placeholder="api名">
-              <el-option label="请选择" value />
+              <el-option label="请选择" value="" />
               <div v-for="(api, index) in apiList" :key="index">
                 <el-option :label="api.apiname" :value="api.apiname"/>
               </div>

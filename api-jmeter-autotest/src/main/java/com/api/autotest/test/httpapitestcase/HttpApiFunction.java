@@ -25,11 +25,11 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
     public Arguments getDefaultParameters() {
         Arguments params = new Arguments();
         //定义一个参数，显示到Jmeter的参数列表中，第一个参数为参数默认的显示名称，第二个参数为默认值
-        params.addArgument("DispatchIds", "14");
-        params.addArgument("SlaverId", "1");
-        params.addArgument("mysqlurl", "/opt/");
-        params.addArgument("mysqlusername", "/opt/");
-        params.addArgument("mysqlpassword", "/opt/");
+        params.addArgument("DispatchIds", "");
+        params.addArgument("SlaverId", "");
+        params.addArgument("mysqlurl", "");
+        params.addArgument("mysqlusername", "");
+        params.addArgument("mysqlpassword", "");
         return params;
     }
 
@@ -46,7 +46,7 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
         results.sampleStart();
         Core = new TestCore(ctx, getLogger());
         // 初始化用例数据
-        Map<String, List<RequestObject>> BatchRequestObjectMap = InitalTestData(Core, ctx);
+        Map<String, List<RequestObject>> BatchRequestObjectMap = InitalTestData(ctx);
         for (String BatchName : BatchRequestObjectMap.keySet()) {
             getLogger().info("BatchName 。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。:" + BatchName + " size is" + BatchRequestObjectMap.get(BatchName).size());
             String TestPlanID = "";
@@ -100,13 +100,13 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
                         } else {
                             BatchDeployTotalFailNUms = BatchDeployTotalFailNUms + 1;
                         }
-                        CaseFinish(Core, results, TestAssert, AssertInfo, CostTime, ErrorInfo, ActualResult, ctx, requestObject);
+                        CaseFinish(results, TestAssert, AssertInfo, CostTime, ErrorInfo, ActualResult, ctx, requestObject);
                     }
                 }
                 //收集本次运行的功能用例统计结果
-                CollectionBatchDeployReportStatics(Core, apicasesReportstatics, BatchName, BatchDeployTotalCaseNums, BatchDeployTotalPassNums, BatchDeployTotalFailNUms, AllCostTime, SlaverId);
+                CollectionBatchDeployReportStatics(apicasesReportstatics, BatchName, BatchDeployTotalCaseNums, BatchDeployTotalPassNums, BatchDeployTotalFailNUms, AllCostTime, SlaverId);
             }
-            FinisBatchCase(Core, TestPlanID, BatchName, SlaverId);
+            FinisBatchCase(TestPlanID, BatchName, SlaverId);
         }
         //Jmeter事务，表示这是事务的结束点
         results.sampleEnd();
@@ -114,11 +114,10 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
     }
 
     //初始化用例的基础数据
-    private Map<String, List<RequestObject>> InitalTestData(TestCore core, JavaSamplerContext ctx) {
+    private Map<String, List<RequestObject>> InitalTestData(JavaSamplerContext ctx) {
         getLogger().info("根据调度ids获取请求数据列表 。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。:");
-        List<RequestObject> objectList = core.GetDispatchOBList(ctx);
-        Map<String, List<RequestObject>> BatchObject = GetGroupMap(objectList, "BatchName");
-        return BatchObject;
+        List<RequestObject> objectList = Core.GetDispatchOBList(ctx);
+        return GetGroupMap(objectList, "BatchName");
     }
 
     private Map<String, List<RequestObject>> GetGroupMap(List<RequestObject> objectList, String ObjectName) {
@@ -153,42 +152,42 @@ public class HttpApiFunction extends AbstractJavaSamplerClient {
     }
 
     //用例运行结束保存记录，并且更新dispatch状态为完成
-    private void CaseFinish(TestCore core, SampleResult results, TestAssert testAssert, String assertInfo, long time, String ErrorInfo, String ActualResult, JavaSamplerContext ctx, RequestObject requestObject) {
+    private void CaseFinish(SampleResult results, TestAssert testAssert, String assertInfo, long time, String ErrorInfo, String ActualResult, JavaSamplerContext ctx, RequestObject requestObject) {
         //jmeter java实例执行完成，记录结果
         try {
             results.setSuccessful(testAssert.isCaseresult());
             ActualResult = ActualResult.replace("'", "");
             assertInfo = assertInfo.replace("'", "");
             ErrorInfo = ErrorInfo.replace("'", "");
-            core.savetestcaseresult(testAssert.isCaseresult(), time, ActualResult, assertInfo, ErrorInfo, requestObject, ctx);
-            core.updatedispatchcasestatus(requestObject.getTestplanid(), requestObject.getCaseid(), requestObject.getSlaverid(), requestObject.getBatchid());
+            Core.savetestcaseresult(testAssert.isCaseresult(), time, ActualResult, assertInfo, ErrorInfo, requestObject, ctx);
+            Core.updatedispatchcasestatus(requestObject.getTestplanid(), requestObject.getCaseid(), requestObject.getSlaverid(), requestObject.getBatchid());
         } catch (Exception ex) {
             getLogger().error("用例运行结束保存记录CaseFinish发生异常，请检查!" + ex.getMessage());
         }
     }
 
     //功能用例统计批次发布单元用例执行信息
-    private void CollectionBatchDeployReportStatics(TestCore core, ApicasesReportstatics apicasesReportstatics, String BatchName, int TotalCaseNums, int TotalPassNums, int TotalFailNUms, long AllCostTime, String SlaverId) {
+    private void CollectionBatchDeployReportStatics(ApicasesReportstatics apicasesReportstatics, String BatchName, int TotalCaseNums, int TotalPassNums, int TotalFailNUms, long AllCostTime, String SlaverId) {
         apicasesReportstatics.setBatchname(BatchName);
         apicasesReportstatics.setTotalcases(String.valueOf(TotalCaseNums));
         apicasesReportstatics.setTotalpasscases(String.valueOf(TotalPassNums));
         apicasesReportstatics.setTotalfailcases(String.valueOf(TotalFailNUms));
         apicasesReportstatics.setRuntime(String.valueOf(AllCostTime));
-        core.SaveReportStatics(apicasesReportstatics);
+        Core.SaveReportStatics(apicasesReportstatics);
     }
 
-    private void FinisBatchCase(TestCore core, String planid, String BatchName, String SlaverId) {
+    private void FinisBatchCase(String planid, String BatchName, String SlaverId) {
         getLogger().info("SlaverId 。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。:" + SlaverId);
         getLogger().info("功能用例统计收集信息 完成。。。。。。。。。。。。。。。。");
         //查询此计划下的批次调度是否已经全部完成，如果完成，刷新计划批次状态为finish
-        long DispatchNotFinishNums = core.PlanBatchAllDipatchFinish(planid, BatchName);
+        long DispatchNotFinishNums = Core.PlanBatchAllDipatchFinish(planid, BatchName);
 
         if (DispatchNotFinishNums > 0) {
             getLogger().info("查询计划下的批次调度未完成数量：" + DispatchNotFinishNums);
         } else {
-            core.UpdateReportStatics(planid, BatchName, "已完成");
-            core.SendMessageDingDing(planid, BatchName);
-            core.SendMailByFinishPlanCase(planid, BatchName);
+            Core.UpdateReportStatics(planid, BatchName, "已完成");
+            Core.SendMessageDingDing(planid, BatchName);
+            Core.SendMailByFinishPlanCase(planid, BatchName);
         }
     }
 

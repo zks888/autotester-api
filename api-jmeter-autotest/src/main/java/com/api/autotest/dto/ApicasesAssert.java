@@ -3,48 +3,14 @@ package com.api.autotest.dto;
 import java.util.Date;
 
 public class ApicasesAssert {
+
     private Long id;
-
-    /**
-     * 用例id
-     */
     private Long caseid;
-
-    /**
-     * 断言类型
-     */
     private String asserttype;
-
-    public String getExpression() {
-        return expression;
-    }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
-    public String getAssertcondition() {
-        return assertcondition;
-    }
-
-    public void setAssertcondition(String assertcondition) {
-        this.assertcondition = assertcondition;
-    }
-
     private String expression;
-
     private String assertcondition;
-
-
-    public String getAssertvaluetype() {
-        return assertvaluetype;
-    }
-
-    public void setAssertvaluetype(String assertvaluetype) {
-        this.assertvaluetype = assertvaluetype;
-    }
-
     private String assertvaluetype;
+
     /**
      * 断言子类型
      */
@@ -158,6 +124,30 @@ public class ApicasesAssert {
      */
     public void setAssertvalues(String assertvalues) {
         this.assertvalues = assertvalues;
+    }
+
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
+    public String getAssertcondition() {
+        return assertcondition;
+    }
+
+    public void setAssertcondition(String assertcondition) {
+        this.assertcondition = assertcondition;
+    }
+
+    public String getAssertvaluetype() {
+        return assertvaluetype;
+    }
+
+    public void setAssertvaluetype(String assertvaluetype) {
+        this.assertvaluetype = assertvaluetype;
     }
 
     /**

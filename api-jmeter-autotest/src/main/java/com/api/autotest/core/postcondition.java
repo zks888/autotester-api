@@ -8,14 +8,6 @@ import org.apache.jmeter.samplers.SampleResult;
 import java.io.File;
 import java.util.Date;
 
-/**
- * Created by fanseasn on 2020/12/8.
- */
-/*
- @author Season
- @DESCRIPTION 
- @create 2020/12/8
-*/
 public class postcondition extends AbstractJavaSamplerClient {
 
     // 初始化方法，实际运行时每个线程仅执行一次，在测试方法运行前执行，类似于LoadRunner中的init方法

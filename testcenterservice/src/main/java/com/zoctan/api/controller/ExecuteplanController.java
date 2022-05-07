@@ -43,22 +43,19 @@ public class ExecuteplanController {
 
     @PostMapping
     public Result add(@RequestBody Executeplan executeplan) {
-        Condition con=new Condition(Executeplan.class);
-        con.createCriteria().andCondition("executeplanname = '" + executeplan.getExecuteplanname().replace("'","''") + "'")
+        Condition con = new Condition(Executeplan.class);
+        con.createCriteria().andCondition("executeplanname = '" + executeplan.getExecuteplanname().replace("'", "''") + "'")
                 .andCondition("enviromentname = '" + executeplan.getEnviromentname() + "'");
-        if(executeplanService.ifexist(con)>0)
-        {
+        if (executeplanService.ifexist(con) > 0) {
             return ResultGenerator.genFailedResult("此环境下执行计划已经存在");
-        }
-        else {
+        } else {
             executeplanService.save(executeplan);
-            if(executeplan.getUsetype().equalsIgnoreCase("性能"))
-            {
+            if ("性能".equalsIgnoreCase(executeplan.getUsetype())) {
                 //增加动态表
-                String TableName="apicases_report_performance"+executeplan.getId();
+                String TableName = "apicases_report_performance_" + executeplan.getId();
                 executeplanService.createNewTable(TableName);
                 //如果是性能测试集合，新增路由表
-                Routeperformancereport routeperformancereport=new Routeperformancereport();
+                Routeperformancereport routeperformancereport = new Routeperformancereport();
                 routeperformancereport.setExecuteplanid(executeplan.getId());
                 routeperformancereport.setTablename(TableName);
                 routeperformancereportService.save(routeperformancereport);
@@ -71,11 +68,9 @@ public class ExecuteplanController {
     public Result execcases(@RequestBody final List<Testplanandbatch> planbatchList) {
         //暂时支持单计划执行
         try {
-            executeplanService.executeplancase(planbatchList,"立即执行");
+            executeplanService.executeplancase(planbatchList, "立即执行");
             return ResultGenerator.genOkResult();
-        }
-        catch (ServiceException se)
-        {
+        } catch (ServiceException se) {
             return ResultGenerator.genFailedResult(se.getMessage());
         }
     }
@@ -84,38 +79,29 @@ public class ExecuteplanController {
     public Result checkcondition(@RequestBody Executeplan executeplan) {
         try {
             // 检查此计划下是否有装载用例
-            Long planid= executeplan.getId();
-            Long envid= executeplan.getEnvid();
-            String enviromentname= executeplan.getEnviromentname();
-            Integer casenum=execplantestcaseService.findcasenumbyplanid(planid);
-            if(casenum.intValue()==0)
-            {
+            Long planid = executeplan.getId();
+            Long envid = executeplan.getEnvid();
+            String enviromentname = executeplan.getEnviromentname();
+            Integer casenum = execplantestcaseService.findcasenumbyplanid(planid);
+            if (casenum.intValue() == 0) {
                 return ResultGenerator.genFailedResult("该执行计划下还未装载测试用例！");
-            }
-            else
-            {
+            } else {
                 List<ExecuteplanTestcase> deployidlist = execplantestcaseService.finddeployunitbyplanid(planid);
-                if(deployidlist.size()==0)
-                {
+                if (deployidlist.size() == 0) {
                     return ResultGenerator.genFailedResult("该执行计划下用例所在的所有发布单元不存在，请检查是否被删除！");
-                }
-                else
-                {
-                    for (ExecuteplanTestcase ect: deployidlist) {
-                        Long deployid=ect.getDeployunitid();
-                        String deployname=ect.getDeployunitname();
-                        Integer machinenum= macdepunitService.findmachinenumbyenvidanddeployid(envid,deployid);
-                        if(machinenum.intValue()==0)
-                        {
-                            return ResultGenerator.genFailedResult("该执行计划的用例所在的发布单元: "+deployname+" 在环境: "+enviromentname+" 中未完成部署！");
+                } else {
+                    for (ExecuteplanTestcase ect : deployidlist) {
+                        Long deployid = ect.getDeployunitid();
+                        String deployname = ect.getDeployunitname();
+                        Integer machinenum = macdepunitService.findmachinenumbyenvidanddeployid(envid, deployid);
+                        if (machinenum.intValue() == 0) {
+                            return ResultGenerator.genFailedResult("该执行计划的用例所在的发布单元: " + deployname + " 在环境: " + enviromentname + " 中未完成部署！");
                         }
                     }
                     return ResultGenerator.genOkResult();
                 }
             }
-        }
-        catch (ServiceException se)
-        {
+        } catch (ServiceException se) {
             return ResultGenerator.genFailedResult(se.getMessage());
         }
     }
@@ -138,8 +124,8 @@ public class ExecuteplanController {
 
     @PostMapping("/updatestatus")
     public Result updatestatus(@PathVariable final List<Executeplan> executeplanList) {
-        for (Executeplan ep:executeplanList) {
-            executeplanService.updatetestplanstatus(ep.getId(),ep.getStatus());
+        for (Executeplan ep : executeplanList) {
+            executeplanService.updatetestplanstatus(ep.getId(), ep.getStatus());
         }
         return ResultGenerator.genOkResult();
     }
@@ -158,8 +144,7 @@ public class ExecuteplanController {
     }
 
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "0") Integer page,
-                       @RequestParam(defaultValue = "0") Integer size) {
+    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
         List<Executeplan> list = executeplanService.listAll();
         PageInfo<Executeplan> pageInfo = PageInfo.of(list);
@@ -189,15 +174,13 @@ public class ExecuteplanController {
      */
     @PutMapping("/detail")
     public Result updateExecuteplan(@RequestBody final Executeplan executeplan) {
-        Condition con=new Condition(Executeplan.class);
-        con.createCriteria().andCondition("executeplanname = '" + executeplan.getExecuteplanname().replace("'","''") + "'")
+        Condition con = new Condition(Executeplan.class);
+        con.createCriteria().andCondition("executeplanname = '" + executeplan.getExecuteplanname().replace("'", "''") + "'")
                 .andCondition("id <> " + executeplan.getId())
                 .andCondition("enviromentname = '" + executeplan.getEnviromentname() + "'");
-        if(executeplanService.ifexist(con)>0)
-        {
+        if (executeplanService.ifexist(con) > 0) {
             return ResultGenerator.genFailedResult("此环境下执行计划已经存在");
-        }
-        else {
+        } else {
             this.executeplanService.updateexecuteplanname(executeplan);
             return ResultGenerator.genOkResult();
         }
@@ -208,8 +191,8 @@ public class ExecuteplanController {
      */
     @PostMapping("/search")
     public Result search(@RequestBody final Map<String, Object> param) {
-        Integer page= Integer.parseInt(param.get("page").toString());
-        Integer size= Integer.parseInt(param.get("size").toString());
+        int page = Integer.parseInt(param.get("page").toString());
+        int size = Integer.parseInt(param.get("size").toString());
         PageHelper.startPage(page, size);
         final List<Executeplan> list = this.executeplanService.findexplanWithName(param);
         final PageInfo<Executeplan> pageInfo = new PageInfo<>(list);

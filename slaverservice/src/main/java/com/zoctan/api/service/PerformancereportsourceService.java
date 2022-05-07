@@ -15,5 +15,5 @@ public interface PerformancereportsourceService extends Service<Performancerepor
 
     List<Performancereportsource> findperformancereportsourcebyids(long caseid,long slaverid,long planid,Long batchid);
 
-    void updateperformancereportsourcedone(Long planid,Long slaverid,Long batchid,Long caseid,Long totalcasenums,Long totalcasepassnums,Long totalcasefailnums);
+    void updateperformancereportsourcedone(Long planid,Long slaverid,Long batchid,Long caseid);
 }

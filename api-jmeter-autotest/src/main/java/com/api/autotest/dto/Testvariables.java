@@ -28,24 +28,7 @@ public class Testvariables {
      */
     private String memo;
 
-    public String getVariablesdes() {
-        return variablesdes;
-    }
-
-    public void setVariablesdes(String variablesdes) {
-        this.variablesdes = variablesdes;
-    }
-
     private String variablesdes;
-
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
 
     private String creator;
 
@@ -58,6 +41,22 @@ public class Testvariables {
      * 上一次修改时间
      */
     private Date lastmodifyTime;
+
+    public String getVariablesdes() {
+        return variablesdes;
+    }
+
+    public void setVariablesdes(String variablesdes) {
+        this.variablesdes = variablesdes;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
 
     /**
      * 获取Id

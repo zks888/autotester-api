@@ -8,29 +8,12 @@ public class ApicasesReportstatics {
      */
     private String testplanid;
 
-    public String getDeployunitid() {
-        return deployunitid;
-    }
-
-    public void setDeployunitid(String deployunitid) {
-        this.deployunitid = deployunitid;
-    }
-
     private String deployunitid;
 
     /**
      * 批次
      */
     private String batchname;
-
-
-    public String getTestplanname() {
-        return testplanname;
-    }
-
-    public void setTestplanname(String testplanname) {
-        this.testplanname = testplanname;
-    }
 
     private String testplanname;
 
@@ -73,6 +56,22 @@ public class ApicasesReportstatics {
      * 创建者
      */
     private String creator;
+
+    public String getDeployunitid() {
+        return deployunitid;
+    }
+
+    public void setDeployunitid(String deployunitid) {
+        this.deployunitid = deployunitid;
+    }
+
+    public String getTestplanname() {
+        return testplanname;
+    }
+
+    public void setTestplanname(String testplanname) {
+        this.testplanname = testplanname;
+    }
 
     /**
      * 获取执行计划id

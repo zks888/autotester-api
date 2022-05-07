@@ -32,7 +32,7 @@ import java.util.*;
  */
 /*
  @author Season
- @DESCRIPTION 
+ @DESCRIPTION
  @create 2020/11/21
 */
 @Slf4j
@@ -187,7 +187,7 @@ public class GeneralPerformancestatisticsScheduleTask {
             apicasesPerformancestatistics.setCreator(Creator);
             apicasesPerformancestatisticsService.save(apicasesPerformancestatistics);
 
-            performancereportsourceMapper.updateperformancereportsourcedone(Long.parseLong(testplanid), Long.parseLong(slaverid), Long.parseLong(batchid), Long.parseLong(caseid), Long.parseLong(Samples), Long.parseLong(Samples) - Long.parseLong(KO), Long.parseLong(KO));
+            performancereportsourceMapper.updateperformancereportsourcedone(Long.parseLong(testplanid), Long.parseLong(slaverid), Long.parseLong(batchid), Long.parseLong(caseid));
             log.info("性能报告解析任务- " + testclass + " ：保存性能统计结果完成...........: ");
         } catch (Exception ex) {
             log.info("性能报告解析任务- " + testclass + " ：保存性能统计结果异常...........: " + ex.getMessage());

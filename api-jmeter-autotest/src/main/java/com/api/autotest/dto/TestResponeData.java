@@ -7,6 +7,17 @@ import java.util.List;
 
 public class TestResponeData {
 
+    private List<Header> headerList;
+    private List<RequestHead> requestHeadList;
+    private List<RequestParams> requestParamsList;
+    private List<Cookie> cookies;
+    private int ResponeCode;
+    private long Size;
+    private long ResponeTime;
+    private ResponeGeneral responeGeneral;
+    private String RequestUrl;
+    private String ResponeContent;
+
     public List<Header> getHeaderList() {
         return headerList;
     }
@@ -23,10 +34,6 @@ public class TestResponeData {
         ResponeContent = responeContent;
     }
 
-    private List<Header> headerList;
-
-
-
     public List<RequestHead> getRequestHeadList() {
         return requestHeadList;
     }
@@ -34,8 +41,6 @@ public class TestResponeData {
     public void setRequestHeadList(List<RequestHead> requestHeadList) {
         this.requestHeadList = requestHeadList;
     }
-
-    private List<RequestHead> requestHeadList;
 
     public List<RequestParams> getRequestParamsList() {
         return requestParamsList;
@@ -45,11 +50,6 @@ public class TestResponeData {
         this.requestParamsList = requestParamsList;
     }
 
-    private List<RequestParams> requestParamsList;
-
-
-    private String ResponeContent;
-
     public int getResponeCode() {
         return ResponeCode;
     }
@@ -57,8 +57,6 @@ public class TestResponeData {
     public void setResponeCode(int responeCode) {
         ResponeCode = responeCode;
     }
-
-    private int ResponeCode;
 
     public long getSize() {
         return Size;
@@ -76,10 +74,6 @@ public class TestResponeData {
         ResponeTime = responeTime;
     }
 
-    private long Size;
-
-    private long ResponeTime;
-
     public List<Cookie> getCookies() {
         return cookies;
     }
@@ -87,9 +81,6 @@ public class TestResponeData {
     public void setCookies(List<Cookie> cookies) {
         this.cookies = cookies;
     }
-
-    List<Cookie> cookies;
-
 
     public ResponeGeneral getResponeGeneral() {
         return responeGeneral;
@@ -99,9 +90,6 @@ public class TestResponeData {
         this.responeGeneral = responeGeneral;
     }
 
-    private ResponeGeneral responeGeneral;
-
-
     public String getRequestUrl() {
         return RequestUrl;
     }
@@ -109,9 +97,6 @@ public class TestResponeData {
     public void setRequestUrl(String requestUrl) {
         RequestUrl = requestUrl;
     }
-
-    private String RequestUrl;
-
 }
 
 

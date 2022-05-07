@@ -11,6 +11,22 @@ public class Variables {
      */
     private String variablesname;
 
+    private String variablecondition;
+
+    private String variablestype;
+
+    private String memo;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 上一次修改时间
+     */
+    private Date lastmodifyTime;
+
     public String getVariablecondition() {
         return variablecondition;
     }
@@ -19,8 +35,6 @@ public class Variables {
         this.variablecondition = variablecondition;
     }
 
-    private String variablecondition;
-
     public String getVariablestype() {
         return variablestype;
     }
@@ -28,8 +42,6 @@ public class Variables {
     public void setVariablestype(String variablestype) {
         this.variablestype = variablestype;
     }
-
-    private String variablestype;
 
     /**
      * 变量描述
@@ -42,20 +54,6 @@ public class Variables {
     public void setMemo(String memo) {
         this.memo = memo;
     }
-
-    private String memo;
-
-
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 上一次修改时间
-     */
-    private Date lastmodifyTime;
 
     /**
      * 获取Id

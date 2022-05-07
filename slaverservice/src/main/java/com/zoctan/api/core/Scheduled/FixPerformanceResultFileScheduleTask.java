@@ -113,7 +113,6 @@ public class FixPerformanceResultFileScheduleTask {
                     performancereportfilelog.setStatus("已完成");
                     performancereportfilelogService.update(performancereportfilelog);
                 }
-
             }
         } catch (Exception ex) {
             log.info("收集性能报告数据-异常=======================" + ex.getMessage());
@@ -132,7 +131,7 @@ public class FixPerformanceResultFileScheduleTask {
         String[] array = Content.split("\\$\\$");
         log.info("收集性能报告数据文件每行长度：=======================" + array.length);
         boolean caseresultstatus = true;
-        if (array.length == 17) {
+        if (array.length == 16) {
             ApicasesReportPerformance apicasesReportPerformance = new ApicasesReportPerformance();
             long caseid = Long.parseLong(array[0]);
             apicasesReportPerformance.setCaseid(caseid);
@@ -153,9 +152,15 @@ public class FixPerformanceResultFileScheduleTask {
             apicasesReportPerformance.setStatus(status);
 
             String respone = array[5];
+            if (!respone.isEmpty()) {
+                respone = respone.substring(0, Math.min(respone.length(), 1000));
+            }
             apicasesReportPerformance.setRespone(respone);
-            String Assertvalue = array[6];
-            apicasesReportPerformance.setAssertvalue(Assertvalue);
+            String assertvalue = array[6];
+            if (!respone.isEmpty()) {
+                assertvalue = assertvalue.substring(0, Math.min(assertvalue.length(), 1000));
+            }
+            apicasesReportPerformance.setAssertvalue(assertvalue);
             long runtime = Long.parseLong(array[7]);
             apicasesReportPerformance.setRuntime(runtime);
             String Expect = array[8];
@@ -168,17 +173,17 @@ public class FixPerformanceResultFileScheduleTask {
             apicasesReportPerformance.setCreateTime(dateNowStr);
             apicasesReportPerformance.setLastmodifyTime(dateNowStr);
 
-            String Creator = array[12];
+            String Creator = array[11];
             apicasesReportPerformance.setCreator(Creator);
-            String Requestheader = array[13];
+            String Requestheader = array[12];
             apicasesReportPerformance.setRequestheader(Requestheader);
-            String Requestdatas = array[14];
+            String Requestdatas = array[13];
             apicasesReportPerformance.setRequestdatas(Requestdatas);
-            String Url = array[15];
+            String Url = array[14];
             apicasesReportPerformance.setUrl(Url);
-            String Requestmethod = array[16];
+            String Requestmethod = array[15];
             apicasesReportPerformance.setRequestmethod(Requestmethod);
-            apicasesReportPerformanceService.adddynamiccaseperformancereport(caseid, planid, batchname, slaverid, status, respone, Assertvalue, runtime, Expect, Errorinfo, dateNowStr, dateNowStr, Creator, Requestheader, Requestdatas, Url, Requestmethod, TableName);
+            apicasesReportPerformanceService.adddynamiccaseperformancereport(caseid, planid, batchname, slaverid, status, respone, assertvalue, runtime, Expect, Errorinfo, dateNowStr, dateNowStr, Creator, Requestheader, Requestdatas, Url, Requestmethod, TableName);
         }
         return caseresultstatus;
     }

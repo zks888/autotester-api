@@ -7,10 +7,8 @@ import cn.hutool.http.HttpRequest;
 import com.alibaba.fastjson.JSON;
 import com.api.autotest.common.utils.*;
 import com.api.autotest.dto.*;
-import com.google.common.collect.Maps;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.log.Logger;
-
 import java.util.*;
 
 public class TestCore {
@@ -130,8 +128,7 @@ public class TestCore {
 
     //发送http请求
     public TestResponeData request(RequestObject requestObject) throws Exception {
-        TestResponeData result = testHttp.doService(requestObject, 30000);
-        return result;
+        return testHttp.doService(requestObject, 30000);
     }
 
     //断言
@@ -256,92 +253,77 @@ public class TestCore {
 
     //获取计划批次的数据统计
     public ArrayList<HashMap<String, String>> GetStatic(String planid, String Batchname) {
-        ArrayList<HashMap<String, String>> list = testMysqlHelp.GetStatic(planid, Batchname);
-        return list;
+        return testMysqlHelp.GetStatic(planid, Batchname);
     }
 
 
     //获取账号数据
     public ArrayList<HashMap<String, String>> findWithUsername(String username) {
-        ArrayList<HashMap<String, String>> list = testMysqlHelp.findWithUsername(username);
-        return list;
+        return testMysqlHelp.findWithUsername(username);
     }
 
 
     //获取数据库用例相关数据
     public ArrayList<HashMap<String, String>> findDicNameValueWithCode(String DicCode) {
-        ArrayList<HashMap<String, String>> list = testMysqlHelp.findDicNameValueWithCode(DicCode);
-        return list;
+        return testMysqlHelp.findDicNameValueWithCode(DicCode);
     }
 
     //获取计划批次
     public ArrayList<HashMap<String, String>> GetplanBatchCreator(String planid, String BatchName) {
-        ArrayList<HashMap<String, String>> list = testMysqlHelp.GetplanBatchCreator(planid, BatchName);
-        return list;
+        return testMysqlHelp.GetplanBatchCreator(planid, BatchName);
     }
 
     //获取数据库用例相关数据
     public ArrayList<HashMap<String, String>> getcaseData(String Sql) {
-        ArrayList<HashMap<String, String>> list = testMysqlHelp.getcaseData(Sql);
-        return list;
+        return testMysqlHelp.getcaseData(Sql);
     }
 
     // 获取用例期望值
     public String getcaseValue(String key, ArrayList<HashMap<String, String>> list) {
-        String value = testMysqlHelp.getcaseValue(key, list);
-        return value;
+        return testMysqlHelp.getcaseValue(key, list);
     }
 
 
     //获取变量值类型
     private String GetVariablesDataType(String VariablesName) {
-        String ValueType = testMysqlHelp.GetVariablesDataType(VariablesName);
-        return ValueType;
+        return testMysqlHelp.GetVariablesDataType(VariablesName);
     }
 
     //根据变量名获取caseid
     private String GetCaseIdByVariablesName(String VariablesName, String Caseid) {
-        String CaseID = testMysqlHelp.GetCaseIdByVariablesName(VariablesName);
-        return CaseID;
+        return testMysqlHelp.GetCaseIdByVariablesName(VariablesName);
     }
 
     //获取变量值
     private String GetVariablesValues(String PlanID, String TestCaseId, String BatchName, String VariablesName) {
-        String VariablesResult = testMysqlHelp.GetVariablesValues(PlanID, TestCaseId, BatchName, VariablesName);
-        return VariablesResult;
+        return testMysqlHelp.GetVariablesValues(PlanID, TestCaseId, BatchName, VariablesName);
     }
 
 
     //获取条件
     private ArrayList<HashMap<String, String>> GetConditionByPlanIDAndConditionType(Long Caseid, String ConditionType, String ObjectType) {
-        ArrayList<HashMap<String, String>> result = testMysqlHelp.GetConditionByPlanIDAndConditionType(Caseid, ConditionType, ObjectType);
-        return result;
+        return testMysqlHelp.GetConditionByPlanIDAndConditionType(Caseid, ConditionType, ObjectType);
     }
 
     //获取条件顺序
     private ArrayList<HashMap<String, String>> GetConditionOrderByID(Long ConditionID) {
-        ArrayList<HashMap<String, String>> result = testMysqlHelp.GetConditionOrderByID(ConditionID);
-        return result;
+        return testMysqlHelp.GetConditionOrderByID(ConditionID);
     }
 
     //获取接口条件
     private ArrayList<HashMap<String, String>> GetApiConditionByConditionID(Long ConditionID) {
-        ArrayList<HashMap<String, String>> result = testMysqlHelp.GetApiConditionByConditionID(ConditionID);
-        return result;
+        return testMysqlHelp.GetApiConditionByConditionID(ConditionID);
     }
 
     //获取脚本条件
     private ArrayList<HashMap<String, String>> GetScriptConditionByConditionID(Long ConditionID) {
-        ArrayList<HashMap<String, String>> result = testMysqlHelp.GetScriptConditionByConditionID(ConditionID);
-        return result;
+        return testMysqlHelp.GetScriptConditionByConditionID(ConditionID);
     }
 
     //获取数据库条件
     private ArrayList<HashMap<String, String>> GetDBConditionByConditionID(Long ConditionID) {
-        ArrayList<HashMap<String, String>> result = testMysqlHelp.GetDBConditionByConditionID(ConditionID);
-        return result;
+        return testMysqlHelp.GetDBConditionByConditionID(ConditionID);
     }
-
 
     //保存条件结果
     public void SubConditionReportSave(TestconditionReport testconditionReport) {
@@ -355,25 +337,21 @@ public class TestCore {
 
     //查询用例变量
     public ArrayList<HashMap<String, String>> GetApiCaseVaribales(Long CaseID) {
-        ArrayList<HashMap<String, String>> result = testMysqlHelp.GetApiCaseVaribales(CaseID);
-        return result;
+        return testMysqlHelp.GetApiCaseVaribales(CaseID);
     }
 
     //查询变量
     public ArrayList<HashMap<String, String>> GetVaribales(String VaribaleID) {
-        ArrayList<HashMap<String, String>> result = testMysqlHelp.GetVaribales(VaribaleID);
-        return result;
+        return testMysqlHelp.GetVaribales(VaribaleID);
     }
 
     // 获取用例Header，params，Body，Dubbo数据
     public HashMap<String, String> fixhttprequestdatas(String MapType, ArrayList<HashMap<String, String>> casedatalist) {
-        HashMap<String, String> DataMap = testMysqlHelp.fixhttprequestdatas(MapType, casedatalist);
-        return DataMap;
+        return testMysqlHelp.fixhttprequestdatas(MapType, casedatalist);
     }
 
     public HashMap<String, String> getparamsdatabytype(String MapType, ArrayList<HashMap<String, String>> casedatalist) {
-        HashMap<String, String> DataMap = testMysqlHelp.getparamsdatabytype(MapType, casedatalist);
-        return DataMap;
+        return testMysqlHelp.getparamsdatabytype(MapType, casedatalist);
     }
 
     // 记录用例测试结果
@@ -386,17 +364,14 @@ public class TestCore {
         testMysqlHelp.SaveReportStatics(apicasesReportstatics);
     }
 
-
     //查询此计划下的批次调度是否已经全部完成，如果完成，刷新计划批次状态为finish
     public long PlanBatchAllDipatchFinish(String Testplanid, String batchname) {
-        long DispatchNotFinishNums = testMysqlHelp.PlanBatchAllDipatchFinish(Testplanid, batchname);
-        return DispatchNotFinishNums;
+        return testMysqlHelp.PlanBatchAllDipatchFinish(Testplanid, batchname);
     }
 
     //查询此计划下的批次调度是否已经全部完成，如果完成，刷新计划批次状态为finish
     public long PlanBatchAllDipatchCancel(String Testplanid, String batchname) {
-        long DispatchCancel = testMysqlHelp.PlanBatchAllDipatchCancel(Testplanid, batchname);
-        return DispatchCancel;
+        return testMysqlHelp.PlanBatchAllDipatchCancel(Testplanid, batchname);
     }
 
     // 更新计划批次状态

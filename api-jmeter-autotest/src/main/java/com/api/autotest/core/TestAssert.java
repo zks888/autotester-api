@@ -19,14 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by fanseasn on 2020/10/17.
- */
-/*
- @author Season
- @DESCRIPTION 
- @create 2020/10/17
-*/
 public class TestAssert {
 
     private Logger logger = null;
@@ -52,7 +44,6 @@ public class TestAssert {
         logger.info(TestCaseData.logplannameandcasename + "ParseJson AssertInfo is:" + AssertInfo);
         return AssertInfo;
     }
-
 
     public String ParseRespone(String ResponeResultType, String Respone, String Path) {
         String Result = "";

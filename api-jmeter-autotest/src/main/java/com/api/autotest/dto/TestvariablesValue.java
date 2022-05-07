@@ -18,17 +18,7 @@ public class TestvariablesValue {
      */
     private String planname;
 
-    public String getBatchname() {
-        return batchname;
-    }
-
-    public void setBatchname(String batchname) {
-        this.batchname = batchname;
-    }
-
     private String batchname;
-
-
 
     /**
      * 用例Id
@@ -55,15 +45,6 @@ public class TestvariablesValue {
      */
     private String variablesvalue;
 
-
-    public String getVariablestype() {
-        return variablestype;
-    }
-
-    public void setVariablestype(String variablestype) {
-        this.variablestype = variablestype;
-    }
-
     private String variablestype;
 
     /**
@@ -80,6 +61,22 @@ public class TestvariablesValue {
      * 上一次修改时间
      */
     private Date lastmodifyTime;
+
+    public String getBatchname() {
+        return batchname;
+    }
+
+    public void setBatchname(String batchname) {
+        this.batchname = batchname;
+    }
+
+    public String getVariablestype() {
+        return variablestype;
+    }
+
+    public void setVariablestype(String variablestype) {
+        this.variablestype = variablestype;
+    }
 
     /**
      * 获取Id

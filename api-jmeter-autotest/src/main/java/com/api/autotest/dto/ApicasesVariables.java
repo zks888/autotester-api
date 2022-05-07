@@ -33,14 +33,6 @@ public class ApicasesVariables {
      */
     private String memo;
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
     private String creator;
 
     /**
@@ -52,6 +44,14 @@ public class ApicasesVariables {
      * 上一次修改时间
      */
     private Date lastmodifyTime;
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
 
     /**
      * 获取Id

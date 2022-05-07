@@ -31,7 +31,7 @@ public class PerformancereportsourceServiceImpl extends AbstractService<Performa
     }
 
     @Override
-    public void updateperformancereportsourcedone(Long planid, Long slaverid, Long batchid, Long caseid, Long totalcasenums, Long totalcasepassnums, Long totalcasefailnums) {
-        performancereportsourceMapper.updateperformancereportsourcedone(planid, slaverid, batchid, caseid, totalcasenums, totalcasepassnums, totalcasefailnums);
+    public void updateperformancereportsourcedone(Long planid, Long slaverid, Long batchid, Long caseid) {
+        performancereportsourceMapper.updateperformancereportsourcedone(planid, slaverid, batchid, caseid);
     }
 }

@@ -5,14 +5,6 @@ import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
-/**
- * Created by fanseasn on 2020/12/8.
- */
-/*
- @author Season
- @DESCRIPTION 
- @create 2020/12/8
-*/
 public class precondition extends AbstractJavaSamplerClient {
     // 初始化方法，实际运行时每个线程仅执行一次，在测试方法运行前执行，类似于LoadRunner中的init方法
     public void setupTest(JavaSamplerContext context) {

@@ -29,7 +29,7 @@
   </select>
 
   <update id="updateperformancereportsourcedone">
-    update performancereportsource set status ='已解析', totalcasenums=#{totalcasenums}, totalcasepassnums=#{totalcasepassnums}, totalcasefailnums=#{totalcasefailnums}
+    update performancereportsource set status ='已解析'
     where planid = #{planid} and batchid =#{batchid} and slaverid=#{slaverid} and caseid=#{caseid}
   </update>
 

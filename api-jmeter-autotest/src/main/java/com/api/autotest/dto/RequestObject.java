@@ -2,19 +2,35 @@ package com.api.autotest.dto;
 
 import com.api.autotest.common.utils.HttpHeader;
 import com.api.autotest.common.utils.HttpParamers;
-
 import java.util.List;
 
-/**
- * Created by fanseasn on 2020/11/30.
- */
-/*
- @author Season
- @DESCRIPTION 
- @create 2020/11/30
-*/
 public class RequestObject {
 
+    private String testplanid = "";
+    private String deployunitid = "";
+    private String caseid = "";
+    private String batchid = "";
+    private String slaverid = "";
+    private String batchname = "";
+    private String casename = "";
+    private String testplanname = "";
+    private String casetype = "";
+    private String expect = "";
+    private String RequestmMthod;
+    private HttpParamers paramers;
+    private String PostData;
+    private String requestcontenttype;
+    private String responecontenttype;
+    private HttpHeader header;
+    private String headjson;
+    private String paramjson;
+    private String bodyjson;
+    private String resource;
+    private String protocal;
+    private String apistyle;
+    private String variablesjson;
+    private String deployunitvisittype;
+    private String machineip;
 
     public List<ApicasesAssert> getApicasesAssertList() {
         return apicasesAssertList;
@@ -82,8 +98,6 @@ public class RequestObject {
         this.expect = expect;
     }
 
-    private String testplanid = "";
-
     public String getDeployunitid() {
         return deployunitid;
     }
@@ -91,13 +105,6 @@ public class RequestObject {
     public void setDeployunitid(String deployunitid) {
         this.deployunitid = deployunitid;
     }
-
-    private String deployunitid = "";
-
-    private String caseid = "";
-    private String batchid = "";
-    private String slaverid = "";
-    private String batchname = "";
 
     public String getCasename() {
         return casename;
@@ -107,9 +114,6 @@ public class RequestObject {
         this.casename = casename;
     }
 
-    private String casename = "";
-
-
     public String getTestplanname() {
         return testplanname;
     }
@@ -117,15 +121,6 @@ public class RequestObject {
     public void setTestplanname(String testplanname) {
         this.testplanname = testplanname;
     }
-
-    private String testplanname = "";
-
-    private String casetype = "";
-    private String expect = "";
-
-
-
-
 
     public String getRequestmMthod() {
         return RequestmMthod;
@@ -135,8 +130,6 @@ public class RequestObject {
         RequestmMthod = requestmMthod;
     }
 
-    private String RequestmMthod;
-
     public String getProtocal() {
         return protocal;
     }
@@ -144,9 +137,6 @@ public class RequestObject {
     public void setProtocal(String protocal) {
         this.protocal = protocal;
     }
-
-    private String protocal;
-
 
     public String getResource() {
         return resource;
@@ -156,8 +146,6 @@ public class RequestObject {
         this.resource = resource;
     }
 
-    private String resource;
-
     public String getApistyle() {
         return apistyle;
     }
@@ -165,9 +153,6 @@ public class RequestObject {
     public void setApistyle(String apistyle) {
         this.apistyle = apistyle;
     }
-
-    private String apistyle;
-
 
     public HttpParamers getParamers() {
         return paramers;
@@ -177,8 +162,6 @@ public class RequestObject {
         this.paramers = paramers;
     }
 
-    private HttpParamers paramers;
-
     public String getPostData() {
         return PostData;
     }
@@ -186,10 +169,6 @@ public class RequestObject {
     public void setPostData(String postData) {
         PostData = postData;
     }
-
-    private String PostData;
-
-
 
     public String getRequestcontenttype() {
         return requestcontenttype;
@@ -199,8 +178,6 @@ public class RequestObject {
         this.requestcontenttype = requestcontenttype;
     }
 
-    private String requestcontenttype;
-
     public String getResponecontenttype() {
         return responecontenttype;
     }
@@ -209,10 +186,6 @@ public class RequestObject {
         this.responecontenttype = responecontenttype;
     }
 
-    private String responecontenttype;
-
-
-
     public HttpHeader getHeader() {
         return header;
     }
@@ -220,8 +193,6 @@ public class RequestObject {
     public void setHeader(HttpHeader header) {
         this.header = header;
     }
-
-    private HttpHeader header;
 
     public String getHeadjson() {
         return headjson;
@@ -247,10 +218,6 @@ public class RequestObject {
         this.bodyjson = bodyjson;
     }
 
-    private String headjson;
-    private String paramjson;
-    private String bodyjson;
-
     public String getVariablesjson() {
         return variablesjson;
     }
@@ -258,9 +225,6 @@ public class RequestObject {
     public void setVariablesjson(String variablesjson) {
         this.variablesjson = variablesjson;
     }
-
-    private String variablesjson;
-
 
     public String getDeployunitvisittype() {
         return deployunitvisittype;
@@ -270,8 +234,6 @@ public class RequestObject {
         this.deployunitvisittype = deployunitvisittype;
     }
 
-    private String deployunitvisittype;
-
     public String getMachineip() {
         return machineip;
     }
@@ -279,8 +241,4 @@ public class RequestObject {
     public void setMachineip(String machineip) {
         this.machineip = machineip;
     }
-
-    private String machineip;
-
-
 }

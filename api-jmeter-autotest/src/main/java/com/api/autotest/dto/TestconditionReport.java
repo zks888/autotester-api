@@ -10,6 +10,58 @@ public class TestconditionReport {
      */
     private Long conditionid;
 
+    private Long subconditionid;
+
+    private String subconditionname;
+
+    private Long testplanid;
+
+    private String planname;
+
+    private String batchname;
+
+    private String subconditiontype;
+
+    /**
+     * 条件类型，接口，数据库，其他
+     */
+    private String conditiontype;
+
+    /**
+     * 子条件id，接口，db，nosql条件id
+     */
+    /**
+     * 接口返回，数据库返回结果等等
+     */
+    private String conditionresult;
+
+    /**
+     * 条件完成状态，成功，失败
+     */
+    private String conditionstatus;
+
+    private String status;
+
+    /**
+     * 运行时长
+     */
+    private Long runtime;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 上一次修改时间
+     */
+    private Date lastmodifyTime;
+
+    /**
+     * 创建者
+     */
+    private String creator;
+
     public Long getSubconditionid() {
         return subconditionid;
     }
@@ -18,8 +70,6 @@ public class TestconditionReport {
         this.subconditionid = subconditionid;
     }
 
-    private Long subconditionid;
-
     public String getSubconditionname() {
         return subconditionname;
     }
@@ -27,8 +77,6 @@ public class TestconditionReport {
     public void setSubconditionname(String subconditionname) {
         this.subconditionname = subconditionname;
     }
-
-    private String subconditionname;
 
     public Long getTestplanid() {
         return testplanid;
@@ -54,10 +102,6 @@ public class TestconditionReport {
         this.batchname = batchname;
     }
 
-    private Long testplanid;
-    private String planname;
-    private String batchname;
-
     public String getSubconditiontype() {
         return subconditiontype;
     }
@@ -66,28 +110,6 @@ public class TestconditionReport {
         this.subconditiontype = subconditiontype;
     }
 
-    private String subconditiontype;
-
-
-
-    /**
-     * 条件类型，接口，数据库，其他
-     */
-    private String conditiontype;
-
-    /**
-     * 子条件id，接口，db，nosql条件id
-     */
-    /**
-     * 接口返回，数据库返回结果等等
-     */
-    private String conditionresult;
-
-    /**
-     * 条件完成状态，成功，失败
-     */
-    private String conditionstatus;
-
     public String getStatus() {
         return status;
     }
@@ -95,29 +117,6 @@ public class TestconditionReport {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    private String status;
-
-
-    /**
-     * 运行时长
-     */
-    private Long runtime;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 上一次修改时间
-     */
-    private Date lastmodifyTime;
-
-    /**
-     * 创建者
-     */
-    private String creator;
 
     /**
      * 获取Id
