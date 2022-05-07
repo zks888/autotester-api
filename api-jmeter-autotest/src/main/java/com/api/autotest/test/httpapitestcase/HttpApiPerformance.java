@@ -185,7 +185,7 @@ public class HttpApiPerformance extends AbstractJavaSamplerClient {
             String PathName = LogFolder + "/" + FileName + ".txt";
             File file = new File(PathName);
             if (!file.exists() && file.createNewFile()) {
-                Core.generalperformancelogfile(requestObject.getTestplanid(), requestObject.getCaseid(), requestObject.getSlaverid(), requestObject.getBatchid(), FileName, "待处理");
+                Core.generalperformancelogfile(requestObject.getTestplanid(), requestObject.getCaseid(), requestObject.getSlaverid(), requestObject.getBatchid(), FileName, "初始化");
                 getLogger().info(TestCaseData.logplannameandcasename + "generalperformancelogfile完成");
             }
             fw = new FileWriter(file, true);

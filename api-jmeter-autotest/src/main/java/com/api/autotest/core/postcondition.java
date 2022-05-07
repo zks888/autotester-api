@@ -70,6 +70,9 @@ public class postcondition extends AbstractJavaSamplerClient {
                     getLogger().info(TestCaseData.logplannameandcasename + "更新计划批次表状态完成");
                 }
             }
+            //新增性能日志记录表
+            core.updateperformancelogfilestatus(testplanid, caseid, slaverid, batchid, "待处理");
+            getLogger().info(TestCaseData.logplannameandcasename + "updateperformancelogfilestatus完成");
             core.SendMessageDingDing(testplanid, batchname);
             core.SendMailByFinishPlanCase(testplanid, batchname);
             getLogger().info(TestCaseData.logplannameandcasename + "发送mail，dingding完成");

@@ -389,6 +389,11 @@ public class TestCore {
         testMysqlHelp.updatedispatchcasestatus(testplanid, caseid, slaverid, batchid);
     }
 
+    // 更新用例调度状态
+    public void updateperformancelogfilestatus(String testplanid, String caseid, String slaverid, String batchid, String status) {
+        testMysqlHelp.updateperformancelogfilestatus(testplanid, caseid, slaverid, batchid, status);
+    }
+
     // 更新用例调度结果
     public void generalperformancelogfile(String testplanid, String caseid, String slaverid, String batchid, String Filename, String status) {
         testMysqlHelp.generalperformancelogfile(testplanid, caseid, slaverid, batchid, Filename, status);

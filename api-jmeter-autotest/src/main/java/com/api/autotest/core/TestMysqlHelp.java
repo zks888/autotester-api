@@ -596,6 +596,20 @@ public class TestMysqlHelp {
     }
 
     // 新增性能日志用例记录结果
+    public void updateperformancelogfilestatus(String testplanid, String caseid, String slaverid, String batchid, String status) {
+        try {
+            Date d = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateNowStr = sdf.format(d);
+            String sql = "update performancereportfilelog set status='" + status + "',lastmodify_time='" + dateNowStr + "' where slaverid=" + slaverid + " and execplanid=" + testplanid + " and batchid=" + batchid + " and caseid=" + caseid + " and status='初始化'";
+            logger.info(logplannameandcasename + "获取数据库 新增性能日志用例记录结果 result sql is...........: " + sql);
+            logger.info(logplannameandcasename + "获取数据库 新增性能日志用例记录结果 is...........: " + MysqlConnectionUtils.update(sql));
+        } catch (Exception ex) {
+            logger.info(logplannameandcasename + "获取数据库 新增性能日志用例记录结果...........: " + ex.getMessage());
+        }
+    }
+
+    // 新增性能日志用例记录结果
     public void generalperformancelogfile(String testplanid, String caseid, String slaverid, String batchid, String filename, String status) {
         try {
             Date d = new Date();
