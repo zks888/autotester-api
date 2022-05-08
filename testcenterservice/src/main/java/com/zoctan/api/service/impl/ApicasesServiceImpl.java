@@ -39,7 +39,9 @@ public class ApicasesServiceImpl extends AbstractService<Apicases> implements Ap
         String casetype = params.get("casetype").toString();
         long executeplanid = Long.parseLong(params.get("executeplanid").toString());
         long deployunitid = Long.parseLong(params.get("deployunitid").toString());
-        return executeplanTestcaseMapper.findcasebyplanid(executeplanid, deployunitid, casetype);
+        Object apiid = params.get("apiid");
+        String sapiid = apiid != null ? apiid.toString() : "";
+        return executeplanTestcaseMapper.findapicaseleft(executeplanid, deployunitid, casetype, sapiid);
     }
 
     @Override

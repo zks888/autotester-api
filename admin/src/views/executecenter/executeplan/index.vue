@@ -432,7 +432,7 @@
   import { getdepunitList as getdepunitList } from '@/api/deployunit/depunit'
   import { addexecuteplanbatch as addexecuteplanbatch } from '@/api/executecenter/executeplanbatch'
   import { searchcases as searchtestplancases, addexecuteplantestcase, removeexecuteplantestcase } from '@/api/executecenter/executeplantestcase'
-  import { checkplancondition, search, addexecuteplan, updateexecuteplan, removeexecuteplan, executeplan, updateexecuteplanstatus } from '@/api/executecenter/executeplan'
+  import { checkplancondition, search, updateexecuteplan, removeexecuteplan, executeplan, updateexecuteplanstatus } from '@/api/executecenter/executeplan'
   import { unix2CurrentTime } from '@/utils'
   import { getenviromentallList } from '@/api/enviroment/testenviroment'
   import { getdatabydiccodeList } from '@/api/system/dictionary'
