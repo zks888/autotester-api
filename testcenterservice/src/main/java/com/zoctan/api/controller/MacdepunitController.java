@@ -29,16 +29,19 @@ public class MacdepunitController {
 
     @PostMapping
     public Result add(@RequestBody Macdepunit macdepunit) {
-        Condition con=new Condition(Macdepunit.class);
-        con.createCriteria().andCondition("enviromentname = '" + macdepunit.getEnviromentname() + "'").andCondition("deployunitname = '" + macdepunit.getDeployunitname() + "'");
-        if(macdepunitService.ifexist(con)>0)
-        {
-            return ResultGenerator.genFailedResult("环境上已经存在此发布单元或者组件");
-        }
-        else
-        {
-            macdepunitService.save(macdepunit);
-            return ResultGenerator.genOkResult();
+        Condition assemcon = new Condition(Macdepunit.class);
+        assemcon.createCriteria().andCondition("envid = " + macdepunit.getEnvid()).andCondition("assembleid = " + macdepunit.getAssembleid());
+        if (macdepunitService.ifexist(assemcon) > 0) {
+            return ResultGenerator.genFailedResult("此环境已经存在此发布单元或者组件");
+        } else {
+            Condition depcon = new Condition(Macdepunit.class);
+            depcon.createCriteria().andCondition("envid = " + macdepunit.getEnvid()).andCondition("depunitid = " + macdepunit.getDepunitid());
+            if (macdepunitService.ifexist(depcon) > 0) {
+                return ResultGenerator.genFailedResult("此环境已经存在此发布单元或者组件");
+            } else {
+                macdepunitService.save(macdepunit);
+                return ResultGenerator.genOkResult();
+            }
         }
 
     }
@@ -62,8 +65,7 @@ public class MacdepunitController {
     }
 
     @GetMapping
-    public Result list(@RequestParam(defaultValue = "0") Integer page,
-                       @RequestParam(defaultValue = "0") Integer size) {
+    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
         List<Macdepunit> list = macdepunitService.listAll();
         PageInfo<Macdepunit> pageInfo = PageInfo.of(list);
@@ -75,15 +77,22 @@ public class MacdepunitController {
      */
     @PutMapping("/detail")
     public Result updateDeploy(@RequestBody final Macdepunit macdepunit) {
-        Condition con=new Condition(Macdepunit.class);
-        con.createCriteria().andCondition("enviromentname = '" + macdepunit.getEnviromentname() + "'").andCondition("deployunitname = '" + macdepunit.getDeployunitname() + "'").andCondition("id <> " + macdepunit.getId());
-        if(macdepunitService.ifexist(con)>0)
-        {
-            return ResultGenerator.genFailedResult("环境上已经存在此发布单元或者组件");
-        }
-        else {
-            this.macdepunitService.updateMacAndDep(macdepunit);
-            return ResultGenerator.genOkResult();
+
+        Condition assemcon = new Condition(Macdepunit.class);
+        assemcon.createCriteria().andCondition("envid = " + macdepunit.getEnvid()).andCondition("assembleid = " + macdepunit.getAssembleid())
+                .andCondition("id <> " + macdepunit.getId());
+        if (macdepunitService.ifexist(assemcon) > 0) {
+            return ResultGenerator.genFailedResult("此环境已经存在此发布单元或者组件");
+        } else {
+            Condition con = new Condition(Macdepunit.class);
+            con.createCriteria().andCondition("envid = " + macdepunit.getEnvid()).andCondition("depunitid = " + macdepunit.getDepunitid())
+                    .andCondition("id <> " + macdepunit.getId());
+            if (macdepunitService.ifexist(con) > 0) {
+                return ResultGenerator.genFailedResult("此环境已经存在此发布单元或者组件");
+            } else {
+                this.macdepunitService.updateMacAndDep(macdepunit);
+                return ResultGenerator.genOkResult();
+            }
         }
     }
 
@@ -92,10 +101,10 @@ public class MacdepunitController {
      */
     @PostMapping("/search")
     public Result search(@RequestBody final Map<String, Object> param) {
-        Integer page= Integer.parseInt(param.get("page").toString());
-        Integer size= Integer.parseInt(param.get("size").toString());
+        int page = Integer.parseInt(param.get("page").toString());
+        int size = Integer.parseInt(param.get("size").toString());
         PageHelper.startPage(page, size);
-        final List<Macdepunit> list = this.macdepunitService.findMacAndDepWithName(param);
+        final List<Macdepunit> list = this.macdepunitService.findMacAndDepWithid(param);
         final PageInfo<Macdepunit> pageInfo = new PageInfo<>(list);
         return ResultGenerator.genOkResult(pageInfo);
     }

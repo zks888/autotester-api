@@ -20,11 +20,20 @@
         </el-form-item>
 
         <span v-if="hasPermission('macdepunit:search')">
-          <el-form-item>
-            <el-input clearable v-model="search.enviromentname" @keyup.enter.native="searchBy" placeholder="测试环境名"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input clearable v-model="search.deployunitname" @keyup.enter.native="searchBy" placeholder="发布单元,组件名"></el-input>
+          <el-form-item label="测试环境" prop="enviromentname"  >
+          <el-select v-model="search.enviromentname"   placeholder="测试环境名" style="width:100%" @change="selectChangedEN($event)">
+            <div v-for="(envname, index) in enviromentnameList" :key="index">
+              <el-option :label="envname.enviromentname" :value="envname.enviromentname" required/>
+            </div>
+          </el-select>
+        </el-form-item>
+
+           <el-form-item label="发布单元" prop="deployunitname"  >
+            <el-select v-model="search.deployunitname"  placeholder="发布单元" style="width:100%" @change="selectChangedDU($event)">
+              <div v-for="(depunit, index) in deployUnitList" :key="index">
+                <el-option :label="depunit.deployunitname" :value="depunit.deployunitname" required/>
+              </div>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="searchBy"  :loading="btnLoading">查询</el-button>
@@ -218,6 +227,8 @@
     data() {
       return {
         itemKey: null,
+        tmpenviromentid: '',
+        tmpdeployunitid: '',
         tmpenviromentname: '',
         tmpdeployunitname: '',
         assembleList: [], // 环境组件列表
@@ -233,9 +244,9 @@
         domianVisible: false,
         dialogFormVisible: false,
         textMap: {
-          updateRole: '修改环境服务器发布单元,组件',
-          update: '修改环境服务器发布单元,组件',
-          add: '添加环境服务器发布单元,组件'
+          updateRole: '修改部署发布单元,组件',
+          update: '修改部署发布单元,组件',
+          add: '部署发布单元,组件'
         },
         btnLoading: false, // 按钮等待动画
         tmpmacdepunit: {
@@ -255,6 +266,8 @@
         search: {
           page: 1,
           size: 10,
+          depunitid: null,
+          envid: null,
           enviromentname: null,
           deployunitname: null
         }
@@ -314,8 +327,8 @@
         for (let i = 0; i < this.enviromentnameList.length; i++) {
           if (this.enviromentnameList[i].enviromentname === e) {
             this.tmpmacdepunit.envid = this.enviromentnameList[i].id
+            this.search.envid = this.enviromentnameList[i].id
           }
-          console.log(this.enviromentnameList[i].id)
         }
       },
 
@@ -338,6 +351,7 @@
         for (let i = 0; i < this.deployUnitList.length; i++) {
           if (this.deployUnitList[i].deployunitname === e) {
             this.tmpmacdepunit.depunitid = this.deployUnitList[i].id
+            this.search.depunitid = this.deployUnitList[i].id
           }
         }
         this.tmpmacdepunit.assembleid = ''
@@ -360,6 +374,8 @@
        */
       getmacdepunitList() {
         this.listLoading = true
+        this.search.envid = this.tmpenviromentid
+        this.search.depunitid = this.tmpdeployunitid
         this.search.enviromentname = this.tmpenviromentname
         this.search.deployunitname = this.tmpdeployunitname
         search(this.search).then(response => {
@@ -426,6 +442,8 @@
         }).catch(res => {
           this.$message.error('搜索失败')
         })
+        this.tmpenviromentid = this.search.envid
+        this.tmpdeployunitid = this.search.depunitid
         this.tmpenviromentname = this.search.enviromentname
         this.tmpdeployunitname = this.search.deployunitname
         this.listLoading = false

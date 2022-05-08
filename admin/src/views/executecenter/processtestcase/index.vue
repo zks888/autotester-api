@@ -7,36 +7,29 @@
             type="success"
             size="mini"
             icon="el-icon-refresh"
-            v-if="hasPermission('executeplan:list')"
-            @click.native.prevent="getexecuteplancaseList"
+            v-if="hasPermission('processtestcase:list')"
+            @click.native.prevent="getprocesstestcasecaseList"
           >刷新</el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-plus"
-            v-if="hasPermission('executeplan:add')"
-            @click.native.prevent="showAddexecuteplanDialog"
-          >测试集合</el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-plus"
-            v-if="hasPermission('executeplan:list')"
+            v-if="hasPermission('processtestcase:list')"
             @click.native.prevent="showTestCaseDialog"
-          >集合用例</el-button>
+          >装载用例</el-button>
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('executeplan:list')"
+            v-if="hasPermission('processtestcase:list')"
             @click.native.prevent="DeleteBatchPlanTestCase"
-          >批量删除</el-button>
+          >取消装载</el-button>
         </el-form-item>
-        <span v-if="hasPermission('executeplan:search')">
-          <el-form-item  prop="executeplanname" >
-          <el-select v-model="search.executeplanname" placeholder="测试集合" @change="loadtestplanselectChanged($event)">
+        <span v-if="hasPermission('processtestcase:search')">
+          <el-form-item  prop="processtestcasename" >
+          <el-select v-model="search.processtestcasename" placeholder="测试集合" @change="loadtestplanselectChanged($event)">
               <el-option label="请选择" value="" />
             <div v-for="(testplan, index) in execplanList" :key="index">
-              <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
+              <el-option :label="testplan.processtestcasename" :value="testplan.processtestcasename" />
             </div>
           </el-select>
         </el-form-item>
@@ -67,8 +60,9 @@
     </div>
     <el-table
       ref="fileTable"
-      :data="executeplancaseList"
+      :data="processtestcasecaseList"
       :key="itemplanKey"
+      @row-click="handleClickTableRow"
       @selection-change="handleSelectionChange"
       v-loading.body="listLoading"
       element-loading-text="loading"
@@ -85,27 +79,27 @@
           <span v-text="getIndex(scope.$index)"></span>
         </template>
       </el-table-column>
-      <el-table-column label="测试集合名" align="center" prop="executeplanname" width="140"/>
-      <el-table-column label="发布单元" align="center" prop="deployunitname" width="140"/>
-      <el-table-column label="用例名" align="center" prop="casename" width="140"/>
-      <el-table-column label="API" align="center" prop="apiname" width="140"/>
+      <el-table-column label="测试集合名" align="center" prop="processtestcasename" width="150"/>
+      <el-table-column label="发布单元" align="center" prop="deployunitname" width="150"/>
+      <el-table-column label="用例名" align="center" prop="casename" width="150"/>
+      <el-table-column label="API" align="center" prop="apiname" width="150"/>
       <el-table-column label="操作人" align="center" prop="creator" width="80"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="140">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="160">
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.createTime) }}</template>
       </el-table-column>
-      <el-table-column label="最后修改时间" align="center" prop="lastmodifyTime" width="140">
+      <el-table-column label="最后修改时间" align="center" prop="lastmodifyTime" width="160">
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.lastmodifyTime) }}
         </template>
       </el-table-column>
 
       <el-table-column label="管理" align="center"
-                       v-if="hasPermission('executeplan:update')  || hasPermission('executeplan:delete')">
+                       v-if="hasPermission('processtestcase:update')  || hasPermission('processtestcase:delete')">
         <template slot-scope="scope">
           <el-button
             type="danger"
             size="mini"
-            v-if="hasPermission('executeplan:delete')"
-            @click.native.prevent="removeexecuteplantestcase(scope.$index)"
+            v-if="hasPermission('processtestcase:delete') && scope.row.id !== id"
+            @click.native.prevent="removeprocesstestcase(scope.$index)"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -123,18 +117,18 @@
       <div class="filter-container" >
         <el-form :inline="true" :model="searchcase" ref="searchcase" >
 
-          <el-form-item label="测试集合:"  prop="executeplanname" required>
-            <el-select v-model="searchcase.executeplanname" placeholder="测试集合" @change="testplanselectChanged($event)">
-              <el-option label="请选择" value="" />
+          <el-form-item label="测试集合:"  prop="processtestcasename" required>
+            <el-select v-model="searchcase.processtestcasename" placeholder="测试集合" @change="testplanselectChanged($event)">
+              <el-option label="请选择" value />
               <div v-for="(testplan, index) in execplanList" :key="index">
-                <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
+                <el-option :label="testplan.processtestcasename" :value="testplan.processtestcasename" />
               </div>
             </el-select>
           </el-form-item>
 
           <el-form-item label="发布单元:" prop="deployunitname" required>
             <el-select v-model="searchcase.deployunitname" placeholder="发布单元" @change="deployunitselectChanged($event)">
-              <el-option label="请选择" value="" />
+              <el-option label="请选择" value />
               <div v-for="(depname, index) in deployunitList" :key="index">
                 <el-option :label="depname.deployunitname" :value="depname.deployunitname" />
               </div>
@@ -142,7 +136,7 @@
           </el-form-item>
           <el-form-item label="API:">
             <el-select v-model="searchcase.apiname" placeholder="api名" @change="ApiselectChanged($event)">
-              <el-option label="请选择" value="" />
+              <el-option label="请选择" value />
               <div v-for="(api, index) in apiList" :key="index">
                 <el-option :label="api.apiname" :value="api.apiname"/>
               </div>
@@ -194,91 +188,18 @@
         <el-button
           type="success"
           :loading="btnLoading"
-          @click.native.prevent="addexecuteplantestcase"
+          @click.native.prevent="addprocesstestcase"
         >装载</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="execplandialogFormVisible">
-      <el-form
-        status-icon
-        class="small-space"
-        label-position="left"
-        label-width="120px"
-        style="width: 400px; margin-left:50px;"
-        :model="tmpexecuteplan"
-        ref="tmpexecuteplan"
-      >
-        <el-form-item label="集合名" prop="executeplanname" required>
-          <el-input
-            type="text"
-            maxlength="50"
-            prefix-icon="el-icon-edit"
-            auto-complete="off"
-            v-model.trim="tmpexecuteplan.executeplanname"
-          />
-        </el-form-item>
-        <el-form-item label="类型" prop="usetype" required>
-          <el-select v-model="tmpexecuteplan.usetype" placeholder="类型" style="width:100%">
-            <el-option label="功能" value="功能" />
-            <el-option label="性能" value="性能" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="执行环境" prop="enviromentname"  required>
-          <el-select v-model="tmpexecuteplan.enviromentname" placeholder="执行环境" style="width:100%" @change="enviromentselectChanged($event)">
-            <el-option label="请选择" value="''" style="display: none" />
-            <div v-for="(envname, index) in enviromentnameList" :key="index">
-              <el-option :label="envname.enviromentname" :value="envname.enviromentname" required/>
-            </div>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="业务类型" prop="businesstype"  required>
-          <el-select v-model="tmpexecuteplan.businesstype" placeholder="业务类型" style="width:100%">
-            <el-option label="请选择" value="''" style="display: none" />
-            <div v-for="(dicitem, index) in planbusinessdiclist" :key="index">
-              <el-option :label="dicitem.dicitmevalue" :value="dicitem.dicitmevalue" required/>
-            </div>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="运行模式" prop="runmode" required>
-          <el-select v-model="tmpexecuteplan.runmode" placeholder="运行模式" style="width:100%">
-            <el-option label="单机运行" value="单机运行" />
-            <el-option label="多机并行" value="多机并行" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="备注" prop="memo">
-          <el-input
-            maxlength="200"
-            type="text"
-            prefix-icon="el-icon-message"
-            auto-complete="off"
-            v-model="tmpexecuteplan.memo"
-          />
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native.prevent="execplandialogFormVisible = false">取消</el-button>
-        <el-button
-          type="success"
-          v-if="dialogStatus === 'addexecuteplan'"
-          :loading="btnLoading"
-          @click.native.prevent="addexecuteplan"
-        >保存
-        </el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
-  import { searchleftcase, getapicasesList } from '@/api/assets/apicases'
-  import { getapiListbydeploy } from '@/api/deployunit/api'
-  import { getdepunitLists } from '@/api/deployunit/depunit'
-  import { search as searchtestplancases, addexecuteplantestcase, removebatchexecuteplantestcase, removeexecuteplantestcase } from '@/api/executecenter/executeplantestcase'
-  import { getallexplan, addexecuteplan } from '@/api/executecenter/executeplan'
-  import { getenviromentallList } from '@/api/enviroment/testenviroment'
-  import { getdatabydiccodeList } from '@/api/system/dictionary'
+  import { searchleftcase } from '@/api/assets/apicases'
+  import { getapiListbydeploy as getapiListbydeploy } from '@/api/deployunit/api'
+  import { getdepunitLists as getdepunitLists } from '@/api/deployunit/depunit'
+  import { search as searchtestplancases, addprocesstestcase, removebatchprocesstestcase, removeprocesstestcase } from '@/api/executecenter/processtestcase'
+  import { getallexplan } from '@/api/executecenter/executeplan'
   import { unix2CurrentTime } from '@/utils'
   import { mapGetters } from 'vuex'
 
@@ -295,17 +216,16 @@
     },
     data() {
       return {
-        show: false,
         itemplanKey: null,
         itemcaseKey: null,
         tmpplancasedeployunitname: null,
-        tmpplancaseexecuteplanname: null,
+        tmpplancaseprocesstestcasename: null,
         tmpplancaseapiname: null,
         tmpcasecasetype: null,
         tmpcasedeployunitname: null,
         tmpcaseapiname: null,
-        tmpexecuteplanid: null,
-        tmploadexecuteplanid: null,
+        tmpprocesstestcaseid: null,
+        tmploadprocesstestcaseid: null,
         tmpdeployunitid: null,
         tmploaddeployunitid: null,
         tmploadapiid: null,
@@ -317,12 +237,10 @@
         loaddeployunitList: [], // 发布单元列表
         multipleSelection: [], // 首页装载表格被选中的内容
         casemultipleSelection: [], // 查询用例表格被选中的内容
-        executeplancaseList: [], // 首页测试集合用例列表
-        executeplancaseremovetList: [], // 查询执行计划需要删除存在的用例列表
+        processtestcasecaseList: [], // 首页测试集合用例列表
+        processtestcasecaseremovetList: [], // 查询执行计划需要删除存在的用例列表
         testcaseList: [], // 装载用例列表
         testcaselastList: [], // 显示希望装载的用例列表
-        enviromentnameList: [], // 测试环境列表
-        planbusinessdiclist: [], // 执行计划字典表业务类型列表
         listLoading: false, // 数据加载等待动画
         caselistLoading: false, // 用例列表页面数据加载等待动画
         total: 0, // 数据总数
@@ -333,56 +251,27 @@
           deployunitid: '',
           deployunitname: '' // 获取字典表入参
         },
-        diclevelQuery: {
-          page: 1, // 页码
-          size: 100, // 每页数量
-          diccode: 'planbusinesstype' // 获取字典表入参
-        },
         dialogStatus: 'add',
         dialogFormVisible: false,
-        execplandialogFormVisible: false,
         casedialogFormVisible: false,
-        loadcase: '集合用例',
+        loadcase: '装载用例',
         btnLoading: false, // 按钮等待动画
         casebtnLoading: false, // 按钮等待动画
-        textMap: {
-          updateRole: '修改测试集合',
-          update: '修改测试集合',
-          addexecuteplan: '添加测试集合'
-        },
-        paramstextMap: {
-          updateRole: '修改参数',
-          update: '修改参数',
-          add: '添加参数'
-        },
-        tmpexecuteplan: {
-          id: '',
-          executeplanname: '',
-          enviromentname: '',
-          envid: '',
-          status: '',
-          usetype: '',
-          businesstype: '',
-          ip: '',
-          memo: '',
-          creator: '',
-          runmode: ''
-        },
         search: {
           page: 1,
           size: 10,
-          executeplanid: null,
+          processtestcaseid: null,
           deployunitid: null,
           apiid: null,
-          executeplanname: null,
+          processtestcasename: null,
           deployunitname: null,
           apiname: null
         },
         searchcase: {
           page: 1,
           size: 10,
-          executeplanid: null,
-          executeplanname: null,
+          processtestcaseid: null,
+          processtestcasename: null,
           deployunitid: null,
           deployunitname: null,
           apiid: null,
@@ -399,7 +288,7 @@
     created() {
       this.getexecplanList()
       this.getloadexecplanList()
-      this.getexecuteplancaseList()
+      this.getprocesstestcasecaseList()
       this.getdepunitLists()
       this.getloaddepunitLists()
       this.getenviromentallList()
@@ -408,28 +297,6 @@
 
     methods: {
       unix2CurrentTime,
-
-      /**
-       * 获取组件名字典列表
-       */
-      getdatabydiccodeList() {
-        getdatabydiccodeList(this.diclevelQuery).then(response => {
-          this.planbusinessdiclist = response.data.list
-        }).catch(res => {
-          this.$message.error('加载组件名字典列表失败')
-        })
-      },
-
-      /**
-       * 获取环境列表
-       */
-      getenviromentallList() {
-        getenviromentallList().then(response => {
-          this.enviromentnameList = response.data
-        }).catch(res => {
-          this.$message.error('加载环境列表失败')
-        })
-      },
 
       handleSelectionChange(rows) {
         // console.log(rows)
@@ -470,59 +337,15 @@
       },
 
       /**
-       * 显示添加执行计划对话框
-       */
-      showAddexecuteplanDialog() {
-        // 显示新增对话框
-        this.execplandialogFormVisible = true
-        this.dialogStatus = 'addexecuteplan'
-        this.tmpexecuteplan.id = ''
-        this.tmpexecuteplan.executeplanname = ''
-        this.tmpexecuteplan.status = 'new'
-        this.tmpexecuteplan.memo = ''
-        this.tmpexecuteplan.usetype = ''
-        this.tmpexecuteplan.enviromentname = ''
-        this.tmpexecuteplan.businesstype = ''
-        this.tmpexecuteplan.creator = this.name
-        this.tmpexecuteplan.runmode = ''
-      },
-
-      /**
-       * 获取用例列表
-       */
-      getcaseList() {
-        this.caselistLoading = true
-        getapicasesList(this.listQuery).then(response => {
-          this.apicasesList = response.data.list
-          // this.casetotal = response.data.total
-          this.caselistLoading = false
-        }).catch(res => {
-          this.$message.error('加载用例列表失败')
-        })
-      },
-
-      /**
-       * 环境下拉框活的环境id
-       */
-      enviromentselectChanged(e) {
-        for (let i = 0; i < this.enviromentnameList.length; i++) {
-          if (this.enviromentnameList[i].enviromentname === e) {
-            this.tmpexecuteplan.envid = this.enviromentnameList[i].id
-          }
-          console.log(this.enviromentnameList[i].id)
-        }
-      },
-
-      /**
        * 获取测试集合用例列表
        */
-      getexecuteplancaseList() {
-        this.search.executeplanid = this.tmploadexecuteplanid
+      getprocesstestcasecaseList() {
+        this.search.processtestcaseid = this.tmploadprocesstestcaseid
         this.search.deployunitid = this.tmploaddeployunitid
         this.search.apiid = this.tmploadapiid
         this.listLoading = true
         searchtestplancases(this.search).then(response => {
-          this.executeplancaseList = response.data.list
+          this.processtestcasecaseList = response.data.list
           this.total = response.data.total
           this.listLoading = false
         }).catch(res => {
@@ -530,36 +353,16 @@
         })
       },
 
-      /**
-       * 添加执行计划
-       */
-      addexecuteplan() {
-        this.$refs.tmpexecuteplan.validate(valid => {
-          if (valid) {
-            this.btnLoading = true
-            addexecuteplan(this.tmpexecuteplan).then(() => {
-              this.$message.success('添加成功')
-              this.getexecplanList()
-              this.execplandialogFormVisible = false
-              this.btnLoading = false
-            }).catch(res => {
-              this.$message.error('添加失败')
-              this.btnLoading = false
-            })
-          }
-        })
-      },
-
       searchBy() {
         this.search.page = 1
-        this.search.executeplanid = this.tmploadexecuteplanid
+        this.search.processtestcaseid = this.tmploadprocesstestcaseid
         this.search.deployunitid = this.tmploaddeployunitid
         this.search.apiid = this.tmploadapiid
         this.listLoading = true
         console.log(this.search)
         searchtestplancases(this.search).then(response => {
           this.itemKey = Math.random()
-          this.executeplancaseList = response.data.list
+          this.processtestcasecaseList = response.data.list
           this.total = response.data.total
         }).catch(res => {
           this.$message.error('搜索失败')
@@ -575,7 +378,7 @@
       handleSizeChange(size) {
         this.search.page = 1
         this.search.size = size
-        this.getexecuteplancaseList()
+        this.getprocesstestcasecaseList()
       },
       /**
        * 改变页码
@@ -583,7 +386,7 @@
        */
       handleCurrentChange(page) {
         this.search.page = page
-        this.getexecuteplancaseList()
+        this.getprocesstestcasecaseList()
       },
       /**
        * 表格序号
@@ -600,12 +403,12 @@
        * 计划下拉选择事件获取发布单元id  e的值为options的选值
        */
       testplanselectChanged(e) {
-        this.tmpexecuteplanid = null
+        this.tmpprocesstestcaseid = null
         this.tmpcasecasetype = null
         console.log(this.execplanList)
         for (let i = 0; i < this.execplanList.length; i++) {
-          if (this.execplanList[i].executeplanname === e) {
-            this.tmpexecuteplanid = this.execplanList[i].id
+          if (this.execplanList[i].processtestcasename === e) {
+            this.tmpprocesstestcaseid = this.execplanList[i].id
             this.tmpcasecasetype = this.execplanList[i].usetype
             console.log('1111111111111111111111')
             console.log(this.tmpcasecasetype)
@@ -621,11 +424,11 @@
         this.tmploaddeployunitid = null
         this.search.apiname = null
         this.search.deployunitname = null
-        this.tmploadexecuteplanid = null
+        this.tmploadprocesstestcaseid = null
         for (let i = 0; i < this.loadexecplanList.length; i++) {
-          if (this.loadexecplanList[i].executeplanname === e) {
-            this.tmploadexecuteplanid = this.loadexecplanList[i].id
-            console.log(this.tmploadexecuteplanid)
+          if (this.loadexecplanList[i].processtestcasename === e) {
+            this.tmploadprocesstestcaseid = this.loadexecplanList[i].id
+            console.log(this.tmploadprocesstestcaseid)
           }
         }
       },
@@ -725,7 +528,7 @@
        */
       getapicasesList() {
         this.caselistLoading = true
-        this.searchcase.executeplanid = this.tmpexecuteplanid
+        this.searchcase.processtestcaseid = this.tmpprocesstestcaseid
         this.searchcase.deployunitid = this.tmpdeployunitid
         this.searchcase.apiid = this.tmpapiid
         this.searchcase.casetype = this.tmpcasecasetype
@@ -743,7 +546,7 @@
        */
       searchcaseBy() {
         this.searchcase.page = 1
-        this.searchcase.executeplanid = this.tmpexecuteplanid
+        this.searchcase.processtestcaseid = this.tmpprocesstestcaseid
         this.searchcase.deployunitid = this.tmpdeployunitid
         this.searchcase.apiid = this.tmpapiid
         this.searchcase.casetype = this.tmpcasecasetype
@@ -794,28 +597,28 @@
        * 显示修改测试集合对话框
        * @param index 测试集合下标
        */
-      showUpdateexecuteplanDialog(index) {
+      showUpdateprocesstestcaseDialog(index) {
         this.dialogFormVisible = true
         this.dialogStatus = 'update'
-        this.tmpexecuteplan.id = this.executeplancaseList[index].id
-        this.tmpexecuteplan.executeplanname = this.executeplancaseList[index].executeplanname
-        this.tmpexecuteplan.status = this.executeplancaseList[index].status
-        this.tmpexecuteplan.usetype = this.executeplancaseList[index].usetype
-        this.tmpexecuteplan.memo = this.executeplancaseList[index].memo
-        this.tmpexecuteplan.enviromentname = this.executeplancaseList[index].enviromentname
-        this.tmpexecuteplan.businesstype = this.executeplancaseList[index].businesstype
-        this.tmpexecuteplan.creator = this.name
-        this.tmpexecuteplan.runmode = this.executeplancaseList[index].runmode
-        console.log(this.tmpexecuteplan.runmode)
-        if (this.tmpexecuteplan.usetype === '性能') {
+        this.tmpprocesstestcase.id = this.processtestcasecaseList[index].id
+        this.tmpprocesstestcase.processtestcasename = this.processtestcasecaseList[index].processtestcasename
+        this.tmpprocesstestcase.status = this.processtestcasecaseList[index].status
+        this.tmpprocesstestcase.usetype = this.processtestcasecaseList[index].usetype
+        this.tmpprocesstestcase.memo = this.processtestcasecaseList[index].memo
+        this.tmpprocesstestcase.enviromentname = this.processtestcasecaseList[index].enviromentname
+        this.tmpprocesstestcase.businesstype = this.processtestcasecaseList[index].businesstype
+        this.tmpprocesstestcase.creator = this.name
+        this.tmpprocesstestcase.runmode = this.processtestcasecaseList[index].runmode
+        console.log(this.tmpprocesstestcase.runmode)
+        if (this.tmpprocesstestcase.usetype === '性能') {
           this.PerformanceVisible = true
         } else {
           this.PerformanceVisible = false
-          this.tmpexecuteplan.runmode = '多机执行'
+          this.tmpprocesstestcase.runmode = '多机执行'
         }
         for (let i = 0; i < this.enviromentnameList.length; i++) {
-          if (this.enviromentnameList[i].enviromentname === this.tmpexecuteplan.enviromentname) {
-            this.tmpexecuteplan.envid = this.enviromentnameList[i].id
+          if (this.enviromentnameList[i].enviromentname === this.tmpprocesstestcase.enviromentname) {
+            this.tmpprocesstestcase.envid = this.enviromentnameList[i].id
           }
         }
       },
@@ -823,14 +626,14 @@
       /**
        * 装载测试集合的用例
        */
-      addexecuteplantestcase() {
+      addprocesstestcase() {
         this.testcaseList = []
         if (this.casemultipleSelection.length === 0) {
           this.$message.error('请选择装载的用例')
         } else {
           for (let i = 0; i < this.casemultipleSelection.length; i++) {
             this.testcaseList.push({
-              'executeplanid': this.tmpexecuteplanid,
+              'processtestcaseid': this.tmpprocesstestcaseid,
               'deployunitid': this.casemultipleSelection[i].deployunitid,
               'apiid': this.casemultipleSelection[i].apiid,
               'deployunitname': this.casemultipleSelection[i].deployunitname,
@@ -840,9 +643,9 @@
               'creator': this.name
             })
           }
-          addexecuteplantestcase(this.testcaseList).then(() => {
+          addprocesstestcase(this.testcaseList).then(() => {
             this.casedialogFormVisible = false
-            this.getexecuteplancaseList()
+            this.getprocesstestcasecaseList()
             this.$message.success('装载成功')
           }).catch(res => {
             this.$message.error('装载失败')
@@ -853,8 +656,8 @@
       /**
        * 批量删除装载的用例
        */
-      removebatchexecuteplantestcase() {
-        this.executeplancaseremovetList = []
+      removebatchprocesstestcase() {
+        this.processtestcasecaseremovetList = []
         if (this.testcaselastList.length === this.casemultipleSelection.length) {
           this.$message.error('未找到需要取消装载的用例')
         } else {
@@ -869,8 +672,8 @@
             // 表示未选中的记录，需要删除
             this.testcaselastList[i].id
             if (!findflag) {
-              this.executeplancaseremovetList.push({
-                'executeplanid': this.tmpexecuteplan.id,
+              this.processtestcasecaseremovetList.push({
+                'processtestcaseid': this.tmpprocesstestcase.id,
                 'deployunitname': this.testcaselastList[i].deployunitname,
                 'apiname': this.testcaselastList[i].apiname,
                 'testcaseid': this.testcaselastList[i].id,
@@ -878,8 +681,8 @@
               })
             }
           }
-          console.log(this.executeplancaseremovetList)
-          removebatchexecuteplantestcase(this.executeplancaseremovetList).then(() => {
+          console.log(this.processtestcasecaseremovetList)
+          removebatchprocesstestcase(this.processtestcasecaseremovetList).then(() => {
             this.$message.success('取消装载用例成功')
           }).catch(res => {
             this.$message.error('取消装载用例失败')
@@ -893,7 +696,7 @@
       showTestCaseDialog() {
         this.casedialogFormVisible = true
         this.dialogStatus = 'add'
-        this.searchcase.executeplanname = null
+        this.searchcase.processtestcasename = null
         this.searchcase.deployunitname = null
         this.searchcase.apiname = null
         this.testcaselastList = []
@@ -903,16 +706,16 @@
        * 删除用例
        * @param index 测试集合下标
        */
-      removeexecuteplantestcase(index) {
+      removeprocesstestcase(index) {
         this.$confirm('删除该测试集合用例？', '警告', {
           confirmButtonText: '是',
           cancelButtonText: '否',
           type: 'warning'
         }).then(() => {
-          const id = this.executeplancaseList[index].id
-          removeexecuteplantestcase(id).then(() => {
+          const id = this.processtestcasecaseList[index].id
+          removeprocesstestcase(id).then(() => {
             this.$message.success('删除成功')
-            this.getexecuteplancaseList()
+            this.getprocesstestcasecaseList()
           })
         }).catch(() => {
           this.$message.info('已取消删除')
@@ -930,20 +733,20 @@
           if (this.multipleSelection.length === 0) {
             this.$message.error('请选择需要取消的用例')
           } else {
-            this.executeplancaseremovetList = []
+            this.processtestcasecaseremovetList = []
             console.log(this.multipleSelection)
             for (let i = 0; i < this.multipleSelection.length; i++) {
-              this.executeplancaseremovetList.push({
-                'executeplanid': this.multipleSelection[i].executeplanid,
+              this.processtestcasecaseremovetList.push({
+                'processtestcaseid': this.multipleSelection[i].processtestcaseid,
                 'deployunitname': this.multipleSelection[i].deployunitname,
                 'apiname': this.multipleSelection[i].apiname,
                 'testcaseid': this.multipleSelection[i].testcaseid,
                 'casename': this.multipleSelection[i].casename
               })
             }
-            removebatchexecuteplantestcase(this.executeplancaseremovetList).then(() => {
+            removebatchprocesstestcase(this.processtestcasecaseremovetList).then(() => {
               this.$message.success('取消装载用例成功')
-              this.getexecuteplancaseList()
+              this.getprocesstestcasecaseList()
             }).catch(res => {
               this.$message.error('取消装载用例失败')
             })

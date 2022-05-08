@@ -16,13 +16,6 @@
             v-if="hasPermission('executeplan:list')"
             @click.native.prevent="showplanbatchDialog"
           >运行</el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-plus"
-            v-if="hasPermission('executeplan:add')"
-            @click.native.prevent="showAddexecuteplanDialog"
-          >添加测试集合</el-button>
         </el-form-item>
 
         <span v-if="hasPermission('executeplan:search')">
@@ -32,7 +25,7 @@
 
           <el-form-item>
             <el-select v-model="search.businesstype" placeholder="业务类型">
-              <el-option label="请选择" value />
+              <el-option label="请选择" value="" />
               <div v-for="(businessdicitem, index) in planbusinessdiclist" :key="index">
                 <el-option :label="businessdicitem.dicitmevalue" :value="businessdicitem.dicitmevalue"/>
               </div>
@@ -66,7 +59,7 @@
           <span v-text="getIndex(scope.$index)"></span>
         </template>
       </el-table-column>
-      <el-table-column label="集合名" align="center" prop="executeplanname" width="160"/>
+      <el-table-column label="集合名" align="center" prop="executeplanname" width="100"/>
       <el-table-column label="envid" align="center" v-if="show" prop="envid" width="50"/>
       <el-table-column label="状态" align="center" prop="status" v-if="show" width="50"/>
       <el-table-column label="业务类型" align="center" prop="businesstype" width="100"/>
@@ -82,8 +75,7 @@
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.lastmodifyTime) }}
         </template>
       </el-table-column>
-
-      <el-table-column label="管理" align="center"
+      <el-table-column label="管理" align="center" width="150"
                        v-if="hasPermission('executeplan:update')  || hasPermission('executeplan:delete')">
         <template slot-scope="scope">
           <el-button
@@ -179,13 +171,6 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click.native.prevent="dialogFormVisible = false">取消</el-button>
-        <el-button
-          type="success"
-          v-if="dialogStatus === 'add'"
-          :loading="btnLoading"
-          @click.native.prevent="addexecuteplan"
-        >保存
-        </el-button>
         <el-button
           type="success"
           v-if="dialogStatus === 'update'"
@@ -436,8 +421,6 @@
         >修改</el-button>
       </div>
     </el-dialog>
-
-
   </div>
 </template>
 <script>
@@ -449,10 +432,10 @@
   import { getdepunitList as getdepunitList } from '@/api/deployunit/depunit'
   import { addexecuteplanbatch as addexecuteplanbatch } from '@/api/executecenter/executeplanbatch'
   import { searchcases as searchtestplancases, addexecuteplantestcase, removeexecuteplantestcase } from '@/api/executecenter/executeplantestcase'
-  import { checkplancondition as checkplancondition, search, addexecuteplan, updateexecuteplan, removeexecuteplan, executeplan, updateexecuteplanstatus } from '@/api/executecenter/executeplan'
+  import { checkplancondition, search, addexecuteplan, updateexecuteplan, removeexecuteplan, executeplan, updateexecuteplanstatus } from '@/api/executecenter/executeplan'
   import { unix2CurrentTime } from '@/utils'
-  import { getenviromentallList as getenviromentallList } from '@/api/enviroment/testenviroment'
-  import { getdatabydiccodeList as getdatabydiccodeList } from '@/api/system/dictionary'
+  import { getenviromentallList } from '@/api/enviroment/testenviroment'
+  import { getdatabydiccodeList } from '@/api/system/dictionary'
   import { searchparamsbyepid, addexecuteplanparam, updateexecuteplanparams, removeexecuteplanparam } from '@/api/executecenter/executeplanparam'
 
   import { mapGetters } from 'vuex'
@@ -715,14 +698,6 @@
           }
         })
       },
-      /**
-       * 添加执行计划批次并且执行计划用例
-       */
-      // savebatchandexecuteplancase() {
-      // this.addexecuteplanbatch()
-      // this.executeplancase()
-      // this.batchdialogFormVisible = false
-      // },
       /**
        * 执行执行计划
        */
@@ -1142,25 +1117,6 @@
             })
           }
         }
-      },
-      /**
-       * 添加执行计划
-       */
-      addexecuteplan() {
-        this.$refs.tmpexecuteplan.validate(valid => {
-          if (valid) {
-            this.btnLoading = true
-            addexecuteplan(this.tmpexecuteplan).then(() => {
-              this.$message.success('添加成功')
-              this.getexecuteplanList()
-              this.dialogFormVisible = false
-              this.btnLoading = false
-            }).catch(res => {
-              this.$message.error('添加失败')
-              this.btnLoading = false
-            })
-          }
-        })
       },
 
       /**
