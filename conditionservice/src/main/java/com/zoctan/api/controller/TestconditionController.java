@@ -534,11 +534,11 @@ public class TestconditionController {
         testconditionReport.setTestplanid(dispatch.getExecplanid());
         testconditionReport.setPlanname(dispatch.getExecplanname());
         testconditionReport.setBatchname(dispatch.getBatchname());
-        testconditionReport.setConditionid(new Long(ConditionID));
+        testconditionReport.setConditionid(ConditionID);
         testconditionReport.setConditiontype("前置条件");
         testconditionReport.setConditionresult("");
         testconditionReport.setConditionstatus("");
-        testconditionReport.setRuntime(new Long(0));
+        testconditionReport.setRuntime(0L);
         testconditionReport.setSubconditionid(conditionDb.getId());
         testconditionReport.setSubconditionname(conditionDb.getSubconditionname());
         testconditionReport.setSubconditiontype("数据库");
@@ -557,7 +557,7 @@ public class TestconditionController {
         if (enviromentAssemble == null) {
             Respone = "未找到环境组件："+conditionDb.getAssemblename()+"，请检查是否存在或已被删除";
             ConditionResultStatus = "失败";
-            UpdatetestconditionReport(testconditionReport, Respone, ConditionResultStatus, new Long(0), conditionDb.getCreator());
+            UpdatetestconditionReport(testconditionReport, Respone, ConditionResultStatus, 0L, conditionDb.getCreator());
         }
         String AssembleType = enviromentAssemble.getAssembletype();
         Long Envid = conditionDb.getEnviromentid();
@@ -568,20 +568,20 @@ public class TestconditionController {
         if (macdepunit == null) {
             Respone = "未找到环境部署组件："+conditionDb.getAssemblename()+"，请检查是否部署存在或已被删除";
             ConditionResultStatus = "失败";
-            UpdatetestconditionReport(testconditionReport, Respone, ConditionResultStatus, new Long(0), conditionDb.getCreator());
+            UpdatetestconditionReport(testconditionReport, Respone, ConditionResultStatus, 0L, conditionDb.getCreator());
         }
         Machine machine = machineService.getBy("id", macdepunit.getMachineid());
         if (machine == null) {
             Respone = "未找到环境组件部署的服务器："+macdepunit.getMachinename()+" ，请检查是否存在或已被删除";
             ConditionResultStatus = "失败";
-            UpdatetestconditionReport(testconditionReport, Respone, ConditionResultStatus, new Long(0), conditionDb.getCreator());
+            UpdatetestconditionReport(testconditionReport, Respone, ConditionResultStatus, 0L, conditionDb.getCreator());
         }
         String deployunitvisittype = macdepunit.getVisittype();
         String[] ConnetcArray = ConnnectStr.split(",");
         if (ConnetcArray.length < 4) {
             Respone = "数据库连接字填写不规范，请按规则填写 "+ConnnectStr;
             ConditionResultStatus = "失败";
-            UpdatetestconditionReport(testconditionReport, Respone, ConditionResultStatus, new Long(0), conditionDb.getCreator());
+            UpdatetestconditionReport(testconditionReport, Respone, ConditionResultStatus, 0L, conditionDb.getCreator());
         }
         try {
             Start = new Date().getTime();
