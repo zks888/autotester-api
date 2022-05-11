@@ -1,5 +1,6 @@
 package com.zoctan.api.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.zoctan.api.mapper.RouteperformancereportMapper;
 import com.zoctan.api.entity.Routeperformancereport;
 import com.zoctan.api.service.RouteperformancereportService;
@@ -10,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 /**
-* @author zks888
-* @date 2022/04/13
-*/
+ * @author zks888
+ * @date 2022/04/13
+ */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class RouteperformancereportServiceImpl extends AbstractService<Routeperformancereport> implements RouteperformancereportService {
-@Resource
-private RouteperformancereportMapper routeperformancereportMapper;
+    @Resource
+    private RouteperformancereportMapper routeperformancereportMapper;
 
 }

@@ -1,5 +1,6 @@
 <template>
-  <div class="app-wrapper" :class="{ hideSidebar: !sidebar.opened }">
+  <div class="app-wrapper" :class="classObj">
+    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <div class="sidebar-wrapper">
       <sidebar class="sidebar-container" />
     </div>
@@ -24,12 +25,24 @@ export default {
     TagsView
   },
   computed: {
-    sidebar() {
-      return this.$store.state.app.sidebar
-    },
     ...mapState({
-      needTagsView: state => state.settings.tagsViews
-    })
+      needTagsView: state => state.settings.tagsView,
+      sidebar: state => state.app.sidebar,
+      device: state => state.app.device
+    }),
+    classObj() {
+      return {
+        hideSidebar: !this.sidebar.opened,
+        openSidebar: this.sidebar.opened,
+        withoutAnimation: this.sidebar.withoutAnimation,
+        mobile: this.device === 'mobile'
+      }
+    }
+  },
+  methods: {
+    handleClickOutside() {
+      this.$store.dispatch('CloseSideBar', { withoutAnimation: false })
+    }
   }
 }
 </script>
@@ -81,6 +94,15 @@ export default {
     min-height: 100%;
     transition: all 0.28s ease-out;
     margin-left: 180px;
+  }
+  .drawer-bg {
+    background: #000;
+    opacity: 0.3;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
   }
 }
 </style>

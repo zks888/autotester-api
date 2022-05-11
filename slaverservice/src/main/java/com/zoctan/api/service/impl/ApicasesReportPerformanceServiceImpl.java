@@ -1,5 +1,6 @@
 package com.zoctan.api.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.zoctan.api.core.service.AbstractService;
 import com.zoctan.api.entity.ApicasesReportPerformance;
 import com.zoctan.api.mapper.ApicasesReportPerformanceMapper;
@@ -13,14 +14,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @author zks888
-* @date 2020/12/14
-*/
+ * @author zks888
+ * @date 2020/12/14
+ */
 @Service
+@DS("testreport")
 @Transactional(rollbackFor = Exception.class)
 public class ApicasesReportPerformanceServiceImpl extends AbstractService<ApicasesReportPerformance> implements ApicasesReportPerformanceService {
-@Resource
-private ApicasesReportPerformanceMapper apicasesReportPerformanceMapper;
+    @Resource
+    private ApicasesReportPerformanceMapper apicasesReportPerformanceMapper;
 
     @Override
     public List<ApicasesReportPerformance> findApicasereportWithName(Map<String, Object> params) {
@@ -36,6 +38,4 @@ private ApicasesReportPerformanceMapper apicasesReportPerformanceMapper;
     public void adddynamiccaseperformancereport(long caseid, long testplanid, String batchname, long slaverid, String status, String respone, String assertvalue, long runtime, String expect, String errorinfo, Date create_time, Date lastmodify_time, String creator, String requestheader, String requestdatas, String url, String requestmethod, String tablename) {
         apicasesReportPerformanceMapper.adddynamiccaseperformancereport(caseid, testplanid, batchname, slaverid, status, respone, assertvalue, runtime, expect, errorinfo, create_time, lastmodify_time, creator, requestheader, requestdatas, url, requestmethod, tablename);
     }
-
-
 }

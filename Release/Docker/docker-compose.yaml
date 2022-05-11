@@ -85,6 +85,50 @@ services:
       autometer:
         ipv4_address: 173.20.1.9
 
+  slaverservice3:
+    container_name: slaverservice3
+    privileged: true
+    build:
+      context: ../Beta/slaverservice
+      dockerfile: Dockerfile
+    image: slaverservice:1.0
+    ports:
+      - "8883:8081"
+    environment:
+      TZ: Asia/Shanghai
+    restart: always
+    volumes:
+      - "../Beta/BackupData/slaverservice/performancereport:/home/slaverservice/performancereport"
+      - "../Beta/BackupData/slaverservice/performancereportlogfile:/home/slaverservice/performancereportlogfile"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      autometer:
+        ipv4_address: 173.20.1.10
+
+  slaverservice4:
+    container_name: slaverservice4
+    privileged: true
+    build:
+      context: ../Beta/slaverservice
+      dockerfile: Dockerfile
+    image: slaverservice:1.0
+    ports:
+      - "8884:8081"
+    environment:
+      TZ: Asia/Shanghai
+    restart: always
+    volumes:
+      - "../Beta/BackupData/slaverservice/performancereport:/home/slaverservice/performancereport"
+      - "../Beta/BackupData/slaverservice/performancereportlogfile:/home/slaverservice/performancereportlogfile"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      autometer:
+        ipv4_address: 173.20.1.11
+
   testcenterservice:
     container_name: testcenterservice
     privileged: true

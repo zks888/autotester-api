@@ -31,11 +31,11 @@ import java.util.jar.JarFile;
 @RestController
 @RequestMapping("/exectestplancase")
 public class TestPlanCaseController {
-    @Value("${spring.datasource.url}")
+    @Value("${spring.datasource.dynamic.datasource.testcenter.url}")
     private String url;
-    @Value("${spring.datasource.username}")
+    @Value("${spring.datasource.dynamic.datasource.testcenter.username}")
     private String username;
-    @Value("${spring.datasource.password}")
+    @Value("${spring.datasource.dynamic.datasource.testcenter.password}")
     private String password;
     @Autowired
     private ExecuteplanbatchMapper executeplanbatchMapper;

@@ -1,24 +1,76 @@
 server:
   port: 8080
 spring:
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  # 修改代码后自动重启
   devtools:
     restart:
-      # 修改代码后自动重启
       enabled: true
   dispatchserver:
     serverurl: http://192.168.1.7:8082
   conditionserver:
     serverurl: http://192.168.1.7:8083
-    # 数据源（应该全部加密）
+  # 数据源（应该全部加密）
   datasource:
-    # 连接，注意各个配置，尤其是要一次性执行多条 SQL 时，要 allowMultiQueries=true
-    url: jdbc:mysql://192.168.1.7:3406/testcenter?useUnicode=true&useSSL=false&allowMultiQueries=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8
-    # 用户名 root
-    username: MyEnc({k/LqLqGoeBEoMz+MLuB6cg==})
-    # 密码 root
-    password: MyEnc({I6NT3SWbkubdgO2sXBEivg==})
-    # 驱动类
-    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      primary: testcenter
+      strict: false
+      datasource:
+        testcenter:
+          # 连接，注意各个配置，尤其是要一次性执行多条 SQL 时，要 allowMultiQueries=true
+          url: jdbc:mysql://192.168.1.7:3406/testcenter?useUnicode=true&useSSL=false&allowMultiQueries=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=UTC
+          # 用户名 root
+          username: MyEnc({k/LqLqGoeBEoMz+MLuB6cg==})
+          # 密码 123456
+          password: MyEnc({I6NT3SWbkubdgO2sXBEivg==})
+          # 驱动类
+          driver-class-name: com.mysql.jdbc.Driver
+        testreport:
+          # 连接，注意各个配置，尤其是要一次性执行多条 SQL 时，要 allowMultiQueries=true
+          url: jdbc:mysql://192.168.1.7:3406/testreport?useUnicode=true&useSSL=false&allowMultiQueries=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=UTC
+          # 用户名 root
+          username: MyEnc({k/LqLqGoeBEoMz+MLuB6cg==})
+          # 密码 123456
+          password: MyEnc({I6NT3SWbkubdgO2sXBEivg==})
+          # 驱动类
+          driver-class-name: com.mysql.jdbc.Driver
+      druid: #以下是全局默认值，可以全局更改
+        #监控统计拦截的filters
+        filters: stat,wall,slf4j,config
+        #配置初始化大小/最小/最大
+        initial-size: 1
+        min-idle: 1
+        max-active: 20
+        #获取连接等待超时时间
+        max-wait: 60000
+        #间隔多久进行一次检测，检测需要关闭的空闲连接
+        time-between-eviction-runs-millis: 60000
+        #一个连接在池中最小生存的时间
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 'x'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+        pool-prepared-statements: false
+        max-pool-prepared-statement-per-connection-size: 20
+        useGlobalDataSourceStat: true
+        stat:
+          merge-sql: true
+          log-slow-sql: true
+          slow-sql-millis: 2000
+    druid:
+      # 监控页面
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: MyEnc({k/LqLqGoeBEoMz+MLuB6cg==})
+        login-password: MyEnc({I6NT3SWbkubdgO2sXBEivg==})
   cache:
     # 缓存类型
     type: redis
@@ -132,4 +184,4 @@ logging:
   level.com.zo ctan.api: debug
   file: testcenterservice.log
   #  # 设置目录
-  path: /opt/testcenterservice/log
+  path: /Users/zhaoks/dangdang/autotester-api/testcenterservice/log

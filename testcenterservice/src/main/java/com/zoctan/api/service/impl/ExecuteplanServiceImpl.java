@@ -1,6 +1,7 @@
 package com.zoctan.api.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.zoctan.api.core.exception.ServiceException;
 import com.zoctan.api.core.service.*;
 import com.zoctan.api.dto.TestResponeData;
@@ -68,6 +69,7 @@ public class ExecuteplanServiceImpl extends AbstractService<Executeplan> impleme
     }
 
     @Override
+    @DS("testreport")
     public void createNewTable(String tableName) {
         executeplanMapper.createNewTable(tableName);
     }
