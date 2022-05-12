@@ -316,7 +316,6 @@
         >执行</el-button>
       </div>
     </el-dialog>
-
     <el-dialog title="全局参数" :visible.sync="CollectionParamsFormVisible">
       <div class="filter-container">
         <el-form :inline="true">
@@ -377,7 +376,6 @@
         </el-table-column>
       </el-table>
     </el-dialog>
-
     <el-dialog :title="paramstextMap[ParamsdialogStatus]" :visible.sync="modifyparamdialogFormVisible">
       <el-form
         status-icon

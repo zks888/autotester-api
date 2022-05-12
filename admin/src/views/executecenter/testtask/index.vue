@@ -84,6 +84,63 @@
       :page-sizes="[10, 20, 30, 40]"
       layout="total, sizes, prev, pager, next, jumper"
     ></el-pagination>
+
+    <el-dialog :title="loadbatch" :visible.sync="batchdialogFormVisible">
+      <div class="filter-container" >
+        <el-form  :model="tmpplanbatch" ref="tmpplanbatch" >
+          <el-form-item label="执行计划："  prop="batchname" required>
+            <el-input
+              type="text"
+              maxlength="50"
+              style="width:60%"
+              placeholder="例如2020-10-21-tag-101"
+              prefix-icon="el-icon-edit"
+              auto-complete="off"
+              v-model.trim="tmpplanbatch.batchname"
+            />
+          </el-form-item>
+          <el-form-item label="执行类型：" prop="exectype" required >
+            <el-select v-model="tmpplanbatch.exectype" placeholder="执行类型" style="width:60%" @change="exectypeselectChanged($event)">
+              <el-option label="立即执行" value="立即执行"></el-option>
+              <el-option label="某天定时" value="某天定时"></el-option>
+              <el-option label="每天定时" value="每天定时"></el-option>
+            </el-select>
+          </el-form-item>
+          <div v-if="datevisible">
+            <el-form-item label="选择日期：" prop="exectmpdate" required >
+              <el-date-picker style="width:60%"
+                              v-model="tmpplanbatch.exectmpdate"
+                              type="date"
+                              format="yyyy-MM-dd"
+                              value-format="yyyy-MM-dd"
+                              placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </div>
+          <div v-if="timevisible">
+            <el-form-item label="选择时刻：" prop="exectime" required >
+              <el-time-select style="width:60%"
+                              v-model="tmpplanbatch.exectime"
+                              :picker-options="{
+              start: '00:05',
+              step: '00:10',
+              end: '23:55'
+            }"
+                              placeholder="选择时间">
+              </el-time-select>
+            </el-form-item>
+          </div>
+        </el-form>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native.prevent="batchdialogFormVisible = false">取消</el-button>
+        <el-button
+          type="success"
+          :loading="execbtnLoading"
+          @click.native.prevent="savebatchandexecuteplancase"
+        >执行</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>

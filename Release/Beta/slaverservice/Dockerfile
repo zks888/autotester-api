@@ -3,6 +3,7 @@ USER root
 WORKDIR /home/slaverservice
 COPY ./slaverservice.jar slaverservice.jar
 COPY ./config/application.yml application.yml
+COPY ./classes classes
 COPY ./apache-jmeter-5.3 apache-jmeter-5.3
 COPY ./servicejmxcase servicejmxcase
 RUN chmod 777 /home/slaverservice/apache-jmeter-5.3/bin/jmeter
