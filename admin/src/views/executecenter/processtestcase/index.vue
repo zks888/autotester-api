@@ -26,7 +26,7 @@
         </el-form-item>
         <span v-if="hasPermission('processtestcase:search')">
           <el-form-item  prop="processtestcasename" >
-          <el-select v-model="search.processtestcasename" placeholder="测试集合" @change="loadtestplanselectChanged($event)">
+          <el-select v-model="search.processtestcasename" placeholder="测试任务" @change="loadtestplanselectChanged($event)">
               <el-option label="请选择" value="" />
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.processtestcasename" :value="testplan.processtestcasename" />
@@ -79,7 +79,7 @@
           <span v-text="getIndex(scope.$index)"></span>
         </template>
       </el-table-column>
-      <el-table-column label="测试集合名" align="center" prop="processtestcasename" width="150"/>
+      <el-table-column label="测试任务名" align="center" prop="processtestcasename" width="150"/>
       <el-table-column label="发布单元" align="center" prop="deployunitname" width="150"/>
       <el-table-column label="用例名" align="center" prop="casename" width="150"/>
       <el-table-column label="API" align="center" prop="apiname" width="150"/>
@@ -117,8 +117,8 @@
       <div class="filter-container" >
         <el-form :inline="true" :model="searchcase" ref="searchcase" >
 
-          <el-form-item label="测试集合:"  prop="processtestcasename" required>
-            <el-select v-model="searchcase.processtestcasename" placeholder="测试集合" @change="testplanselectChanged($event)">
+          <el-form-item label="测试任务:"  prop="processtestcasename" required>
+            <el-select v-model="searchcase.processtestcasename" placeholder="测试任务" @change="testplanselectChanged($event)">
               <el-option label="请选择" value />
               <div v-for="(testplan, index) in execplanList" :key="index">
                 <el-option :label="testplan.processtestcasename" :value="testplan.processtestcasename" />
@@ -237,7 +237,7 @@
         loaddeployunitList: [], // 发布单元列表
         multipleSelection: [], // 首页装载表格被选中的内容
         casemultipleSelection: [], // 查询用例表格被选中的内容
-        processtestcasecaseList: [], // 首页测试集合用例列表
+        processtestcasecaseList: [], // 首页测试任务用例列表
         processtestcasecaseremovetList: [], // 查询执行计划需要删除存在的用例列表
         testcaseList: [], // 装载用例列表
         testcaselastList: [], // 显示希望装载的用例列表
@@ -315,7 +315,7 @@
       },
 
       /**
-       * 获取测试集合列表
+       * 获取测试任务列表
        */
       getexecplanList() {
         getallexplan().then(response => {
@@ -326,7 +326,7 @@
       },
 
       /**
-       * 获取测试集合列表
+       * 获取测试任务列表
        */
       getloadexecplanList() {
         getallexplan().then(response => {
@@ -337,7 +337,7 @@
       },
 
       /**
-       * 获取测试集合用例列表
+       * 获取测试任务用例列表
        */
       getprocesstestcasecaseList() {
         this.search.processtestcaseid = this.tmploadprocesstestcaseid
@@ -349,7 +349,7 @@
           this.total = response.data.total
           this.listLoading = false
         }).catch(res => {
-          this.$message.error('加载测试集合用例列表失败')
+          this.$message.error('加载测试任务用例列表失败')
         })
       },
 
@@ -594,8 +594,8 @@
       },
 
       /**
-       * 显示修改测试集合对话框
-       * @param index 测试集合下标
+       * 显示修改测试任务对话框
+       * @param index 测试任务下标
        */
       showUpdateprocesstestcaseDialog(index) {
         this.dialogFormVisible = true
@@ -624,7 +624,7 @@
       },
 
       /**
-       * 装载测试集合的用例
+       * 装载测试任务的用例
        */
       addprocesstestcase() {
         this.testcaseList = []
@@ -691,7 +691,7 @@
       },
       /**
        * 显示用例对话框
-       * @param index 测试集合下标
+       * @param index 测试任务下标
        */
       showTestCaseDialog() {
         this.casedialogFormVisible = true
@@ -704,10 +704,10 @@
       },
       /**
        * 删除用例
-       * @param index 测试集合下标
+       * @param index 测试任务下标
        */
       removeprocesstestcase(index) {
-        this.$confirm('删除该测试集合用例？', '警告', {
+        this.$confirm('删除该测试任务用例？', '警告', {
           confirmButtonText: '是',
           cancelButtonText: '否',
           type: 'warning'
@@ -725,7 +725,7 @@
        * 批量删除用例
        */
       DeleteBatchPlanTestCase() {
-        this.$confirm('取消所选测试集合装载的用例？', '警告', {
+        this.$confirm('取消所选测试任务装载的用例？', '警告', {
           confirmButtonText: '是',
           cancelButtonText: '否',
           type: 'warning'

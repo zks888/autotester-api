@@ -13,8 +13,8 @@
         </el-form-item>
 
         <span v-if="hasPermission('dispatch:search')">
-          <el-form-item label="测试集合" prop="execplanname" >
-          <el-select v-model="search.execplanname" placeholder="测试集合" @change="testplanselectChanged($event)">
+          <el-form-item label="测试任务" prop="execplanname" >
+          <el-select v-model="search.execplanname" placeholder="测试任务" @change="testplanselectChanged($event)">
             <el-option label="请选择" value="''" style="display: none" />
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
@@ -50,17 +50,10 @@
         </template>
       </el-table-column>
       <el-table-column label="执行机" align="center" prop="slavername" width="150"/>
-      <el-table-column label="测试集合" align="center" prop="execplanname" width="150"/>
+      <el-table-column label="测试任务" align="center" prop="execplanname" width="150"/>
       <el-table-column label="执行计划" align="center" prop="batchname" width="150"/>
       <el-table-column label="执行用例" align="center" prop="testcasename" width="150"/>
       <el-table-column label="状态" align="center" prop="status" width="100"/>
-      <el-table-column label="备注" align="center" prop="memo" width="150">
-      <template slot-scope="scope">
-        <span v-if="scope.row.memo !== ''" style="color:red">{{ scope.row.memo }}</span>
-      </template>
-      </el-table-column>>
-
-
       <el-table-column label="创建时间" align="center" prop="createTime" width="140">
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.createTime) }}</template>
       </el-table-column>
@@ -258,13 +251,13 @@
       },
 
       /**
-       * 测试集合
+       * 测试任务
        */
       getallexplan() {
         getallexplan().then(response => {
           this.execplanList = response.data
         }).catch(res => {
-          this.$message.error('加载测试集合列表失败')
+          this.$message.error('加载测试任务列表失败')
         })
       },
 

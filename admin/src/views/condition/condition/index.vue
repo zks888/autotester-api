@@ -114,7 +114,7 @@
         <el-form-item label="目标类型" prop="objecttype" required >
           <el-select v-model="tmpcondition.objecttype" placeholder="目标类型" style="width:100%" @change="targetChanged($event)">
             <el-option label="测试用例" value="测试用例"/>
-            <el-option label="测试集合" value="测试集合"></el-option>
+            <el-option label="测试任务" value="测试任务"></el-option>
             <el-option label="调试用例" value="调试用例"></el-option>
           </el-select>
         </el-form-item>
@@ -147,8 +147,8 @@
         </div>
 
         <div v-if="executeplanVisible">
-          <el-form-item label="测试集合" prop="objectname"  required>
-            <el-select v-model="tmpcondition.objectname" placeholder="测试集合" style="width:100%" @change="execplanChanged($event)">
+          <el-form-item label="测试任务" prop="objectname"  required>
+            <el-select v-model="tmpcondition.objectname" placeholder="测试任务" style="width:100%" @change="execplanChanged($event)">
               <el-option label="请选择" value="''" style="display: none" />
               <div v-for="(plan, index) in execplanList" :key="index">
                 <el-option :label="plan.executeplanname" :value="plan.executeplanname" />
@@ -382,7 +382,7 @@
        * 条件目标下拉选择  e的值为options的选值
        */
       targetChanged(e) {
-        if (e === '测试集合') {
+        if (e === '测试任务') {
           this.executeplanVisible = true
           this.testcasevisible = false
           this.tmpcondition.objectid = ''
@@ -453,7 +453,7 @@
       },
 
       /**
-       * 测试集合下拉选择获取id  e的值为options的选值
+       * 测试任务下拉选择获取id  e的值为options的选值
        */
       execplanChanged(e) {
         for (let i = 0; i < this.execplanList.length; i++) {
@@ -492,7 +492,7 @@
         getallexplan().then(response => {
           this.execplanList = response.data
         }).catch(res => {
-          this.$message.error('加载测试集合列表失败')
+          this.$message.error('加载测试任务列表失败')
         })
       },
       /**
@@ -633,7 +633,7 @@
         this.getallexplan()
         this.dialogFormVisible = true
         this.dialogStatus = 'update'
-        if (this.conditionList[index].objecttype === '测试集合') {
+        if (this.conditionList[index].objecttype === '测试任务') {
           this.executeplanVisible = true
           this.testcasevisible = false
         }

@@ -13,17 +13,9 @@
           <el-button
             type="primary"
             size="mini"
-            icon="el-icon-plus"
-            v-if="hasPermission('executeplan:add')"
-            @click.native.prevent="showAddexecuteplanDialog"
-          >测试集合</el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-plus"
             v-if="hasPermission('executeplan:list')"
             @click.native.prevent="showTestCaseDialog"
-          >集合用例</el-button>
+          >装载用例</el-button>
           <el-button
             type="danger"
             size="mini"
@@ -33,8 +25,8 @@
         </el-form-item>
         <span v-if="hasPermission('executeplan:search')">
           <el-form-item  prop="executeplanname" >
-          <el-select v-model="search.executeplanname" placeholder="测试集合" @change="loadtestplanselectChanged($event)">
-              <el-option label="请选择" value="" />
+          <el-select v-model="search.executeplanname" placeholder="测试任务" @change="loadtestplanselectChanged($event)">
+            <el-option label="请选择" value="" />
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
             </div>
@@ -85,7 +77,7 @@
           <span v-text="getIndex(scope.$index)"></span>
         </template>
       </el-table-column>
-      <el-table-column label="测试集合名" align="center" prop="executeplanname" width="140"/>
+      <el-table-column label="测试任务名" align="center" prop="executeplanname" width="140"/>
       <el-table-column label="发布单元" align="center" prop="deployunitname" width="140"/>
       <el-table-column label="用例名" align="center" prop="casename" width="140"/>
       <el-table-column label="API" align="center" prop="apiname" width="140"/>
@@ -123,8 +115,8 @@
       <div class="filter-container" >
         <el-form :inline="true" :model="searchcase" ref="searchcase" >
 
-          <el-form-item label="测试集合:"  prop="executeplanname" required>
-            <el-select v-model="searchcase.executeplanname" placeholder="测试集合" @change="testplanselectChanged($event)">
+          <el-form-item label="测试任务:"  prop="executeplanname" required>
+            <el-select v-model="searchcase.executeplanname" placeholder="测试任务" @change="testplanselectChanged($event)">
               <el-option label="请选择" value="" />
               <div v-for="(testplan, index) in execplanList" :key="index">
                 <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
@@ -198,77 +190,6 @@
         >装载</el-button>
       </div>
     </el-dialog>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="execplandialogFormVisible">
-      <el-form
-        status-icon
-        class="small-space"
-        label-position="left"
-        label-width="120px"
-        style="width: 400px; margin-left:50px;"
-        :model="tmpexecuteplan"
-        ref="tmpexecuteplan"
-      >
-        <el-form-item label="集合名" prop="executeplanname" required>
-          <el-input
-            type="text"
-            maxlength="50"
-            prefix-icon="el-icon-edit"
-            auto-complete="off"
-            v-model.trim="tmpexecuteplan.executeplanname"
-          />
-        </el-form-item>
-        <el-form-item label="类型" prop="usetype" required>
-          <el-select v-model="tmpexecuteplan.usetype" placeholder="类型" style="width:100%">
-            <el-option label="功能" value="功能" />
-            <el-option label="性能" value="性能" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="执行环境" prop="enviromentname"  required>
-          <el-select v-model="tmpexecuteplan.enviromentname" placeholder="执行环境" style="width:100%" @change="enviromentselectChanged($event)">
-            <el-option label="请选择" value="''" style="display: none" />
-            <div v-for="(envname, index) in enviromentnameList" :key="index">
-              <el-option :label="envname.enviromentname" :value="envname.enviromentname" required/>
-            </div>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="业务类型" prop="businesstype"  required>
-          <el-select v-model="tmpexecuteplan.businesstype" placeholder="业务类型" style="width:100%">
-            <el-option label="请选择" value="''" style="display: none" />
-            <div v-for="(dicitem, index) in planbusinessdiclist" :key="index">
-              <el-option :label="dicitem.dicitmevalue" :value="dicitem.dicitmevalue" required/>
-            </div>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="运行模式" prop="runmode" required>
-          <el-select v-model="tmpexecuteplan.runmode" placeholder="运行模式" style="width:100%">
-            <el-option label="单机运行" value="单机运行" />
-            <el-option label="多机并行" value="多机并行" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="备注" prop="memo">
-          <el-input
-            maxlength="200"
-            type="text"
-            prefix-icon="el-icon-message"
-            auto-complete="off"
-            v-model="tmpexecuteplan.memo"
-          />
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native.prevent="execplandialogFormVisible = false">取消</el-button>
-        <el-button
-          type="success"
-          v-if="dialogStatus === 'addexecuteplan'"
-          :loading="btnLoading"
-          @click.native.prevent="addexecuteplan"
-        >保存
-        </el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -276,7 +197,7 @@
   import { getapiListbydeploy } from '@/api/deployunit/api'
   import { getdepunitLists } from '@/api/deployunit/depunit'
   import { search as searchtestplancases, addexecuteplantestcase, removebatchexecuteplantestcase, removeexecuteplantestcase } from '@/api/executecenter/executeplantestcase'
-  import { getallexplan, addexecuteplan } from '@/api/executecenter/executeplan'
+  import { getallexplan } from '@/api/executecenter/executeplan'
   import { getenviromentallList } from '@/api/enviroment/testenviroment'
   import { getdatabydiccodeList } from '@/api/system/dictionary'
   import { unix2CurrentTime } from '@/utils'
@@ -317,7 +238,7 @@
         loaddeployunitList: [], // 发布单元列表
         multipleSelection: [], // 首页装载表格被选中的内容
         casemultipleSelection: [], // 查询用例表格被选中的内容
-        executeplancaseList: [], // 首页测试集合用例列表
+        executeplancaseList: [], // 首页测试任务用例列表
         executeplancaseremovetList: [], // 查询执行计划需要删除存在的用例列表
         testcaseList: [], // 装载用例列表
         testcaselastList: [], // 显示希望装载的用例列表
@@ -342,14 +263,9 @@
         dialogFormVisible: false,
         execplandialogFormVisible: false,
         casedialogFormVisible: false,
-        loadcase: '集合用例',
+        loadcase: '装载用例',
         btnLoading: false, // 按钮等待动画
         casebtnLoading: false, // 按钮等待动画
-        textMap: {
-          updateRole: '修改测试集合',
-          update: '修改测试集合',
-          addexecuteplan: '添加测试集合'
-        },
         paramstextMap: {
           updateRole: '修改参数',
           update: '修改参数',
@@ -448,7 +364,7 @@
       },
 
       /**
-       * 获取测试集合列表
+       * 获取测试任务列表
        */
       getexecplanList() {
         getallexplan().then(response => {
@@ -459,7 +375,7 @@
       },
 
       /**
-       * 获取测试集合列表
+       * 获取测试任务列表
        */
       getloadexecplanList() {
         getallexplan().then(response => {
@@ -467,24 +383,6 @@
         }).catch(res => {
           this.$message.error('加载计划列表失败')
         })
-      },
-
-      /**
-       * 显示添加执行计划对话框
-       */
-      showAddexecuteplanDialog() {
-        // 显示新增对话框
-        this.execplandialogFormVisible = true
-        this.dialogStatus = 'addexecuteplan'
-        this.tmpexecuteplan.id = ''
-        this.tmpexecuteplan.executeplanname = ''
-        this.tmpexecuteplan.status = 'new'
-        this.tmpexecuteplan.memo = ''
-        this.tmpexecuteplan.usetype = ''
-        this.tmpexecuteplan.enviromentname = ''
-        this.tmpexecuteplan.businesstype = ''
-        this.tmpexecuteplan.creator = this.name
-        this.tmpexecuteplan.runmode = ''
       },
 
       /**
@@ -514,7 +412,7 @@
       },
 
       /**
-       * 获取测试集合用例列表
+       * 获取测试任务用例列表
        */
       getexecuteplancaseList() {
         this.search.executeplanid = this.tmploadexecuteplanid
@@ -526,30 +424,9 @@
           this.total = response.data.total
           this.listLoading = false
         }).catch(res => {
-          this.$message.error('加载测试集合用例列表失败')
+          this.$message.error('加载测试任务用例列表失败')
         })
       },
-
-      /**
-       * 添加执行计划
-       */
-      addexecuteplan() {
-        this.$refs.tmpexecuteplan.validate(valid => {
-          if (valid) {
-            this.btnLoading = true
-            addexecuteplan(this.tmpexecuteplan).then(() => {
-              this.$message.success('添加成功')
-              this.getexecplanList()
-              this.execplandialogFormVisible = false
-              this.btnLoading = false
-            }).catch(res => {
-              this.$message.error('添加失败')
-              this.btnLoading = false
-            })
-          }
-        })
-      },
-
       searchBy() {
         this.search.page = 1
         this.search.executeplanid = this.tmploadexecuteplanid
@@ -791,8 +668,8 @@
       },
 
       /**
-       * 显示修改测试集合对话框
-       * @param index 测试集合下标
+       * 显示修改测试任务对话框
+       * @param index 测试任务下标
        */
       showUpdateexecuteplanDialog(index) {
         this.dialogFormVisible = true
@@ -821,7 +698,7 @@
       },
 
       /**
-       * 装载测试集合的用例
+       * 装载测试任务的用例
        */
       addexecuteplantestcase() {
         this.testcaseList = []
@@ -888,7 +765,7 @@
       },
       /**
        * 显示用例对话框
-       * @param index 测试集合下标
+       * @param index 测试任务下标
        */
       showTestCaseDialog() {
         this.casedialogFormVisible = true
@@ -901,10 +778,10 @@
       },
       /**
        * 删除用例
-       * @param index 测试集合下标
+       * @param index 测试任务下标
        */
       removeexecuteplantestcase(index) {
-        this.$confirm('删除该测试集合用例？', '警告', {
+        this.$confirm('删除该测试任务用例？', '警告', {
           confirmButtonText: '是',
           cancelButtonText: '否',
           type: 'warning'
@@ -922,7 +799,7 @@
        * 批量删除用例
        */
       DeleteBatchPlanTestCase() {
-        this.$confirm('取消所选测试集合装载的用例？', '警告', {
+        this.$confirm('取消所选测试任务装载的用例？', '警告', {
           confirmButtonText: '是',
           cancelButtonText: '否',
           type: 'warning'

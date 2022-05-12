@@ -11,12 +11,11 @@
             @click.native.prevent="getexecuteplanList"
           >刷新</el-button>
           <el-button
-            type="primary"
+            type="success"
             size="mini"
-            icon="el-icon-plus"
-            v-if="hasPermission('executeplan:add')"
-            @click.native.prevent="showAddexecuteplanDialog"
-          >测试任务</el-button>
+            v-if="hasPermission('executeplan:list')"
+            @click.native.prevent="showplanbatchDialog"
+          >运行</el-button>
         </el-form-item>
 
         <span v-if="hasPermission('executeplan:search')">
@@ -67,36 +66,12 @@
       <el-table-column label="类型" align="center" prop="usetype" width="60"/>
       <el-table-column label="运行模式" align="center" prop="runmode" width="80"/>
       <el-table-column label="操作人" align="center" prop="creator" width="60"/>
-      <el-table-column label="描述" align="center" prop="memo" width="100"/>
+      <el-table-column label="描述" align="center" prop="memo" width="220"/>
       <el-table-column label="创建时间" align="center" prop="createTime" width="140">
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.createTime) }}</template>
       </el-table-column>
       <el-table-column label="最后修改时间" align="center" prop="lastmodifyTime" width="140">
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.lastmodifyTime) }}
-        </template>
-      </el-table-column>
-      <el-table-column label="管理" align="center" width="150"
-                       v-if="hasPermission('executeplan:update')  || hasPermission('executeplan:delete')">
-        <template slot-scope="scope">
-          <el-button
-            type="primary"
-            size="mini"
-            v-if="hasPermission('executeplan:update')"
-            @click.native.prevent="showUpdateexecuteplanDialog(scope.$index)"
-          >修改</el-button>
-          <el-button
-            type="danger"
-            size="mini"
-            v-if="hasPermission('executeplan:delete')"
-            @click.native.prevent="removeexecuteplan(scope.$index)"
-          >删除</el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            v-if="hasPermission('executeplan:update')"
-            @click.native.prevent="showplanparamsDialog(scope.$index)"
-          >全局参数</el-button>
-
         </template>
       </el-table-column>
     </el-table>
@@ -109,324 +84,6 @@
       :page-sizes="[10, 20, 30, 40]"
       layout="total, sizes, prev, pager, next, jumper"
     ></el-pagination>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form
-        status-icon
-        class="small-space"
-        label-position="left"
-        label-width="120px"
-        style="width: 400px; margin-left:50px;"
-        :model="tmpexecuteplan"
-        ref="tmpexecuteplan"
-      >
-        <el-form-item label="任务名称" prop="executeplanname" required>
-          <el-input
-            type="text"
-            maxlength="50"
-            prefix-icon="el-icon-edit"
-            auto-complete="off"
-            v-model.trim="tmpexecuteplan.executeplanname"
-          />
-        </el-form-item>
-        <el-form-item label="类型" prop="usetype" required>
-          <el-select v-model="tmpexecuteplan.usetype" placeholder="类型" style="width:100%">
-            <el-option label="功能" value="功能" />
-            <el-option label="性能" value="性能" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="执行环境" prop="enviromentname"  required>
-          <el-select v-model="tmpexecuteplan.enviromentname" placeholder="执行环境" style="width:100%" @change="enviromentselectChanged($event)">
-            <el-option label="请选择" value="''" style="display: none" />
-            <div v-for="(envname, index) in enviromentnameList" :key="index">
-              <el-option :label="envname.enviromentname" :value="envname.enviromentname" required/>
-            </div>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="业务类型" prop="businesstype"  required>
-          <el-select v-model="tmpexecuteplan.businesstype" placeholder="业务类型" style="width:100%">
-            <el-option label="请选择" value="''" style="display: none" />
-            <div v-for="(dicitem, index) in planbusinessdiclist" :key="index">
-              <el-option :label="dicitem.dicitmevalue" :value="dicitem.dicitmevalue" required/>
-            </div>
-          </el-select>
-        </el-form-item>
-
-          <el-form-item label="运行模式" prop="runmode" required>
-            <el-select v-model="tmpexecuteplan.runmode" placeholder="运行模式" style="width:100%">
-              <el-option label="单机运行" value="单机运行" />
-              <el-option label="多机并行" value="多机并行" />
-            </el-select>
-          </el-form-item>
-
-        <el-form-item label="备注" prop="memo">
-          <el-input
-            maxlength="200"
-            type="text"
-            prefix-icon="el-icon-message"
-            auto-complete="off"
-            v-model="tmpexecuteplan.memo"
-          />
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native.prevent="dialogFormVisible = false">取消</el-button>
-        <el-button
-          type="success"
-          v-if="dialogStatus === 'update'"
-          :loading="btnLoading"
-          @click.native.prevent="updateexecuteplan"
-        >修改</el-button>
-        <el-button
-          type="success"
-          v-if="dialogStatus === 'add'"
-          :loading="btnLoading"
-          @click.native.prevent="addexecuteplan"
-        >添加</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog :title="loadcase" :visible.sync="casedialogFormVisible">
-      <div class="filter-container" >
-        <el-form :inline="true" :model="searchcase" ref="searchcase" >
-          <span v-if="hasPermission('apicases:search')">
-          <el-form-item label="发布单元:" prop="deployunitname" required>
-            <el-select v-model="searchcase.deployunitname" placeholder="发布单元" @change="selectChanged($event)">
-              <el-option label="请选择" value="" />
-              <div v-for="(depname, index) in deployunitList" :key="index">
-                <el-option :label="depname.deployunitname" :value="depname.deployunitname" required/>
-              </div>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="API:">
-            <el-select v-model="searchcase.apiname" placeholder="api名">
-              <el-option label="请选择" value="" />
-              <div v-for="(api, index) in apiList" :key="index">
-                <el-option :label="api.apiname" :value="api.apiname"/>
-              </div>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="searchcaseBy" :loading="btnLoading">查询</el-button>
-          </el-form-item>
-        </span>
-        </el-form>
-      </div>
-      <el-table
-        ref="caseTable"
-        :data="testcaselastList"
-        :key="itemcaseKey"
-        @row-click="casehandleClickTableRow"
-        @selection-change="casehandleSelectionChange"
-        v-loading.body="listLoading"
-        element-loading-text="loading"
-        border
-        fit
-        highlight-current-row
-      >
-        <el-table-column label="编号" align="center" width="60">
-          <template slot-scope="scope">
-            <span v-text="getIndex(scope.$index)"></span>
-          </template>
-        </el-table-column>
-
-        <el-table-column type="selection" prop="status" width="50"/>
-        <el-table-column label="apiid" v-if="show" align="center" prop="apiid" width="120"/>
-        <el-table-column label="deployunitid" v-if="show" align="center" prop="deployunitid" width="120"/>
-        <el-table-column label="用例名" align="center" prop="casename" width="120"/>
-        <el-table-column label="发布单元" align="center" prop="deployunitname" width="120"/>
-        <el-table-column label="API" align="center" prop="apiname" width="120"/>
-        <el-table-column label="期望值" align="center" prop="expect" width="120"/>
-      </el-table>
-      <el-pagination
-        @size-change="casehandleSizeChange"
-        @current-change="casehandleCurrentChange"
-        :current-page="searchcase.page"
-        :page-size="searchcase.size"
-        :total="casetotal"
-        :page-sizes="[10, 20, 30, 40]"
-        layout="total, sizes, prev, pager, next, jumper"
-      ></el-pagination>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native.prevent="casedialogFormVisible = false">取消</el-button>
-        <el-button
-          type="success"
-          :loading="btnLoading"
-          @click.native.prevent="addexecuteplantestcase"
-        >装载</el-button>
-        <el-button
-          type="warning"
-          :loading="btnLoading"
-          @click.native.prevent="removeexecuteplantestcase"
-        >取消装载</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog :title="loadbatch" :visible.sync="batchdialogFormVisible">
-      <div class="filter-container" >
-        <el-form  :model="tmpplanbatch" ref="tmpplanbatch" >
-          <el-form-item label="执行计划："  prop="batchname" required>
-            <el-input
-              type="text"
-              maxlength="50"
-              style="width:60%"
-              placeholder="例如2020-10-21-tag-101"
-              prefix-icon="el-icon-edit"
-              auto-complete="off"
-              v-model.trim="tmpplanbatch.batchname"
-            />
-          </el-form-item>
-          <el-form-item label="执行类型：" prop="exectype" required >
-            <el-select v-model="tmpplanbatch.exectype" placeholder="执行类型" style="width:60%" @change="exectypeselectChanged($event)">
-              <el-option label="立即执行" value="立即执行"></el-option>
-              <el-option label="某天定时" value="某天定时"></el-option>
-              <el-option label="每天定时" value="每天定时"></el-option>
-            </el-select>
-          </el-form-item>
-          <div v-if="datevisible">
-            <el-form-item label="选择日期：" prop="exectmpdate" required >
-              <el-date-picker style="width:60%"
-                              v-model="tmpplanbatch.exectmpdate"
-                              type="date"
-                              format="yyyy-MM-dd"
-                              value-format="yyyy-MM-dd"
-                              placeholder="选择日期">
-              </el-date-picker>
-            </el-form-item>
-          </div>
-          <div v-if="timevisible">
-            <el-form-item label="选择时刻：" prop="exectime" required >
-              <el-time-select style="width:60%"
-                              v-model="tmpplanbatch.exectime"
-                              :picker-options="{
-              start: '00:05',
-              step: '00:10',
-              end: '23:55'
-            }"
-                              placeholder="选择时间">
-              </el-time-select>
-            </el-form-item>
-          </div>
-        </el-form>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native.prevent="batchdialogFormVisible = false">取消</el-button>
-        <el-button
-          type="success"
-          :loading="execbtnLoading"
-          @click.native.prevent="savebatchandexecuteplancase"
-        >执行</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="全局参数" :visible.sync="CollectionParamsFormVisible">
-      <div class="filter-container">
-        <el-form :inline="true">
-          <el-form-item>
-            <el-button
-              type="primary"
-              size="mini"
-              icon="el-icon-plus"
-              v-if="hasPermission('executeplan:add')"
-              @click.native.prevent="showAddapiparamsDialog"
-            >添加全局参数</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-
-      <el-table
-        :data="paramsList"
-        :key="itemKey"
-        v-loading.body="listLoading"
-        element-loading-text="loading"
-        border
-        fit
-        highlight-current-row
-      >
-        <el-table-column label="编号" align="center" width="45">
-          <template slot-scope="scope">
-            <span v-text="paramgetIndex(scope.$index)"></span>
-          </template>
-        </el-table-column>
-        <el-table-column label="参数类型" align="center" prop="paramstype" width="80"/>
-        <el-table-column label="参数名" align="center" prop="keyname" width="180"/>
-        <el-table-column label="参数值" align="center" prop="keyvalue" width="140">
-          <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top">
-              <p>{{ scope.row.keyvalue }}</p>
-              <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">...</el-tag>
-              </div>
-            </el-popover>
-          </template>
-        </el-table-column>
-        <el-table-column label="管理" align="center"
-                         v-if="hasPermission('executeplan:update')  || hasPermission('executeplan:delete')">
-          <template slot-scope="scope">
-            <el-button
-              type="warning"
-              size="mini"
-              v-if="hasPermission('executeplan:update')"
-              @click.native.prevent="showUpdateparamsDialog(scope.$index)"
-            >修改</el-button>
-            <el-button
-              type="danger"
-              size="mini"
-              v-if="hasPermission('executeplan:delete')"
-              @click.native.prevent="removeexecuteplanparam(scope.$index)"
-            >删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-dialog>
-
-    <el-dialog :title="paramstextMap[ParamsdialogStatus]" :visible.sync="modifyparamdialogFormVisible">
-      <el-form
-        status-icon
-        class="small-space"
-        label-position="left"
-        label-width="120px"
-        style="width: 600px; margin-left:30px;"
-        :model="tmpparam"
-        ref="tmpparam"
-      >
-        <el-form-item label="参数类型" prop="paramstype" required>
-          <el-select v-model="tmpparam.paramstype" placeholder="参数类型" style="width:100%" @change="paramstypeselectChanged($event)">
-            <el-option label="请选择" value="''" style="display: none" />
-            <el-option label="全局Header" value="Header" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="参数名：" prop="keyname" required>
-          <el-input
-            prefix-icon="el-icon-message"
-            auto-complete="off"
-            v-model.trim="tmpparam.keyname"
-          />
-        </el-form-item>
-        <el-form-item label="参数值：" prop="keyvalue" required>
-          <el-input
-            type="textarea"
-            rows="15" cols="50"
-            prefix-icon="el-icon-message"
-            auto-complete="off"
-            v-model.trim="tmpparam.keyvalue"
-          />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native.prevent="modifyparamdialogFormVisible = false">取消</el-button>
-        <el-button
-          type="success"
-          v-if="ParamsdialogStatus === 'add'"
-          :loading="btnLoading"
-          @click.native.prevent="addparams"
-        >添加</el-button>
-        <el-button
-          type="success"
-          v-if="ParamsdialogStatus === 'update'"
-          :loading="btnLoading"
-          @click.native.prevent="updatparam"
-        >修改</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -438,7 +95,7 @@
   import { getdepunitList as getdepunitList } from '@/api/deployunit/depunit'
   import { addexecuteplanbatch as addexecuteplanbatch } from '@/api/executecenter/executeplanbatch'
   import { searchcases as searchtestplancases, addexecuteplantestcase, removeexecuteplantestcase } from '@/api/executecenter/executeplantestcase'
-  import { checkplancondition, search, getallexplan, addexecuteplan, updateexecuteplan, removeexecuteplan, executeplan, updateexecuteplanstatus } from '@/api/executecenter/executeplan'
+  import { checkplancondition, search, updateexecuteplan, removeexecuteplan, executeplan, updateexecuteplanstatus } from '@/api/executecenter/executeplan'
   import { unix2CurrentTime } from '@/utils'
   import { getenviromentallList } from '@/api/enviroment/testenviroment'
   import { getdatabydiccodeList } from '@/api/system/dictionary'
@@ -1283,35 +940,6 @@
         this.casetotal = 0
       },
       /**
-       * 获取测试任务列表
-       */
-      getexecplanList() {
-        getallexplan().then(response => {
-          this.executeplanList = response.data
-        }).catch(res => {
-          this.$message.error('加载计划列表失败')
-        })
-      },
-      /**
-       * 添加执行计划
-       */
-      addexecuteplan() {
-        this.$refs.tmpexecuteplan.validate(valid => {
-          if (valid) {
-            this.btnLoading = true
-            addexecuteplan(this.tmpexecuteplan).then(() => {
-              this.$message.success('添加成功')
-              this.getexecplanList()
-              this.dialogFormVisible = false
-              this.btnLoading = false
-            }).catch(res => {
-              this.$message.error('添加失败')
-              this.btnLoading = false
-            })
-          }
-        })
-      },
-      /**
        * 更新执行计划
        */
       updateexecuteplan() {
@@ -1347,6 +975,7 @@
           this.$message.info('已取消删除')
         })
       },
+
       /**
        * 执行计划资料是否唯一
        * @param 执行计划

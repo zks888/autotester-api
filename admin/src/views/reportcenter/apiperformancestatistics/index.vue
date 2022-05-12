@@ -13,8 +13,8 @@
         </el-form-item>
 
         <span v-if="hasPermission('apiperformancestatistics:search')">
-          <el-form-item label="测试集合" prop="testplanname" >
-          <el-select v-model="search.testplanname" placeholder="测试集合" @change="testplanselectChanged($event)">
+          <el-form-item label="测试任务" prop="testplanname" >
+          <el-select v-model="search.testplanname" placeholder="测试任务" @change="testplanselectChanged($event)">
             <el-option label="请选择" value=""/>
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
@@ -48,7 +48,7 @@
           <span v-text="getIndex(scope.$index)"></span>
         </template>
       </el-table-column>
-      <el-table-column label="测试集合" align="center" prop="executeplanname" width="120"/>
+      <el-table-column label="测试任务" align="center" prop="executeplanname" width="120"/>
       <el-table-column label="用例" align="center" prop="casename" width="120"/>
       <el-table-column label="执行计划" align="center" prop="batchname" width="120"/>
       <el-table-column label="tps" align="center" prop="tps" width="80"/>
@@ -276,7 +276,7 @@
       },
 
       /**
-       * 获取测试集合列表
+       * 获取测试任务列表
        */
       getexecplanList() {
         this.tmpexecplantype.usetype = '性能'

@@ -16,7 +16,7 @@
             icon="el-icon-plus"
             v-if="hasPermission('enviroment_assemble:add')"
             @click.native.prevent="showAddenviroment_assembleDialog"
-          >添加环境组件</el-button>
+          >添加测试组件</el-button>
         </el-form-item>
 
         <span v-if="hasPermission('enviroment_assemble:search')">
@@ -246,9 +246,9 @@
         dialogFormVisible: false,
         testdialogFormVisible: false,
         textMap: {
-          updateRole: '修改环境组件',
-          update: '修改环境组件',
-          add: '添加环境组件'
+          updateRole: '修改测试组件',
+          update: '修改测试组件',
+          add: '添加测试组件'
         },
         btnLoading: false, // 按钮等待动画
         diclevelQuery: {

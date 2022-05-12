@@ -16,8 +16,8 @@
         </el-form-item>
 
         <span v-if="hasPermission('apireport:search')">
-          <el-form-item label="功能测试集合" prop="testplanname" required>
-          <el-select v-model="tmpquery.testplanname" placeholder="测试集合" @change="testplanselectChanged($event)">
+          <el-form-item label="功能测试任务" prop="testplanname" required>
+          <el-select v-model="tmpquery.testplanname" placeholder="测试任务" @change="testplanselectChanged($event)">
             <el-option label="请选择" value=""/>
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
@@ -99,7 +99,7 @@
               border
               highlight-current-row
             >
-              <el-table-column label="测试集合前置条件数" align="center" prop="testCollectionConditionsNUms" width="350">
+              <el-table-column label="测试任务前置条件数" align="center" prop="testCollectionConditionsNUms" width="350">
               </el-table-column>
               <el-table-column label="测试用例前置条件数" align="center" prop="caseConditionNums" width="340"/>
             </el-table>
@@ -320,7 +320,7 @@
               </template>
             </el-table-column>
             <el-table-column label="执行机" align="center" prop="slavername" width="150"/>
-            <el-table-column label="测试集合" align="center" prop="execplanname" width="150"/>
+            <el-table-column label="测试任务" align="center" prop="execplanname" width="150"/>
             <el-table-column label="执行计划" align="center" prop="batchname" width="150"/>
             <el-table-column label="执行用例" align="center" prop="testcasename" width="150"/>
             <el-table-column label="状态" align="center" prop="status" width="100"/>
@@ -483,7 +483,7 @@
     methods: {
       unix2CurrentTime,
       /**
-       * 获取测试集合列表
+       * 获取测试任务列表
        */
       drawLine() {
         const echarts = require('echarts')

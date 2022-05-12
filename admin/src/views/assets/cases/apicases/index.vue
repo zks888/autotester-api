@@ -2242,7 +2242,7 @@
         this.existcasemultipleSelection = rows
       },
       /**
-       * 装载测试集合的用例
+       * 装载测试任务的用例
        */
       adddebugconditiontestcase() {
         this.testcaseList = []

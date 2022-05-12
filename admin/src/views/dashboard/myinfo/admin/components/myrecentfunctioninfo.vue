@@ -8,7 +8,7 @@
       fit
       highlight-current-row
     >
-      <el-table-column label="测试集合" align="center" prop="execplanname" width="180"/>
+      <el-table-column label="测试任务" align="center" prop="execplanname" width="180"/>
       <el-table-column label="执行计划" align="center" prop="batchname" width="180"/>
       <el-table-column label="用例数" align="center" prop="totalcasenums" width="200"/>
       <el-table-column label="成功数" align="center" prop="totalsuccessnums" width="200"/>

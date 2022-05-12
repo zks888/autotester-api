@@ -42,17 +42,17 @@
           <span v-text="getIndex(scope.$index)"></span>
         </template>
       </el-table-column>
-      <el-table-column label="测试集合名" align="center" prop="executeplanname" width="180"/>
-      <el-table-column label="执行计划" align="center" prop="batchname" width="180"/>
+      <el-table-column label="测试任务名" align="center" prop="executeplanname" width="140"/>
+      <el-table-column label="执行计划" align="center" prop="batchname" width="140"/>
       <el-table-column label="状态" align="center" prop="status" width="80"/>
       <el-table-column label="来源" align="center" prop="source" width="60"/>
       <el-table-column label="执行类型" align="center" prop="exectype" width="80"/>
-      <el-table-column label="执行时间" align="center" prop="execdate" width="160"/>
+      <el-table-column label="执行时间" align="center" prop="execdate" width="140"/>
       <el-table-column label="操作人" align="center" prop="creator" width="100"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="150">
+      <el-table-column label="创建时间" align="center" prop="createTime" width="140">
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.createTime) }}</template>
       </el-table-column>
-      <el-table-column label="最后修改时间" align="center" prop="lastmodifyTime" width="150">
+      <el-table-column label="最后修改时间" align="center" prop="lastmodifyTime" width="140">
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.lastmodifyTime) }}
         </template>
       </el-table-column>
@@ -210,7 +210,7 @@
 
       /**
        * 显示修改执行计划批次对话框
-       * @param index测试集合批次下标
+       * @param index测试任务批次下标
        */
       showUpdateexecuteplanbatchDialog(index) {
         this.dialogFormVisible = true
@@ -222,8 +222,8 @@
       },
 
       /**
-       *测试集合批次是否唯一
-       * @param测试集合批次
+       *测试任务批次是否唯一
+       * @param测试任务批次
        */
       isUniqueDetail(executeplanbatch) {
         for (let i = 0; i < this.executeplanbatchList.length; i++) {

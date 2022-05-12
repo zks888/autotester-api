@@ -12,8 +12,8 @@
       </el-table-column>
       <el-table-column label="功能用例数" align="center" prop="apiFunctionCaseNums" width="180"/>
       <el-table-column label="性能用例数" align="center" prop="apiPerformanceCaseNums" width="180"/>
-      <el-table-column label="功能测试集合数" align="center" prop="execplanFunnums" width="200"/>
-      <el-table-column label="性能测试集合数" align="center" prop="execplanPerformancenums" width="200"/>
+      <el-table-column label="功能测试任务数" align="center" prop="execplanFunnums" width="200"/>
+      <el-table-column label="性能测试任务数" align="center" prop="execplanPerformancenums" width="200"/>
       <el-table-column label="前置条件数" align="center" prop="testConditions" width="220"/>
     </el-table>
   </div>

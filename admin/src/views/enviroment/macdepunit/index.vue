@@ -16,19 +16,18 @@
             icon="el-icon-plus"
             v-if="hasPermission('macdepunit:add')"
             @click.native.prevent="showAddmacdepunitDialog"
-          >添加环境部署</el-button>
+          >添加环境配置</el-button>
         </el-form-item>
 
         <span v-if="hasPermission('macdepunit:search')">
           <el-form-item label="测试环境" prop="enviromentname"  >
-          <el-select v-model="search.enviromentname"   placeholder="测试环境名" style="width:100%" @change="selectChangedEN($event)">
-            <div v-for="(envname, index) in enviromentnameList" :key="index">
-              <el-option :label="envname.enviromentname" :value="envname.enviromentname" required/>
-            </div>
-          </el-select>
-        </el-form-item>
-
-           <el-form-item label="发布单元" prop="deployunitname"  >
+            <el-select v-model="search.enviromentname"   placeholder="测试环境名" style="width:100%" @change="selectChangedEN($event)">
+              <div v-for="(envname, index) in enviromentnameList" :key="index">
+                <el-option :label="envname.enviromentname" :value="envname.enviromentname" required/>
+              </div>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="发布单元" prop="deployunitname"  >
             <el-select v-model="search.deployunitname"  placeholder="发布单元" style="width:100%" @change="selectChangedDU($event)">
               <div v-for="(depunit, index) in deployUnitList" :key="index">
                 <el-option :label="depunit.deployunitname" :value="depunit.deployunitname" required/>
@@ -57,7 +56,7 @@
       </el-table-column>
       <el-table-column label="测试环境" align="center" prop="enviromentname" width="120"/>
       <el-table-column label="服务器" align="center" prop="machinename" width="100"/>
-      <el-table-column label="发布单元,组件名" align="center" prop="deployunitname" width="120"/>
+      <el-table-column label="服务/组件名" align="center" prop="deployunitname" width="120"/>
       <el-table-column label="组件类型" align="center" prop="assembletype" width="70"/>
       <el-table-column label="访问方式" align="center" prop="visittype" width="70"/>
       <el-table-column label="访问域名" align="center" prop="domain" width="150"/>
@@ -244,9 +243,9 @@
         domianVisible: false,
         dialogFormVisible: false,
         textMap: {
-          updateRole: '修改部署发布单元,组件',
-          update: '修改部署发布单元,组件',
-          add: '部署发布单元,组件'
+          updateRole: '修改环境配置',
+          update: '修改环境配置',
+          add: '添加环境配置'
         },
         btnLoading: false, // 按钮等待动画
         tmpmacdepunit: {
