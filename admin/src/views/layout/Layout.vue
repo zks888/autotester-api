@@ -1,6 +1,5 @@
 <template>
   <div class="app-wrapper" :class="classObj">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <div class="sidebar-wrapper">
       <sidebar class="sidebar-container" />
     </div>
@@ -57,9 +56,9 @@ export default {
   width: 100%;
   &.hideSidebar {
     .sidebar-wrapper {
-      transform: translate(-140px, 0);
+      transform: translate(0, 0);
       .sidebar-container {
-        transform: translate(132px, 0);
+        transform: translate(0, 0);
       }
       &:hover {
         transform: translate(0, 0);
@@ -73,7 +72,7 @@ export default {
     }
   }
   .sidebar-wrapper {
-    width: 180px;
+    width: 54px;
     position: fixed;
     top: 0;
     bottom: 0;

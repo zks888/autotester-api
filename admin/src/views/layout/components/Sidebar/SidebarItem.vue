@@ -11,13 +11,13 @@
           {{ item.children[0].name }}
         </el-menu-item>
       </router-link>
-      <el-submenu :index="item.name" :key="item.name" v-if="!item.noDropDown && !item.hidden" >
+      <el-submenu :index="item.name" :key="item.name" v-if="!item.noDropDown && !item.hidden">
         <template slot="title">
           <icon-svg v-if="item.icon" :icon-class="item.icon" />
           {{ item.name }}
         </template>
         <template v-for="(child,index) in item.children">
-          <div v-if="!child.hidden" :key="child.name">
+          <div v-if="!child.hidden" :key="child.name" v-show="sidebar.opened">
             <sidebar-item
               class="menu-indent"
               v-if="child.children && child.children.length > 0"
@@ -38,8 +38,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'SidebarItem',
+  computed: {
+    ...mapGetters(['sidebar'])
+  },
   props: {
     routes: {
       type: Array

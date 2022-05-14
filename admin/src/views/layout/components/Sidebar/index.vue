@@ -2,8 +2,7 @@
   <!-- http://element-cn.eleme.io/#/zh-CN/component/menu -->
   <!--:default-active="activeMenu"-->
   <!--:collapse="isCollapse"-->
-  <el-menu
-    mode="vertical" default-active="activeMenu" text-color="rgba(8, 6, 10, 0.94)" unique-opened>
+  <el-menu mode="vertical" default-active="activeMenu" text-color="rgba(8, 6, 10, 0.94)" unique-opened>
     <sidebar-item :routes="permissionRouters" />
   </el-menu>
 </template>
