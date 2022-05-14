@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.ConditionApiMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.ConditionApi">
+<mapper namespace="com.zks888.api.mapper.ConditionApiMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.ConditionApi">
     <!--
       WARNING - @mbg.generated
     -->
@@ -32,7 +32,7 @@
     FROM condition_api where conditionid = #{conditionid}
   </select>
 
-  <update id="updateTestconditionapi" parameterType="com.zoctan.api.entity.Testcondition">
+  <update id="updateTestconditionapi" parameterType="com.zks888.api.entity.Testcondition">
     update condition_api set conditionid = #{conditionid}, deployunitid = #{deployunitid},caseid=#{caseid},
     conditionname = #{conditionname},deployunitname = #{deployunitname},apiname = #{apiname},casename = #{casename},
     memo = #{memo},creator = #{creator}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%m:%s')

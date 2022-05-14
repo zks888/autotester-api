@@ -1,7 +1,7 @@
-package com.zoctan.api;
+package com.zks888.api;
 
 import com.alibaba.fastjson.JSON;
-import com.zoctan.api.core.response.Result;
+import com.zks888.api.core.response.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.runner.RunWith;

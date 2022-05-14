@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.ConditionDelayMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.ConditionDelay">
+<mapper namespace="com.zks888.api.mapper.ConditionDelayMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.ConditionDelay">
     <!--
       WARNING - @mbg.generated
     -->
@@ -24,7 +24,7 @@
     order by lastmodify_time  DESC
   </select>
 
-  <update id="updateTestconditiondelay" parameterType="com.zoctan.api.entity.ConditionDelay">
+  <update id="updateTestconditiondelay" parameterType="com.zks888.api.entity.ConditionDelay">
     update condition_delay set conditionid = #{conditionid},
      conditionname = #{conditionname},subconditionname=#{subconditionname},delaytime=#{delaytime},
     creator = #{creator}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')

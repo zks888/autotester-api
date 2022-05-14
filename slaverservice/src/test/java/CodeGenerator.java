@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.zoctan.api.core.constant.ProjectConstant.*;
+import static com.zks888.api.core.constant.ProjectConstant.*;
 
 /**
  * 代码生成器 根据数据表名称生成对应的 Entity、Mapper、Service、Controller 简化开发

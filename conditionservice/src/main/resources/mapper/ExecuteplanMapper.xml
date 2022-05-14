@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.ExecuteplanMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Executeplan">
+<mapper namespace="com.zks888.api.mapper.ExecuteplanMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Executeplan">
     <!--
       WARNING - @mbg.generated
     -->
@@ -28,7 +28,7 @@
     </where>
   </select>
 
-  <update id="updateexecuteplanname" parameterType="com.zoctan.api.entity.Executeplan">
+  <update id="updateexecuteplanname" parameterType="com.zks888.api.entity.Executeplan">
     update executeplan set executeplanname = #{executeplanname}, usetype=#{usetype}, memo = #{memo},ip =#{ip}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%m:%s')
     where id = #{id};
   </update>

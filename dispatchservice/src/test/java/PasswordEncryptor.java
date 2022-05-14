@@ -1,4 +1,4 @@
-import com.zoctan.api.Application;
+import com.zks888.api.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

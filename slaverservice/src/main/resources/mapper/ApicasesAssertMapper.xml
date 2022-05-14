@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.ApicasesAssertMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.ApicasesAssert">
+<mapper namespace="com.zks888.api.mapper.ApicasesAssertMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.ApicasesAssert">
     <!--
       WARNING - @mbg.generated
     -->
@@ -35,7 +35,7 @@
 
 
 
-  <update id="updateAssert" parameterType="com.zoctan.api.entity.ApicasesAssert">
+  <update id="updateAssert" parameterType="com.zks888.api.entity.ApicasesAssert">
     update apicases_assert set asserttype = #{asserttype},assertsubtype=#{assertsubtype},expression=#{expression},assertcondition=#{assertcondition},
     assertvalues = #{assertvalues}, assertvaluetype=#{assertvaluetype}, creator = #{creator}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
     where id = #{id};

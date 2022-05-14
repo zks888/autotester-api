@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.TestconditionMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Testcondition">
+<mapper namespace="com.zks888.api.mapper.TestconditionMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Testcondition">
     <!--
       WARNING - @mbg.generated
     -->
@@ -34,7 +34,7 @@
     SELECT * FROM testcondition where objectid = #{objectid} and conditiontype=#{conditiontype} and objecttype = #{objecttype}
   </select>
 
-  <update id="updateTestcondition" parameterType="com.zoctan.api.entity.Testcondition">
+  <update id="updateTestcondition" parameterType="com.zks888.api.entity.Testcondition">
     update testcondition set objectid = #{objectid},conditionname = #{conditionname}, objectname = #{objectname},objecttype=#{objecttype},conditiontype=#{conditiontype},
     memo = #{memo},creator = #{creator}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%m:%s')
     where id = #{id};

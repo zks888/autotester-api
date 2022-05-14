@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.ConditionDbMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.ConditionDb">
+<mapper namespace="com.zks888.api.mapper.ConditionDbMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.ConditionDb">
     <!--
       WARNING - @mbg.generated
     -->
@@ -33,7 +33,7 @@
     order by lastmodify_time  DESC
   </select>
 
-  <update id="updateTestconditiondb" parameterType="com.zoctan.api.entity.ConditionDb">
+  <update id="updateTestconditiondb" parameterType="com.zks888.api.entity.ConditionDb">
     update condition_db set conditionid = #{conditionid}, enviromentid = #{enviromentid},assembleid=#{assembleid},
     conditionname = #{conditionname},subconditionname = #{subconditionname},enviromentname = #{enviromentname},assemblename = #{assemblename},
      dbtype = #{dbtype},dbcontent = #{dbcontent},creator = #{creator}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')

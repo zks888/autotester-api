@@ -68,28 +68,28 @@ elasticjob:
     namespace: dispatch-jobs
   jobs:
     check-function-slaver-alive-schedule-task:
-      elastic-job-class: com.zoctan.api.core.Scheduled.CheckFunctionSlaverAliveScheduleTask
+      elastic-job-class: com.zks888.api.core.Scheduled.CheckFunctionSlaverAliveScheduleTask
       cron: 0/5 * * * * ?
       sharding-total-count: 1
       overwrite: true
       job-parameter: test
       sharding-item-parameters: 0=A,1=B,2=C
     check-performance-slaver-alive-schedule-task:
-      elastic-job-class: com.zoctan.api.core.Scheduled.CheckPerformanceSlaverAliveScheduleTask
+      elastic-job-class: com.zks888.api.core.Scheduled.CheckPerformanceSlaverAliveScheduleTask
       cron: 0/5 * * * * ?
       sharding-total-count: 1
       overwrite: true
       job-parameter: test
       sharding-item-parameters: 0=A,1=B,2=C
     function-dispatch-schedule-task:
-      elastic-job-class: com.zoctan.api.core.Scheduled.FunctionDispatchScheduleTask
+      elastic-job-class: com.zks888.api.core.Scheduled.FunctionDispatchScheduleTask
       cron: 0/5 * * * * ?
       sharding-total-count: 1
       overwrite: true
       job-parameter: test
       sharding-item-parameters: 0=A,1=B,2=C
     performance-dispatch-schedule-task:
-      elastic-job-class: com.zoctan.api.core.Scheduled.PerformanceDispatchScheduleTask
+      elastic-job-class: com.zks888.api.core.Scheduled.PerformanceDispatchScheduleTask
       cron: 0/5 * * * * ?
       sharding-total-count: 1
       overwrite: true
@@ -117,13 +117,13 @@ jasypt.encryptor:
 
 mybatis:
   # 存放实体的位置
-  type-aliases-package: com.zoctan.api.entity
+  type-aliases-package: com.zks888.api.entity
   # 存放 mapper 映射文件的位置
   mapper-locations: classpath:mapper/*.xml
 
 mapper:
   # 多个接口时逗号隔开
-  mappers: com.zoctan.api.core.mapper.MyMapper
+  mappers: com.zks888.api.core.mapper.MyMapper
   # insert 和 update 中，判断字符串类型 != ''
   not-empty: false
   # 取回主键的方式
@@ -159,7 +159,7 @@ jwt:
 # 日志
 logging:
   #  # 以文件方式记录日志
-  level.com.zoctan.api: debug
+  level.com.zks888.api: debug
   file: dispatchservice.log
   #  # 设置目录
   path: /Users/zhaoks/dangdang/autotester-api/dispatchservice/log

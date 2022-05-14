@@ -1,4 +1,4 @@
-import com.zoctan.api.core.rsa.RsaUtils;
+import com.zks888.api.core.rsa.RsaUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Assert;
@@ -33,7 +33,7 @@ public class RsaEncryptor {
         System.out.println("公钥：" + publicKey);
         System.out.println("私钥：" + privateKey);
 
-        final String data = "zoctan";
+        final String data = "zks888";
         // 公钥加密
         final byte[] encrypted = rsaUtil.encrypt(data.getBytes());
         System.out.println("加密后：" + Base64.encodeBase64String(encrypted));

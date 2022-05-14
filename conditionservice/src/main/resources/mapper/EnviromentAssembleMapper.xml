@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.EnviromentAssembleMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.EnviromentAssemble">
+<mapper namespace="com.zks888.api.mapper.EnviromentAssembleMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.EnviromentAssemble">
     <!--
       WARNING - @mbg.generated
     -->
@@ -27,7 +27,7 @@
 
 
 
-  <update id="updateenviromentassemble" parameterType="com.zoctan.api.entity.EnviromentAssemble">
+  <update id="updateenviromentassemble" parameterType="com.zks888.api.entity.EnviromentAssemble">
     update enviroment_assemble set assembletype = #{assembletype}, assemblename = #{assemblename},memo = #{memo},
     connectstr = #{connectstr},creator = #{creator}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
     where id = #{id};
