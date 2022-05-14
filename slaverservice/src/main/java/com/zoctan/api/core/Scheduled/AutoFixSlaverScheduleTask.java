@@ -4,13 +4,11 @@ import com.zoctan.api.core.config.RedisUtils;
 import com.zoctan.api.entity.Slaver;
 import com.zoctan.api.mapper.SlaverMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -25,7 +23,6 @@ public class AutoFixSlaverScheduleTask {
     RedisUtils redisUtils;
     @Autowired(required = false)
     private SlaverMapper slaverMapper;
-    //private String redisKey = "";
 
     //3.添加定时任务
     @Scheduled(cron = "0/3 * * * * ?")
@@ -46,7 +43,6 @@ public class AutoFixSlaverScheduleTask {
             if (lock) {
                 //TODO 执行任务结束后需要释放锁
                 try {
-//                    String MacAddress=getMacByIP(ip);
                     List<String> list = getMACAddress();
                     String MacAddress = list.get(0);
                     log.info("自动修复Slaver更新MacAddress为=======================" + MacAddress);
@@ -82,23 +78,6 @@ public class AutoFixSlaverScheduleTask {
             log.info("自动修复Slaver-调度定时器异常: " + ex.getMessage());
         }
 
-    }
-
-    private String getMacByIP(String IP) throws Exception {
-        InetAddress ia = InetAddress.getByName(IP);
-        log.info("自动修复SlavergetMacByIP-getHostAddress: " + ia.getHostAddress());
-        byte[] mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
-        log.info("自动修复Slaver-mac长度: " + mac.length);
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < mac.length; i++) {
-            if (i != 0) {
-                sb.append("-");
-            }
-            String hexString = Integer.toHexString(mac[i] & 0xFF);
-            log.info("自动修复Slaver-getMacByIP-hexString: " + hexString);
-            sb.append(hexString.length() == 1 ? "0" + hexString : hexString);
-        }
-        return sb.toString().toUpperCase();
     }
 
     public static List<String> getMACAddress() throws SocketException {

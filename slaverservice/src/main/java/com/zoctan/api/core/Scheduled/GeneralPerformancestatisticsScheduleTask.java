@@ -12,13 +12,11 @@ import com.zoctan.api.mapper.SlaverMapper;
 import com.zoctan.api.service.ApicasesPerformancestatisticsService;
 import com.zoctan.api.service.ExecuteplanService;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.jetty.client.Origin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,14 +25,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
-/**
- * Created by fanseasn on 2020/11/21.
- */
-/*
- @author Season
- @DESCRIPTION
- @create 2020/11/21
-*/
 @Slf4j
 @Configuration      //1.主要用于标记配置类，兼备Component的效果。
 @EnableScheduling   // 2.开启定时任务

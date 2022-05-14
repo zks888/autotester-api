@@ -80,4 +80,9 @@ sed -i "" "s/127.0.0.1/${local_ip}/g" ../Beta/testcenterapp/dist/static/config.j
 sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/testcenterapp/dist/static/config.js
 echo "修改IP成功"
 docker-compose -f docker-compose.yaml up -d 
-echo "AutoTester部署成功，执行完增量sql后，访问入口 http://$local_ip:8084  默认账户密码admin wawa521"
+echo "AutoTester部署成功，访问入口 http://$local_ip:8084  默认账户密码admin wawa521"
+echo "调度任务访问入口 http://$local_ip:8088  默认账户密码root wawa521"
+
+
+
+

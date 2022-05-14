@@ -62,6 +62,40 @@ spring:
     # 关闭模版检查
     checkTemplateLocation: false
 
+elasticjob:
+  reg-center:
+    server-lists: 192.168.1.7:2181
+    namespace: dispatch-jobs
+  jobs:
+    check-function-slaver-alive-schedule-task:
+      elastic-job-class: com.zoctan.api.core.Scheduled.CheckFunctionSlaverAliveScheduleTask
+      cron: 0/5 * * * * ?
+      sharding-total-count: 1
+      overwrite: true
+      job-parameter: test
+      sharding-item-parameters: 0=A,1=B,2=C
+    check-performance-slaver-alive-schedule-task:
+      elastic-job-class: com.zoctan.api.core.Scheduled.CheckPerformanceSlaverAliveScheduleTask
+      cron: 0/5 * * * * ?
+      sharding-total-count: 1
+      overwrite: true
+      job-parameter: test
+      sharding-item-parameters: 0=A,1=B,2=C
+    function-dispatch-schedule-task:
+      elastic-job-class: com.zoctan.api.core.Scheduled.FunctionDispatchScheduleTask
+      cron: 0/5 * * * * ?
+      sharding-total-count: 1
+      overwrite: true
+      job-parameter: test
+      sharding-item-parameters: 0=A,1=B,2=C
+    performance-dispatch-schedule-task:
+      elastic-job-class: com.zoctan.api.core.Scheduled.PerformanceDispatchScheduleTask
+      cron: 0/5 * * * * ?
+      sharding-total-count: 1
+      overwrite: true
+      job-parameter: test
+      sharding-item-parameters: 0=A,1=B,2=C
+
 rsa:
   # 私钥位置
   # private-key-path: rsa/private-key.pem
@@ -128,4 +162,4 @@ logging:
   level.com.zoctan.api: debug
   file: dispatchservice.log
   #  # 设置目录
-  path: /opt/dispatchservice/log
+  path: /Users/zhaoks/dangdang/autotester-api/dispatchservice/log

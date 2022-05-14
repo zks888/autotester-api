@@ -2,31 +2,25 @@ package com.zoctan.api.core.Scheduled;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import com.zoctan.api.core.config.RedisUtils;
 import com.zoctan.api.core.service.HttpHeader;
 import com.zoctan.api.core.service.Httphelp;
 import com.zoctan.api.entity.*;
 import com.zoctan.api.mapper.*;
 import com.zoctan.api.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.elasticjob.api.ShardingContext;
+import org.apache.shardingsphere.elasticjob.simple.job.SimpleJob;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Condition;
-
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
-@Configuration      //1.主要用于标记配置类，兼备Component的效果。
-@EnableScheduling   // 2.开启定时任务
 @Component
-public class CheckFunctionSlaverAliveScheduleTask {
+public class CheckFunctionSlaverAliveScheduleTask implements SimpleJob {
 
     @Autowired(required = false)
     private SlaverMapper slaverMapper;
@@ -61,34 +55,13 @@ public class CheckFunctionSlaverAliveScheduleTask {
     @Autowired(required = false)
     private ExecuteplanMapper executeplanMapper;
 
-    @Autowired(required = false)
-    RedisUtils redisUtils;
-    private String redisKey = "";
-
     //3.添加定时任务,补偿检查slaveservice是否在线，如下线则补偿
-    @Scheduled(cron = "0/5 * * * * ?")
-    //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
-    private void configureTasks() {
+    @Override
+    public void execute(ShardingContext shardingContext) {
         try {
-            long redis_default_expire_time = 2000;
-            boolean lock = redisUtils.tryLock(redisKey, "CheckFunctionSlaverAliveScheduleTask", redis_default_expire_time);
-            if (lock) {
-                try {
-                    CheckAliveSlaver();
-                } catch (Exception ex) {
-                    log.info("调度服务检查功能Slaver是否Alive定时器异常=======================" + ex.getMessage());
-                } finally {
-                    //TODO 执行任务结束后需要释放锁
-                    //释放锁
-                    redisUtils.deletekey(redisKey);
-                    log.info("调度服务检查功能Slaver是否Alive定时器-============释放分布式锁成功=======================");
-                }
-            } else {
-                log.info("调度服务检查功能Slaver是否Alive定时器-============{}机器上占用分布式锁，正在执行中=======================" + redisKey);
-            }
+            CheckAliveSlaver();
         } catch (Exception ex) {
-            log.info("调度服务检查功能Slaver是否Alive定时器-异常: " + ex.getMessage());
+            log.info("调度服务检查功能Slaver是否Alive定时器异常=======================" + ex.getMessage());
         }
     }
 
@@ -262,11 +235,5 @@ public class CheckFunctionSlaverAliveScheduleTask {
             }
         }
         return slaverlistresult;
-    }
-
-    @PostConstruct
-    public void Init() {
-        redisKey = "CheckFunctionSlaverAliveScheduleTask-RedisLock" + new Date();
-        log.info("调度服务检查功能Slaver调度服务检查Slaver是否Alive定时器-redisKey is:" + redisKey);
     }
 }

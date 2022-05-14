@@ -2,43 +2,30 @@ package com.zoctan.api.core.Scheduled;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import com.zoctan.api.core.config.RedisUtils;
 import com.zoctan.api.core.service.HttpHeader;
-import com.zoctan.api.core.service.HttpParamers;
 import com.zoctan.api.core.service.Httphelp;
 import com.zoctan.api.entity.*;
 import com.zoctan.api.mapper.*;
 import com.zoctan.api.service.*;
-import com.zoctan.api.service.impl.ExecuteplanServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.ListUtils;
+import org.apache.shardingsphere.elasticjob.api.ShardingContext;
+import org.apache.shardingsphere.elasticjob.simple.job.SimpleJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.entity.Condition;
-
-import javax.annotation.PostConstruct;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
-@Configuration      //1.主要用于标记配置类，兼备Component的效果。
-@EnableScheduling   // 2.开启定时任务
 @Component
-public class FunctionDispatchScheduleTask {
+public class FunctionDispatchScheduleTask implements SimpleJob {
     @Value("${spring.conditionserver.serverurl}")
     private String conditionserver;
-
     @Autowired(required = false)
     private SlaverMapper slaverMapper;
-    @Autowired(required = false)
-    RedisUtils redisUtils;
     @Autowired(required = false)
     private DispatchMapper dispatchMapper;
     @Autowired(required = false)
@@ -59,80 +46,63 @@ public class FunctionDispatchScheduleTask {
     private TestconditionReportService testconditionReportService;
     @Autowired(required = false)
     private DispatchService dispatchService;
-    private String redisKey = "";
 
     //3.添加定时任务,处理功能测试任务
-    @Scheduled(cron = "0/5 * * * * ?")
-    //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
-    private void configureTasks() {
+    @Override
+    public void execute(ShardingContext shardingContext) {
         try {
-            long redis_default_expire_time = 2000;
-            boolean lock = redisUtils.tryLock(redisKey, "FunctionDispatchScheduleTask", redis_default_expire_time);
-            if (lock) {
-                try {
-                    Dispatch dispatch = dispatchMapper.getrecentdispatchbyusetype("待分配", "功能");
-                    if (dispatch != null) {
-                        Long PlanID = dispatch.getExecplanid();
-                        String BatchName = dispatch.getBatchname();
-                        //判断计划的所有前置条件是否已经完成，并且全部成功，否则更新Dispatch状态为前置条件失败
-                        boolean flag = ConditionRequest(PlanID, BatchName, dispatch);   //IsConditionFinish(PlanID,BatchName);
-                        if (flag) {
-                            List<Dispatch> SlaverIDList = dispatchMapper.getdistinctslaverid("待分配", "功能", PlanID, BatchName);
-                            if (SlaverIDList.size() > 0) {
-                                //try {
-                                for (Dispatch dispatch1 : SlaverIDList) {
-                                    Slaver slaver = new Slaver();
-                                    List<Dispatch> SlaverDispathcList = new ArrayList<>();
-                                    try {
-                                        Long Slaverid = dispatch1.getSlaverid();
-                                        log.info("调度服务【功能】测试定时器..................PlanID:" + PlanID + " BatchName:" + BatchName + " slaverid:" + Slaverid);
-                                        slaver = slaverMapper.findslaverbyid(Slaverid);
-                                        log.info("调度服务【功能】执行机 SlaverIP:" + slaver.getIp() + " 状态：" + slaver.getStatus());
-                                        //检测slaver是否运行，如果异常认为已经挂了，
-                                        CheckAliveSlaver(slaver);
-                                        if ("空闲".equals(slaver.getStatus())) {
-                                            SlaverDispathcList = dispatchMapper.getfunctiondispatchsbyslaverid(Slaverid, "待分配", "功能", PlanID, BatchName);
-                                            log.info("调度服务【功能】测试定时器 slaver:" + slaver.getSlavername() + " 获取dispatch数-：" + SlaverDispathcList.size());
-                                            if (SlaverDispathcList.size() > 0) {
-                                                String params = JSON.toJSONString(SlaverDispathcList);
-                                                log.info("调度服务【功能】测试定时器-============执行机id：" + slaver.getId() + "  执行机名：" + slaver.getSlavername() + " 执行的dispatch：" + params);
-                                                HttpHeader header = new HttpHeader();
-                                                String ServerUrl = "http://" + slaver.getIp() + ":" + slaver.getPort() + "/exectestplancase/execfunctiontest";
-                                                String response = Httphelp.doPost(ServerUrl, params, header, 30000);
-                                                if (response.contains("未找到IP为")) {
-                                                    throw new Exception(response);
-                                                }
-                                                log.info("调度服务【功能】测试定时器-============请求slaver响应结果：" + response);
-                                            }
+            Dispatch dispatch = dispatchMapper.getrecentdispatchbyusetype("待分配", "功能");
+            if (dispatch != null) {
+                Long PlanID = dispatch.getExecplanid();
+                String BatchName = dispatch.getBatchname();
+                //判断计划的所有前置条件是否已经完成，并且全部成功，否则更新Dispatch状态为前置条件失败
+                boolean flag = ConditionRequest(PlanID, BatchName, dispatch);   //IsConditionFinish(PlanID,BatchName);
+                if (flag) {
+                    List<Dispatch> SlaverIDList = dispatchMapper.getdistinctslaverid("待分配", "功能", PlanID, BatchName);
+                    if (SlaverIDList.size() > 0) {
+                        //try {
+                        for (Dispatch dispatch1 : SlaverIDList) {
+                            Slaver slaver = new Slaver();
+                            List<Dispatch> SlaverDispathcList = new ArrayList<>();
+                            try {
+                                Long Slaverid = dispatch1.getSlaverid();
+                                log.info("调度服务【功能】测试定时器..................PlanID:" + PlanID + " BatchName:" + BatchName + " slaverid:" + Slaverid);
+                                slaver = slaverMapper.findslaverbyid(Slaverid);
+                                log.info("调度服务【功能】执行机 SlaverIP:" + slaver.getIp() + " 状态：" + slaver.getStatus());
+                                //检测slaver是否运行，如果异常认为已经挂了，
+                                CheckAliveSlaver(slaver);
+                                if ("空闲".equals(slaver.getStatus())) {
+                                    SlaverDispathcList = dispatchMapper.getfunctiondispatchsbyslaverid(Slaverid, "待分配", "功能", PlanID, BatchName);
+                                    log.info("调度服务【功能】测试定时器 slaver:" + slaver.getSlavername() + " 获取dispatch数-：" + SlaverDispathcList.size());
+                                    if (SlaverDispathcList.size() > 0) {
+                                        String params = JSON.toJSONString(SlaverDispathcList);
+                                        log.info("调度服务【功能】测试定时器-============执行机id：" + slaver.getId() + "  执行机名：" + slaver.getSlavername() + " 执行的dispatch：" + params);
+                                        HttpHeader header = new HttpHeader();
+                                        String ServerUrl = "http://" + slaver.getIp() + ":" + slaver.getPort() + "/exectestplancase/execfunctiontest";
+                                        String response = Httphelp.doPost(ServerUrl, params, header, 30000);
+                                        if (response.contains("未找到IP为")) {
+                                            throw new Exception(response);
                                         }
-                                    } catch (Exception ex) {
-                                        String ErrorMessage = "";
-                                        if (ex.getMessage().contains("未找到IP为")) {
-                                            ErrorMessage = "未找到用例所分配的执行机：" + slaver.getSlavername() + "已被删除，请重新注册";
-                                        } else {
-                                            ErrorMessage = "用例所分配的执行机:" + slaver.getSlavername() + "已下线，请检查此slaver是否正常运行！";
-                                        }
-                                        //自动更换到可用的slaver上，如果没有可用的slaver再把dispatch状态更新为调度失败
-                                        CompensateAfterFail(ErrorMessage, dispatch, PlanID, SlaverDispathcList);
-                                        log.info("调度服务【功能】测试定时器请求执行服务异常：" + ex.getMessage());
+                                        log.info("调度服务【功能】测试定时器-============请求slaver响应结果：" + response);
                                     }
                                 }
+                            } catch (Exception ex) {
+                                String ErrorMessage = "";
+                                if (ex.getMessage().contains("未找到IP为")) {
+                                    ErrorMessage = "未找到用例所分配的执行机：" + slaver.getSlavername() + "已被删除，请重新注册";
+                                } else {
+                                    ErrorMessage = "用例所分配的执行机:" + slaver.getSlavername() + "已下线，请检查此slaver是否正常运行！";
+                                }
+                                //自动更换到可用的slaver上，如果没有可用的slaver再把dispatch状态更新为调度失败
+                                CompensateAfterFail(ErrorMessage, dispatch, PlanID, SlaverDispathcList);
+                                log.info("调度服务【功能】测试定时器请求执行服务异常：" + ex.getMessage());
                             }
                         }
                     }
-                } catch (Exception ex) {
-                    log.info("调度服务【功能】测试定时器异常=======================" + ex.getMessage());
-                } finally {
-                    //释放锁
-                    redisUtils.deletekey(redisKey);
-                    log.info("调度服务【功能】测试定时器-============释放分布式锁成功=======================");
                 }
-            } else {
-                log.info("调度服务【功能】测试定时器-============{}机器上占用分布式锁，正在执行中=======================" + redisKey);
             }
         } catch (Exception ex) {
-            log.info("调度服务【功能】测试定时器-异常: " + ex.getMessage());
+            log.info("调度服务【功能】测试定时器异常=======================" + ex.getMessage());
         }
     }
 
@@ -355,11 +325,5 @@ public class FunctionDispatchScheduleTask {
             }
         }
         return slaverlistresult;
-    }
-
-    @PostConstruct
-    public void Init() {
-        redisKey = "Dispatchservice-FunctionDispatchScheduleTask-RedisLock" + new Date();
-        log.info("调度服务【功能】测试定时器-redisKey is:" + redisKey);
     }
 }

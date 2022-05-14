@@ -42,6 +42,8 @@
         <jasypt.version>2.1.0</jasypt.version>
         <freemarker.version>2.3.28</freemarker.version>
         <lombok.version>1.18.8</lombok.version>
+        <elasticjob-lite.version>3.0.1</elasticjob-lite.version>
+        <org.apache.zookeeper>3.6.2</org.apache.zookeeper>
     </properties>
 
     <dependencies>
@@ -218,12 +220,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <!-- https://gitee.com/plumeorg/spring-schedule-admin -->
-        <dependency>
-            <groupId>com.plumelog</groupId>
-            <artifactId>spring-boot-schedule-admin-starter</artifactId>
-            <version>1.1</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
@@ -233,6 +229,17 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.shardingsphere.elasticjob/elasticjob-lite-spring-boot-starter -->
+        <dependency>
+            <groupId>org.apache.shardingsphere.elasticjob</groupId>
+            <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
+            <version>${elasticjob-lite.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>${org.apache.zookeeper}</version>
         </dependency>
     </dependencies>
 
