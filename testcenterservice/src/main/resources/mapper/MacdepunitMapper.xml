@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.MacdepunitMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Macdepunit">
+<mapper namespace="com.zks888.api.mapper.MacdepunitMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Macdepunit">
     <!--
       WARNING - @mbg.generated
     -->
@@ -48,7 +48,7 @@
     select COUNT(*) from macdepunit a where a.envid = #{envid} and depunitid =#{depunitid}
   </select>
 
-  <update id="updateMacAndDep" parameterType="com.zoctan.api.entity.Envmachine">
+  <update id="updateMacAndDep" parameterType="com.zks888.api.entity.Envmachine">
     update macdepunit set depunitid =#{depunitid}, assembleid = #{assembleid}, machineid = #{machineid}, envid = #{envid},
      enviromentname = #{enviromentname}, deployunitname = #{deployunitname},assembletype = #{assembletype}, machinename= #{machinename},
      visittype = #{visittype},domain= #{domain},creator = #{creator},

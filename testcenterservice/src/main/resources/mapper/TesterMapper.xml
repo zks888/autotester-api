@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.TesterMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Tester">
+<mapper namespace="com.zks888.api.mapper.TesterMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Tester">
     <!--
       WARNING - @mbg.generated
     -->
@@ -15,7 +15,7 @@
   </resultMap>
 
 
-  <resultMap id="testerWithNameMap" type="com.zoctan.api.entity.Tester" extends="BaseResultMap">
+  <resultMap id="testerWithNameMap" type="com.zks888.api.entity.Tester" extends="BaseResultMap">
     <result column="testername" jdbcType="VARCHAR" property="testername"/>
     <result column="testertitle" jdbcType="VARCHAR" property="testertitle"/>
   </resultMap>
@@ -35,7 +35,7 @@
     </where>
   </select>
 
-  <update id="updateTester" parameterType="com.zoctan.api.entity.Tester">
+  <update id="updateTester" parameterType="com.zks888.api.entity.Tester">
     update tester set testername = #{testername},testertitle=#{testertitle},testerorg=#{testerorg},
     testermemo = #{testermemo}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%m:%s')
     where id = #{id};

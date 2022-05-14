@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.DeployunitMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Deployunit">
+<mapper namespace="com.zks888.api.mapper.DeployunitMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Deployunit">
     <!--
       WARNING - @mbg.generated
     -->
@@ -15,7 +15,7 @@
     <result column="lastmodify_time" jdbcType="TIMESTAMP" property="lastmodifyTime" />
   </resultMap>
 
-  <resultMap id="deployValueWithNameMap" type="com.zoctan.api.entity.Deployunit" extends="BaseResultMap">
+  <resultMap id="deployValueWithNameMap" type="com.zks888.api.entity.Deployunit" extends="BaseResultMap">
     <result column="deployunitname" jdbcType="VARCHAR" property="deployunitname"/>
     <result column="protocal" jdbcType="VARCHAR" property="protocal"/>
   </resultMap>
@@ -45,7 +45,7 @@
     FROM deployunit a
   </select>
 
-  <update id="updateDeploy" parameterType="com.zoctan.api.entity.Deployunit">
+  <update id="updateDeploy" parameterType="com.zks888.api.entity.Deployunit">
     update deployunit set deployunitname = #{deployunitname}, protocal = #{protocal}, port = #{port},
     memo = #{memo}, creator = #{creator},lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
     where id = #{id};

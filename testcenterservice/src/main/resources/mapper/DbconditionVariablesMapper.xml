@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.DbconditionVariablesMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.DbconditionVariables">
+<mapper namespace="com.zks888.api.mapper.DbconditionVariablesMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.DbconditionVariables">
     <!--
       WARNING - @mbg.generated
     -->
@@ -22,7 +22,7 @@
     FROM dbcondition_variables a inner join condition_db b on a.dbconditionid=b.id where a.variablesid=#{variablesid}
   </select>
 
-  <update id="updatedbconditionvariables" parameterType="com.zoctan.api.entity.DbconditionVariables">
+  <update id="updatedbconditionvariables" parameterType="com.zks888.api.entity.DbconditionVariables">
     update dbcondition_variables set dbconditionid = #{dbconditionid}, dbconditionname = #{dbconditionname},fieldname=#{fieldname},
          roworder=#{roworder}, memo=#{memo},
      lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')

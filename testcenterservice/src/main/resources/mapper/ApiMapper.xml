@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.ApiMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Api">
+<mapper namespace="com.zks888.api.mapper.ApiMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Api">
     <!--
       WARNING - @mbg.generated
     -->
@@ -55,7 +55,7 @@
     where a.deployunitid=#{deployunitid} and a.visittype=#{visittype} and a.path=#{path}
   </select>
 
-  <update id="updateApi" parameterType="com.zoctan.api.entity.Api">
+  <update id="updateApi" parameterType="com.zks888.api.entity.Api">
     update api set apiname = #{apiname}, deployunitid = #{deployunitid}, deployunitname = #{deployunitname}, visittype = #{visittype},requesttype = #{requesttype},apistyle=#{apistyle}, path = #{path},
     memo = #{memo}, requestcontenttype = #{requestcontenttype}, responecontenttype =#{responecontenttype},creator = #{creator},  lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
     where id = #{id};

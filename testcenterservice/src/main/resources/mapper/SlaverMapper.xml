@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.SlaverMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Slaver">
+<mapper namespace="com.zks888.api.mapper.SlaverMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Slaver">
     <!--
       WARNING - @mbg.generated
     -->
@@ -43,7 +43,7 @@
     FROM slaver a
   </select>
 
-  <update id="updateSlaver" parameterType="com.zoctan.api.entity.Slaver">
+  <update id="updateSlaver" parameterType="com.zks888.api.entity.Slaver">
     update slaver set slavername = #{slavername}, ip = #{ip}, port= #{port},stype= #{stype},
     memo = #{memo}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
     where id = #{id};

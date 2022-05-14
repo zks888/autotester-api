@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.ApiParamsMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.ApiParams">
+<mapper namespace="com.zks888.api.mapper.ApiParamsMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.ApiParams">
     <!--
       WARNING - @mbg.generated
     -->
@@ -44,7 +44,7 @@
     FROM api_params a where a.apiid=#{apiid} and propertytype = #{propertytype} and keydefaultvalue = #{keydefaultvalue} and keytype = #{keytype}
   </select>
 
-  <update id="updateApiParams" parameterType="com.zoctan.api.entity.ApiParams">
+  <update id="updateApiParams" parameterType="com.zks888.api.entity.ApiParams">
     update api_params set apiname = #{apiname},deployunitid =#{deployunitid}, deployunitname = #{deployunitname}, propertytype = #{propertytype},
     keyname = #{keyname},keytype = #{keytype},keydefaultvalue = #{keydefaultvalue},creator = #{creator},
     lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')

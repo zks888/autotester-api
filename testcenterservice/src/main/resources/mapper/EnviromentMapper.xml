@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.EnviromentMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Enviroment">
+<mapper namespace="com.zks888.api.mapper.EnviromentMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Enviroment">
     <!--
       WARNING - @mbg.generated
     -->
@@ -14,7 +14,7 @@
     <result column="lastmodify_time" jdbcType="TIMESTAMP" property="lastmodifyTime" />
   </resultMap>
 
-  <resultMap id="enviromentWithNameMap" type="com.zoctan.api.entity.Enviroment" extends="BaseResultMap">
+  <resultMap id="enviromentWithNameMap" type="com.zks888.api.entity.Enviroment" extends="BaseResultMap">
     <result column="enviromentname" jdbcType="VARCHAR" property="enviromentname"/>
     <result column="memo" jdbcType="VARCHAR" property="memo"/>
   </resultMap>
@@ -38,7 +38,7 @@
     FROM enviroment a
   </select>
 
-  <update id="updateEnviroment" parameterType="com.zoctan.api.entity.Enviroment">
+  <update id="updateEnviroment" parameterType="com.zks888.api.entity.Enviroment">
     update enviroment set enviromentname = #{enviromentname},envtype=#{envtype},
     memo = #{memo},creator = #{creator}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
     where id = #{id};

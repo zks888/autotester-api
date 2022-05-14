@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zoctan.api.mapper.DictionaryMapper">
-  <resultMap id="BaseResultMap" type="com.zoctan.api.entity.Dictionary">
+<mapper namespace="com.zks888.api.mapper.DictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.zks888.api.entity.Dictionary">
     <!--
       WARNING - @mbg.generated
     -->
@@ -15,7 +15,7 @@
   </resultMap>
 
 
-  <resultMap id="DicValueWithNameMap" type="com.zoctan.api.entity.Dictionary" extends="BaseResultMap">
+  <resultMap id="DicValueWithNameMap" type="com.zks888.api.entity.Dictionary" extends="BaseResultMap">
     <result column="dicitemname" jdbcType="VARCHAR" property="dicitemname"/>
     <result column="dicitmevalue" jdbcType="VARCHAR" property="dicitmevalue"/>
   </resultMap>
@@ -35,7 +35,7 @@
     order by lastmodify_time  DESC
   </select>
 
-  <update id="updateDic" parameterType="com.zoctan.api.entity.Dictionary">
+  <update id="updateDic" parameterType="com.zks888.api.entity.Dictionary">
     update dictionary set dicname = #{dicname}, diccode = #{diccode}, dicitemname = #{dicitemname},
      dicitmevalue = #{dicitmevalue}, lastmodify_time = DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')
     where id = #{id};
