@@ -1,13 +1,12 @@
 package com.zoctan.api.core.Scheduled;
 
+import org.apache.shardingsphere.elasticjob.api.ShardingContext;
+import org.apache.shardingsphere.elasticjob.simple.job.SimpleJob;
 import com.google.common.collect.Maps;
 import com.zoctan.api.entity.*;
 import com.zoctan.api.mapper.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -15,10 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
-@Configuration      //1.主要用于标记配置类，兼备Component的效果。
-@EnableScheduling   // 2.开启定时任务
 @Component
-public class GeneralStaticsDatasScheduleTask {
+public class GeneralStaticsDatasScheduleTask implements SimpleJob {
 
     @Autowired(required = false)
     private ApicasesReportstaticsMapper apicasesReportstaticsMapper;
@@ -31,11 +28,8 @@ public class GeneralStaticsDatasScheduleTask {
     @Autowired(required = false)
     private DeployunitMapper deployunitMapper;
 
-    //3.添加定时任务
-    @Scheduled(cron = "0 30 * * * ?")
-    //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
-    private void configureTasks() {
+    @Override
+    public void execute(ShardingContext shardingContext) {
         //log.info("开始执行收集统计数据任务");
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
