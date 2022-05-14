@@ -124,21 +124,21 @@ elasticjob:
     namespace: testcenter-jobs
   jobs:
     every-day-exec-schedule-task:
-      elastic-job-class: com.zoctan.api.core.Scheduled.EveryDayExecScheduleTask
+      elastic-job-class: com.zks888.api.core.Scheduled.EveryDayExecScheduleTask
       cron: 0 * * * * ?
       sharding-total-count: 1
       overwrite: true
       job-parameter: test
       sharding-item-parameters: 0=A,1=B,2=C
     some-day-exec-schedule-task:
-      elastic-job-class: com.zoctan.api.core.Scheduled.SomeDayExecScheduleTask
+      elastic-job-class: com.zks888.api.core.Scheduled.SomeDayExecScheduleTask
       cron: 30 * * * * ?
       sharding-total-count: 1
       overwrite: true
       job-parameter: test
       sharding-item-parameters: 0=A,1=B,2=C
     general-statics-datas-schedule-task:
-      elastic-job-class: com.zoctan.api.core.Scheduled.GeneralStaticsDatasScheduleTask
+      elastic-job-class: com.zks888.api.core.Scheduled.GeneralStaticsDatasScheduleTask
       cron: 30 10 3 * * ?
       sharding-total-count: 1
       overwrite: true
