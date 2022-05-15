@@ -78,19 +78,35 @@ public class StaticsPlanandcasesController {
         Condition planstaticscond = new Condition(StaticsPlanandcases.class);
         Date startDate = DateUtils.addDays(new Date(), -15);
         String startDateStr = new SimpleDateFormat("yyyy-MM-dd").format(startDate.getTime());
-        planstaticscond.createCriteria().andCondition("statics_date >= '" + startDateStr + " 00:00:00'");
+        planstaticscond.createCriteria().andCondition("statics_date >= '" + startDateStr + "'");
         List<StaticsPlanandcases> list = staticsPlanandcasesService.listByCondition(planstaticscond);
-        List<StaticsDataForLine> staticsDataForLineList = new ArrayList<>();
+
+        HashMap<String, Integer> satiates = new HashMap<>();
+        satiates.put(startDateStr, 0);
+        for (int i=14; i>0; i--) {
+            Date date = DateUtils.addDays(new Date(), -i);
+            String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+            satiates.put(dateStr, 15-i);
+        }
+
         HashMap<String, List<Double>> tmp = new HashMap<>();
         for (StaticsPlanandcases staticsPlanandcases : list) {
             if (!tmp.containsKey(staticsPlanandcases.getTestplanname())) {
-                List<Double> planstaticsdatelist = new ArrayList<>();
-                planstaticsdatelist.add(staticsPlanandcases.getPassrate());
+                Double[] tmpArr = new Double[15];
+                Arrays.fill(tmpArr, 0.0);
+                List<Double> planstaticsdatelist = Arrays.asList(tmpArr);
+                Date date = staticsPlanandcases.getStaticsDate();
+                String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+                planstaticsdatelist.set(satiates.get(dateStr), staticsPlanandcases.getPassrate());
                 tmp.put(staticsPlanandcases.getTestplanname(), planstaticsdatelist);
             } else {
-                tmp.get(staticsPlanandcases.getTestplanname()).add(staticsPlanandcases.getPassrate());
+                Date date = staticsPlanandcases.getStaticsDate();
+                String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+                tmp.get(staticsPlanandcases.getTestplanname()).set(satiates.get(dateStr), staticsPlanandcases.getPassrate());
             }
         }
+
+        List<StaticsDataForLine> staticsDataForLineList = new ArrayList<>();
         for (String PlanName : tmp.keySet()) {
             StaticsDataForLine staticsDataForLine = new StaticsDataForLine();
             staticsDataForLine.setExecPlanName(PlanName);

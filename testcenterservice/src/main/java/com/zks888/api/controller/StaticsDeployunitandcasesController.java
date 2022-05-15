@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Condition;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author zks888
@@ -64,19 +61,35 @@ public class StaticsDeployunitandcasesController {
         Condition deployunitstaticscond = new Condition(StaticsDeployunitandcases.class);
         Date startDate = DateUtils.addDays(new Date(), -15);
         String startDateStr = new SimpleDateFormat("yyyy-MM-dd").format(startDate.getTime());
-        deployunitstaticscond.createCriteria().andCondition("statics_date >= '" + startDateStr + " 00:00:00'");
+        deployunitstaticscond.createCriteria().andCondition("statics_date >= '" + startDateStr + "'");
         List<StaticsDeployunitandcases> list = staticsDeployunitandcasesService.listByCondition(deployunitstaticscond);
-        List<StaticsDataForLine> staticsDataForLineList = new ArrayList<>();
+
+        HashMap<String, Integer> satiates = new HashMap<>();
+        satiates.put(startDateStr, 0);
+        for (int i=14; i>0; i--) {
+            Date date = DateUtils.addDays(new Date(), -i);
+            String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+            satiates.put(dateStr, 15-i);
+        }
+
         HashMap<String, List<Double>> tmp = new HashMap<>();
         for (StaticsDeployunitandcases staticsDeployunitandcases : list) {
             if (!tmp.containsKey(staticsDeployunitandcases.getDeployunitname())) {
-                List<Double> planstaticsdatelist = new ArrayList<>();
-                planstaticsdatelist.add(staticsDeployunitandcases.getPassrate());
+                Double[] tmpArr = new Double[15];
+                Arrays.fill(tmpArr, 0.0);
+                List<Double> planstaticsdatelist = Arrays.asList(tmpArr);
+                Date date = staticsDeployunitandcases.getStaticsDate();
+                String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+                planstaticsdatelist.set(satiates.get(dateStr), staticsDeployunitandcases.getPassrate());
                 tmp.put(staticsDeployunitandcases.getDeployunitname(), planstaticsdatelist);
             } else {
-                tmp.get(staticsDeployunitandcases.getDeployunitname()).add(staticsDeployunitandcases.getPassrate());
+                Date date = staticsDeployunitandcases.getStaticsDate();
+                String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+                tmp.get(staticsDeployunitandcases.getDeployunitname()).set(satiates.get(dateStr), staticsDeployunitandcases.getPassrate());
             }
         }
+
+        List<StaticsDataForLine> staticsDataForLineList = new ArrayList<>();
         for (String PlanName : tmp.keySet()) {
             StaticsDataForLine staticsDataForLine = new StaticsDataForLine();
             staticsDataForLine.setExecPlanName(PlanName);
