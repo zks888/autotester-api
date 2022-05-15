@@ -43,14 +43,17 @@ public class FixPerformanceResultFileScheduleTask {
     private RouteperformancereportService routeperformancereportService;
     private String ip = "";
 
-    //3.添加定时任务
     @Scheduled(cron = "0/3 * * * * ?")
-    //或直接指定时间间隔，例如：5秒
     private void configureTasks() {
-        //TODO 执行任务结束后需要释放锁
         List<Slaver> slaverlist = slaverMapper.findslaverbyip(ip);
         if (slaverlist.size() == 0) {
-            log.error("性能报告解析任务-没有找到slaver。。。。。。。。" + "未找到ip为：" + ip + "的slaver，请检查调度中心-执行节点");
+            log.error("性能报告解析任务-没有找到slaver。。。。。。。。" + "未找到ip为：" + ip + "的slaver");
+            return;
+        }
+        String status = slaverlist.get(0).getStatus();
+        if ("运行中".equals(status)) {
+            log.info("性能报告解析任务-" + "ip为：" + ip + "的slaver节点繁忙");
+            return;
         }
         long SlaverId = slaverlist.get(0).getId();
         BufferedReader reader = null;

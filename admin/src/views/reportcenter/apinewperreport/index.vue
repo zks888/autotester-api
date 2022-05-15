@@ -1,10 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-form :inline="true"
-               :model="tmpquery"
-               ref="tmpquery"
-      >
+      <el-form :inline="true" :model="tmpquery" ref="tmpquery">
         <el-form-item>
           <el-button
             type="success"
@@ -14,7 +11,6 @@
             @click.native.prevent="getapireportList"
           >刷新</el-button>
         </el-form-item>
-
         <span v-if="hasPermission('apireport:search')">
           <el-form-item label="性能测试任务" prop="testplanname" required>
           <el-select v-model="tmpquery.testplanname" placeholder="测试任务" @change="testplanselectChanged($event)">
@@ -176,7 +172,6 @@
             <el-table-column label="用例名" align="center" prop="casename" width="120"/>
             <el-table-column label="API" align="center" prop="apiname" width="80"/>
             <el-table-column label="请求方式" align="center" prop="requestmethod" width="80"/>
-
             <el-table-column label="状态" align="center" prop="status" width="50">
               <template slot-scope="scope">
                 <span v-if="scope.row.status === '失败'" style="color:red">{{ scope.row.status }}</span>
@@ -184,8 +179,6 @@
               </template>
             </el-table-column>
             <el-table-column label="发布单元" align="center" prop="deployunitname" width="120"/>
-
-
             <el-table-column label="请求地址" align="center" prop="url" width="80">
               <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top">
@@ -392,10 +385,11 @@
 
 <script>
   import { getDispatchWithstatus } from '@/api/dispatch/dispatch'
-  import { search as search, getperformancecasestatics as getperformancecasestatics, findApicasereportWithNameandStatus as findApicasereportWithNameandStatus, getperformanceCaseSandF as getperformanceCaseSandF, getperformanceallstatics as getperformanceallstatics, getperformanceslaverstatics as getperformanceslaverstatics } from '@/api/reportcenter/apiperformancereport'
+  import { search, getperformancecasestatics, findApicasereportWithNameandStatus, getperformanceCaseSandF, getperformanceallstatics, getperformanceslaverstatics } from '@/api/reportcenter/apiperformancereport'
   import { findconditionreport } from '@/api/reportcenter/testconditionreport'
-  import { getbatchbyplan as getbatchbyplan } from '@/api/executecenter/executeplanbatch'
-  import { getallexplanbytype as getallexplanbytype } from '@/api/executecenter/executeplan'
+  import { getbatchbyplan } from '@/api/executecenter/executeplanbatch'
+  import { getallexplanbytype } from '@/api/executecenter/executeplan'
+  import { getallbyexecuteplanid } from '@/api/executecenter/executeplantestcase'
   import { unix2CurrentTime } from '@/utils'
 
   export default {
@@ -409,9 +403,6 @@
         return statusMap[status]
       }
     },
-    // components: {
-    //   PieChart
-    // },
     data() {
       return {
         activeName: 'zero',
@@ -552,8 +543,19 @@
         this.$refs.tmpquery.validate(valid => {
           if (valid) {
             search(this.tmpquery).then(response => {
-              this.apireportList = response.data.list
-              this.total = response.data.total
+              getallbyexecuteplanid(this.tmpquery.executeplanid).then(res => {
+                const tmplist = []
+                for (let i = 0; i < res.data.length; i++) {
+                  tmplist[res.data[i].testcaseid] = res.data[i]
+                }
+                for (let i = 0; i < response.data.list.length; i++) {
+                  response.data.list[i].casename = tmplist[response.data.list[i].caseid].casename
+                  response.data.list[i].apiname = tmplist[response.data.list[i].caseid].apiname
+                  response.data.list[i].deployunitname = tmplist[response.data.list[i].caseid].deployunitname
+                }
+                this.apireportList = response.data.list
+                this.total = response.data.total
+              })
             }).catch(res => {
               this.$message.error('加载api报告列表失败')
             })
@@ -599,8 +601,19 @@
         this.$refs.tmpquery.validate(valid => {
           if (valid) {
             findApicasereportWithNameandStatus(this.tmpquery).then(response => {
-              this.apireportList = response.data.list
-              this.total = response.data.total
+              getallbyexecuteplanid(this.tmpquery.executeplanid).then(res => {
+                const tmplist = []
+                for (let i = 0; i < res.data.length; i++) {
+                  tmplist[res.data[i].testcaseid] = res.data[i]
+                }
+                for (let i = 0; i < response.data.list.length; i++) {
+                  response.data.list[i].casename = tmplist[response.data.list[i].caseid].casename
+                  response.data.list[i].apiname = tmplist[response.data.list[i].caseid].apiname
+                  response.data.list[i].deployunitname = tmplist[response.data.list[i].caseid].deployunitname
+                }
+                this.apireportList = response.data.list
+                this.total = response.data.total
+              })
             }).catch(res => {
               this.$message.error('加载用例结果报告列表失败')
             })

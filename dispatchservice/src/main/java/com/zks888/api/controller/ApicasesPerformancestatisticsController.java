@@ -12,45 +12,45 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* @author Season
-* @date 2020/12/17
-*/
+ * @author Season
+ * @date 2020/12/17
+ */
 @RestController
 @RequestMapping("/apicases/performancestatistics")
 public class ApicasesPerformancestatisticsController {
-@Resource
-private ApicasesPerformancestatisticsService apicasesPerformancestatisticsService;
+    @Resource
+    private ApicasesPerformancestatisticsService apicasesPerformancestatisticsService;
 
-@PostMapping
-public Result add(@RequestBody ApicasesPerformancestatistics apicasesPerformancestatistics) {
-apicasesPerformancestatisticsService.save(apicasesPerformancestatistics);
-return ResultGenerator.genOkResult();
-}
+    @PostMapping
+    public Result add(@RequestBody ApicasesPerformancestatistics apicasesPerformancestatistics) {
+        apicasesPerformancestatisticsService.save(apicasesPerformancestatistics);
+        return ResultGenerator.genOkResult();
+    }
 
-@DeleteMapping("/{id}")
-public Result delete(@PathVariable Long id) {
-apicasesPerformancestatisticsService.deleteById(id);
-return ResultGenerator.genOkResult();
-}
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Long id) {
+        apicasesPerformancestatisticsService.deleteById(id);
+        return ResultGenerator.genOkResult();
+    }
 
-@PatchMapping
-public Result update(@RequestBody ApicasesPerformancestatistics apicasesPerformancestatistics) {
-apicasesPerformancestatisticsService.update(apicasesPerformancestatistics);
-return ResultGenerator.genOkResult();
-}
+    @PatchMapping
+    public Result update(@RequestBody ApicasesPerformancestatistics apicasesPerformancestatistics) {
+        apicasesPerformancestatisticsService.update(apicasesPerformancestatistics);
+        return ResultGenerator.genOkResult();
+    }
 
-@GetMapping("/{id}")
-public Result detail(@PathVariable Long id) {
-ApicasesPerformancestatistics apicasesPerformancestatistics = apicasesPerformancestatisticsService.getById(id);
-return ResultGenerator.genOkResult(apicasesPerformancestatistics);
-}
+    @GetMapping("/{id}")
+    public Result detail(@PathVariable Long id) {
+        ApicasesPerformancestatistics apicasesPerformancestatistics = apicasesPerformancestatisticsService.getById(id);
+        return ResultGenerator.genOkResult(apicasesPerformancestatistics);
+    }
 
-@GetMapping
-public Result list(@RequestParam(defaultValue = "0") Integer page,
-@RequestParam(defaultValue = "0") Integer size) {
-PageHelper.startPage(page, size);
-List<ApicasesPerformancestatistics> list = apicasesPerformancestatisticsService.listAll();
-PageInfo<ApicasesPerformancestatistics> pageInfo = PageInfo.of(list);
-return ResultGenerator.genOkResult(pageInfo);
-}
+    @GetMapping
+    public Result list(@RequestParam(defaultValue = "0") Integer page,
+                       @RequestParam(defaultValue = "0") Integer size) {
+        PageHelper.startPage(page, size);
+        List<ApicasesPerformancestatistics> list = apicasesPerformancestatisticsService.listAll();
+        PageInfo<ApicasesPerformancestatistics> pageInfo = PageInfo.of(list);
+        return ResultGenerator.genOkResult(pageInfo);
+    }
 }

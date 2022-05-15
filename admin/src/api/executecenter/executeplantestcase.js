@@ -53,3 +53,10 @@ export function removeexecuteplantestcase(executeplantestcaseId) {
     method: 'delete'
   })
 }
+
+export function getallbyexecuteplanid(executeplanId) {
+  return request({
+    url: '/executeplan/testcase/getallbyexecuteplanid/' + executeplanId,
+    method: 'get'
+  })
+}

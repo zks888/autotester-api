@@ -26,41 +26,39 @@
   </resultMap>
 
   <select id="findApicasereportWithName" resultMap="BaseResultMap">
-    SELECT b.casename,b.apiname,a.status,a.url,a.requestmethod,a.batchname,b.deployunitname,a.respone,a.assertvalue,a.runtime,a.expect,a.errorinfo,a.create_time,a.requestheader,a.requestdatas
-    FROM apicases_report_performance a inner join apicases b on a.caseid=b.id
+    SELECT status,url,requestmethod,batchname,respone,assertvalue,runtime,expect,errorinfo,create_time,requestheader,requestdatas
+    FROM apicases_report_performance
     <where>
-      <if test="testplanid != null and testplanid != ''">a.testplanid =#{testplanid}</if>
-      <if test="batchname != null  and batchname != ''">and a.batchname =#{batchname}</if>
+      <if test="testplanid != null and testplanid != ''">testplanid =#{testplanid}</if>
+      <if test="batchname != null  and batchname != ''">and batchname =#{batchname}</if>
     </where>
-    order by a.lastmodify_time  DESC
+    order by id DESC
   </select>
 
   <select id="listallresult" resultMap="BaseResultMap">
-    SELECT b.casename,c.apiname,d.deployunitname,a.* FROM apicases_report_performance a inner join apicases b inner join api c inner join deployunit d
-        on a.caseid=b.id and b.apiid=c.id and b.deployunitid=d.id  order by a.lastmodify_time  DESC
+    SELECT * FROM apicases_report_performance where 1 order by id DESC
   </select>
 
   <select id="listallresultbyplanid" resultMap="BaseResultMap">
-    SELECT * FROM apicases_report_performance where testplanid=#{testplanid}
+    SELECT * FROM apicases_report_performance where testplanid=#{testplanid} order by id DESC
   </select>
 
 
   <select id="finddynamicresult" resultMap="BaseResultMap">
-    SELECT b.casename,b.apiname,a.status,a.url,a.requestmethod,a.batchname,b.deployunitname,a.respone,a.assertvalue,a.runtime,a.expect,a.errorinfo,a.create_time,a.requestheader,a.requestdatas
-    FROM ${tableName}  a inner join apicases b on a.caseid=b.id
+    SELECT id,caseid,status,url,requestmethod,batchname,respone,assertvalue,runtime,expect,errorinfo,create_time,requestheader,requestdatas
+    FROM ${tableName}
     <where>
-      <if test="testplanid != null and testplanid != ''">a.testplanid =#{testplanid}</if>
-      <if test="batchname != null  and batchname != ''">and a.batchname =#{batchname}</if>
+      <if test="testplanid != null and testplanid != ''">testplanid =#{testplanid}</if>
+      <if test="batchname != null  and batchname != ''">and batchname =#{batchname}</if>
     </where>
-    order by a.lastmodify_time  DESC
+    order by id DESC
   </select>
-
 
   <select id="finddynamicresultbystatus" resultMap="BaseResultMap">
-    SELECT b.casename,b.apiname,a.status,a.url,a.requestmethod,a.batchname,b.deployunitname,a.respone,a.assertvalue,a.runtime,a.expect,a.errorinfo,a.create_time,a.requestheader,a.requestdatas
-    FROM ${tableName}  a inner join apicases b on a.caseid=b.id where a.testplanid =#{testplanid} and  a.batchname =#{batchname}
+    SELECT id,caseid,status,url,requestmethod,batchname,respone,assertvalue,runtime,expect,errorinfo,create_time,requestheader,requestdatas
+    FROM ${tableName}
+    where testplanid =#{testplanid} and batchname =#{batchname}
     and status =#{status}
-    order by a.lastmodify_time  DESC
+    order by id DESC
   </select>
-
 </mapper>

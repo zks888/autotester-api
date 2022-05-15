@@ -31,24 +31,17 @@ import java.util.*;
 @Component
 public class GeneralPerformancestatisticsScheduleTask {
     @Autowired(required = false)
-    private DictionaryMapper dictionaryMapper;
-    @Autowired(required = false)
     RedisUtils redisUtils;
     @Autowired(required = false)
     private ApicasesPerformancestatisticsService apicasesPerformancestatisticsService;
     @Autowired(required = false)
     private SlaverMapper slaverMapper;
     @Autowired(required = false)
-    private ExecuteplanService epservice;
-    @Autowired(required = false)
     private PerformancereportsourceMapper performancereportsourceMapper;
     private String redisKey = "";
     private String ip = "";
 
-    //3.添加定时任务
     @Scheduled(cron = "0/20 * * * * ?")
-    //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
     private void configureTasks() {
         try {
             long redis_default_expire_time = 2000;

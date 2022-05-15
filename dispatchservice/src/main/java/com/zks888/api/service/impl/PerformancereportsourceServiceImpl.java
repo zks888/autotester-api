@@ -11,15 +11,14 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* @author Season
-* @date 2020/12/16
-*/
+ * @author Season
+ * @date 2020/12/16
+ */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class PerformancereportsourceServiceImpl extends AbstractService<Performancereportsource> implements PerformancereportsourceService {
-@Resource
-private PerformancereportsourceMapper performancereportsourceMapper;
-
+    @Resource
+    private PerformancereportsourceMapper performancereportsourceMapper;
 
     @Override
     public List<Performancereportsource> findperformancereportsource(Long slaverid) {
@@ -27,8 +26,12 @@ private PerformancereportsourceMapper performancereportsourceMapper;
     }
 
     @Override
-    public void updateperformancereportsourcedone(Long planid, Long slaverid, Long batchid, Long caseid) {
-        performancereportsourceMapper.updateperformancereportsourcedone(planid,slaverid,batchid,caseid);
+    public List<Performancereportsource> findperformancereportsourcebyids(long caseid, long slaverid, long planid, Long batchid) {
+        return performancereportsourceMapper.findperformancereportsourcebyids(caseid, slaverid, planid, batchid);
+    }
 
+    @Override
+    public void updateperformancereportsourcedone(Long planid, Long slaverid, Long batchid, Long caseid) {
+        performancereportsourceMapper.updateperformancereportsourcedone(planid, slaverid, batchid, caseid);
     }
 }

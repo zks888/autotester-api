@@ -24,10 +24,7 @@ public class AutoFixSlaverScheduleTask {
     @Autowired(required = false)
     private SlaverMapper slaverMapper;
 
-    //3.添加定时任务
     @Scheduled(cron = "0/3 * * * * ?")
-    //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
     private void configureTasks() {
         String ip = null;
         InetAddress address = null;

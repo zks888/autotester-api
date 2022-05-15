@@ -12,7 +12,6 @@ import java.util.Map;
 */
 public interface ExecuteplanTestcaseService extends Service<ExecuteplanTestcase> {
 
-
     List<ExecuteplanTestcase> findexplanWithName(final Map<String, Object> params);
 
     List<ExecuteplanTestcase> getplancasesbyplanid(final long executeplanid);

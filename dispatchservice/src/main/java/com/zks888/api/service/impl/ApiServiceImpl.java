@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 /**
-* @author zks888
-* @date 2020/04/17
-*/
+ * @author zks888
+ * @date 2020/04/17
+ */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ApiServiceImpl extends AbstractService<Api> implements ApiService {
-@Resource
-private ApiMapper apiMapper;
+    @Resource
+    private ApiMapper apiMapper;
 
 }
