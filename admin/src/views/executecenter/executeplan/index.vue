@@ -96,7 +96,6 @@
             v-if="hasPermission('executeplan:update')"
             @click.native.prevent="showplanparamsDialog(scope.$index)"
           >全局参数</el-button>
-
         </template>
       </el-table-column>
     </el-table>
@@ -150,14 +149,12 @@
             </div>
           </el-select>
         </el-form-item>
-
-          <el-form-item label="运行模式" prop="runmode" required>
-            <el-select v-model="tmpexecuteplan.runmode" placeholder="运行模式" style="width:100%">
-              <el-option label="单机运行" value="单机运行" />
-              <el-option label="多机并行" value="多机并行" />
-            </el-select>
-          </el-form-item>
-
+        <el-form-item label="运行模式" prop="runmode" required>
+          <el-select v-model="tmpexecuteplan.runmode" placeholder="运行模式" style="width:100%">
+            <el-option label="单机运行" value="单机运行" />
+            <el-option label="多机并行" value="多机并行" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="备注" prop="memo">
           <el-input
             maxlength="200"
@@ -433,8 +430,8 @@
     search as getapicases
   } from '@/api/assets/apicases'
   import { search as getapiList } from '@/api/deployunit/api'
-  import { getdepunitList as getdepunitList } from '@/api/deployunit/depunit'
-  import { addexecuteplanbatch as addexecuteplanbatch } from '@/api/executecenter/executeplanbatch'
+  import { getdepunitList } from '@/api/deployunit/depunit'
+  import { addexecuteplanbatch } from '@/api/executecenter/executeplanbatch'
   import { searchcases as searchtestplancases, addexecuteplantestcase, removeexecuteplantestcase } from '@/api/executecenter/executeplantestcase'
   import { checkplancondition, search, getallexplan, addexecuteplan, updateexecuteplan, removeexecuteplan, executeplan, updateexecuteplanstatus } from '@/api/executecenter/executeplan'
   import { unix2CurrentTime } from '@/utils'

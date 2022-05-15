@@ -14,7 +14,7 @@
 
         <span v-if="hasPermission('testconditionreport:search')">
           <el-form-item>
-            <el-input clearable maxlength="40" v-model="search.planname" @keyup.enter.native="searchBy" placeholder="集合/用例"></el-input>
+            <el-input clearable maxlength="40" v-model="search.planname" @keyup.enter.native="searchBy" placeholder="测试任务/用例"></el-input>
           </el-form-item>
            <el-form-item>
             <el-input clearable maxlength="40" v-model="search.batchname" @keyup.enter.native="searchBy" placeholder="执行计划"></el-input>
@@ -39,7 +39,7 @@
           <span v-text="getIndex(scope.$index)"></span>
         </template>
       </el-table-column>
-      <el-table-column label="集合/用例名" align="center" prop="planname" width="150"/>
+      <el-table-column label="测试任务/用例名" align="center" prop="planname" width="150"/>
       <el-table-column label="执行计划名" align="center" prop="batchname" width="120"/>
       <el-table-column label="父条件名" align="center" prop="conditionname" width="120"/>
       <el-table-column label="子条件名" align="center" prop="subconditionname" width="180"/>

@@ -61,6 +61,15 @@
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.lastmodifyTime) }}
         </template>
       </el-table-column>
+      <el-table-column label="管理" align="center" width="100" v-if="hasPermission('dispatch:delete')">
+        <template slot-scope="scope">
+          <el-button
+            type="danger"
+            size="mini"
+            @click.native.prevent="removedispatch(scope.$index)"
+          >删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -369,11 +378,11 @@
       },
 
       /**
-       * 删除字典
-       * @param index 执行机下标
+       * 删除调度计划
+       * @param index 下标
        */
       removedispatch(index) {
-        this.$confirm('删除该执行机？', '警告', {
+        this.$confirm('删除该调度计划？', '警告', {
           confirmButtonText: '是',
           cancelButtonText: '否',
           type: 'warning'

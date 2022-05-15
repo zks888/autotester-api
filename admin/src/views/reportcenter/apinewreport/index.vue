@@ -265,7 +265,7 @@
                 <span v-text="conditiongetIndex(scope.$index)"></span>
               </template>
             </el-table-column>
-            <el-table-column label="集合/用例名" align="center" prop="planname" width="150"/>
+            <el-table-column label="测试任务/用例名" align="center" prop="planname" width="150"/>
             <el-table-column label="执行计划名" align="center" prop="batchname" width="120"/>
             <el-table-column label="父条件名" align="center" prop="conditionname" width="120"/>
             <el-table-column label="子条件名" align="center" prop="subconditionname" width="180"/>

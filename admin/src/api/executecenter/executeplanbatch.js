@@ -31,3 +31,10 @@ export function addexecuteplanbatch(executeplanbatchForm) {
     data: executeplanbatchForm
   })
 }
+
+export function removeexecuteplanbatch(executeplanbatchId) {
+  return request({
+    url: '/executeplanbatch/' + executeplanbatchId,
+    method: 'delete'
+  })
+}

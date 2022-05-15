@@ -13,8 +13,8 @@
         </el-form-item>
 
         <span v-if="hasPermission('executeplanbatch:search')">
-          <el-form-item label="集合：" prop="executeplanname" >
-          <el-select v-model="search.executeplanname" placeholder="集合">
+          <el-form-item label="测试任务：" prop="executeplanname" >
+          <el-select v-model="search.executeplanname" placeholder="测试任务">
             <el-option label="请选择" value=""/>
             <div v-for="(testplan, index) in execplanList" :key="index">
               <el-option :label="testplan.executeplanname" :value="testplan.executeplanname" />
@@ -42,10 +42,10 @@
           <span v-text="getIndex(scope.$index)"></span>
         </template>
       </el-table-column>
-      <el-table-column label="测试任务名" align="center" prop="executeplanname" width="140"/>
+      <el-table-column label="测试任务" align="center" prop="executeplanname" width="140"/>
       <el-table-column label="执行计划" align="center" prop="batchname" width="140"/>
-      <el-table-column label="状态" align="center" prop="status" width="80"/>
-      <el-table-column label="来源" align="center" prop="source" width="60"/>
+      <el-table-column label="状态" align="center" prop="status" width="60"/>
+      <el-table-column label="来源" align="center" prop="source" width="50"/>
       <el-table-column label="执行类型" align="center" prop="exectype" width="80"/>
       <el-table-column label="执行时间" align="center" prop="execdate" width="140"/>
       <el-table-column label="操作人" align="center" prop="creator" width="100"/>
@@ -56,8 +56,15 @@
         <template slot-scope="scope">{{ unix2CurrentTime(scope.row.lastmodifyTime) }}
         </template>
       </el-table-column>
-
-
+      <el-table-column label="管理" align="center" width="100" v-if="hasPermission('executeplanbatch:delete')">
+        <template slot-scope="scope">
+          <el-button
+            type="danger"
+            size="mini"
+            @click.native.prevent="removeexecuteplanbatch(scope.$index)"
+          >删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -71,8 +78,8 @@
   </div>
 </template>
 <script>
-  import { search } from '@/api/executecenter/executeplanbatch'
-  import { getallexplan as getallexplan } from '@/api/executecenter/executeplan'
+  import { search, removeexecuteplanbatch } from '@/api/executecenter/executeplanbatch'
+  import { getallexplan } from '@/api/executecenter/executeplan'
   import { unix2CurrentTime } from '@/utils'
 
   export default {
@@ -210,7 +217,7 @@
 
       /**
        * 显示修改执行计划批次对话框
-       * @param index测试任务批次下标
+       * @param index 测试任务批次下标
        */
       showUpdateexecuteplanbatchDialog(index) {
         this.dialogFormVisible = true
@@ -235,7 +242,27 @@
           }
         }
         return true
-      }
+      },
+
+      /**
+       * 删除执行计划
+       * @param index 执行计划下标
+       */
+      removeexecuteplanbatch(index) {
+        this.$confirm('删除该执行计划？', '警告', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          type: 'warning'
+        }).then(() => {
+          const id = this.executeplanbatchList[index].id
+          removeexecuteplanbatch(id).then(() => {
+            this.$message.success('删除成功')
+            this.getexecuteplanbatchList()
+          })
+        }).catch(() => {
+          this.$message.info('已取消删除')
+        })
+      },
     }
   }
 </script>

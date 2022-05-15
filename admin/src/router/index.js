@@ -92,8 +92,7 @@ export const asyncRouterMap = [
     children: [
       { path: 'executeplan/list', name: '测试任务', icon: 'draw', component: _import('executecenter/executeplan/index'), meta: { title: '测试任务', permission: ['executeplan:list'] }},
       { path: 'executeplancase/list', name: '装载用例', icon: 'draw', component: _import('executecenter/executeplancase/index'), meta: { title: '装载用例', permission: ['executeplan:list'] }},
-      { path: 'testtask/list', name: '执行测试', icon: 'draw', component: _import('executecenter/testtask/index'), meta: { title: '执行测试', permission: ['testtask:list'] }},
-      { path: 'executeplanbatch/list', name: '计划执行', icon: 'draw', component: _import('executecenter/executeplanbatch/index'), meta: { title: '计划执行', permission: ['executeplanbatch:list'] }}
+      { path: 'testtask/list', name: '执行测试', icon: 'draw', component: _import('executecenter/testtask/index'), meta: { title: '执行测试', permission: ['testtask:list'] }}
     ]
   },
   {
@@ -102,8 +101,9 @@ export const asyncRouterMap = [
     name: '调度中心',
     icon: 'dispatch',
     children: [
-      { path: 'slaver/list', name: '测试执行机', icon: 'draw', component: _import('dispatch/slaver/index'), meta: { title: '测试执行机', permission: ['slaver:list'] }},
-      { path: 'dispatch/list', name: '调度管理', icon: 'draw', component: _import('dispatch/dispatch/index'), meta: { title: '调度管理', permission: ['dispatch:list'] }}
+      { path: 'executeplanbatch/list', name: '计划执行', icon: 'draw', component: _import('executecenter/executeplanbatch/index'), meta: { title: '计划执行', permission: ['executeplanbatch:list'] }},
+      { path: 'dispatch/list', name: '调度管理', icon: 'draw', component: _import('dispatch/dispatch/index'), meta: { title: '调度管理', permission: ['dispatch:list'] }},
+      { path: 'slaver/list', name: '测试执行机', icon: 'draw', component: _import('dispatch/slaver/index'), meta: { title: '测试执行机', permission: ['slaver:list'] }}
     ]
   },
   {
