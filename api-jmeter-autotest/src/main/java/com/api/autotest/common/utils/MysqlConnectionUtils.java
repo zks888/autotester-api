@@ -18,15 +18,16 @@ public class MysqlConnectionUtils {
     public static ResultSet rs;
     public static Statement st;
 
-    public static void initDbResource(String mysqluel,String mysqlusername,String mysqlpass ) {
+    public static void initDbResource(String mysqluel, String mysqlusername, String mysqlpass) {
         //PropertiesUtil pUtil = PropertiesUtil.getInstance("app.properties");
-        url =mysqluel;// pUtil.getProperty("mysql.host");
+        url = mysqluel;// pUtil.getProperty("mysql.host");
         //System.out.println(url);
-        user =mysqlusername;// pUtil.getProperty("username");
+        user = mysqlusername;// pUtil.getProperty("username");
         //System.out.println(user);
         password = mysqlpass;// pUtil.getProperty("password");
         //System.out.println(password);
     }
+
     /**
      * 连接数据库
      */
@@ -39,28 +40,26 @@ public class MysqlConnectionUtils {
         }
     }
 
-
     /**
      * 连接数据库
      */
-    public static void getConnectionbycon(String conurl,String username,String password) throws Exception {
+    public static void getConnectionbycon(String conurl, String username, String password) throws Exception {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(conurl, username, password);
         } catch (Exception e) {
-            throw new Exception(e.getMessage()+"|"+conurl+"|"+username+"|"+password);
+            throw new Exception(e.getMessage() + "|" + conurl + "|" + username + "|" + password);
         }
     }
 
     /**
      * 关闭数据库连接
-     * @return
      */
     public static void closeConnection() throws Exception {
         if (st != null) {
             try {
                 st.close();
-                st=null;
+                st = null;
             } catch (SQLException e) {
                 throw new Exception(e.getMessage());
             }
@@ -68,7 +67,7 @@ public class MysqlConnectionUtils {
         if (rs != null) {
             try {
                 rs.close();
-                rs=null;
+                rs = null;
             } catch (SQLException e) {
                 throw new Exception(e.getMessage());
             }
@@ -76,7 +75,7 @@ public class MysqlConnectionUtils {
         if (conn != null) {
             try {
                 conn.close();
-                conn=null;
+                conn = null;
             } catch (SQLException e) {
                 throw new Exception(e.getMessage());
             }
@@ -100,7 +99,7 @@ public class MysqlConnectionUtils {
                 resultArrayList.add(map);
             }
         } catch (Exception e) {
-            throw  new Exception(e.getMessage());
+            throw new Exception(e.getMessage());
         } finally {
             closeConnection();
         }
@@ -108,37 +107,28 @@ public class MysqlConnectionUtils {
     }
 
     public static String update(String sql) throws Exception {
-        String result="";
+        String result = "success";
         try {
             getConnection();
-            if(conn.isClosed()||conn==null)
-            {
+            if (conn.isClosed() || conn == null) {
                 getConnection();
             }
             st = conn.createStatement();
             st.execute(sql);
-        }  catch (Exception e) {
-            throw  new Exception(e.getMessage());
+        } catch (Exception e) {
+            if ("No operations allowed after statement closed.".equals(e.getMessage())) {
+                closeConnection();
+                getConnection();
+                st = conn.createStatement();
+                st.execute(sql);
+            } else {
+                throw new Exception("mysql执行sql发生异常: " + e.getMessage());
+            }
         } finally {
             closeConnection();
         }
         return result;
     }
-
-
-    public static void execsql(String sql) throws Exception {
-        getConnection();
-        int total = 0;
-        try {
-            st = conn.createStatement();
-            st.execute(sql);
-        }  catch (Exception e) {
-            throw new Exception("mysql执行sql发生异常: "+e.getMessage()+" sql:"+sql);
-        } finally {
-            closeConnection();
-        }
-    }
-
 
     public static void main(String[] args) {
         Arguments params = new Arguments();
