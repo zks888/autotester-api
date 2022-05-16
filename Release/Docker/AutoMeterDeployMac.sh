@@ -78,6 +78,7 @@ sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/slaverservice/config/application
 sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/testcenterservice/config/application.yml
 sed -i "" "s/127.0.0.1/${local_ip}/g" ../Beta/testcenterapp/dist/static/config.js
 sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/testcenterapp/dist/static/config.js
+sed -i "" "s/192.168.1.7/${local_ip}/g" ../Beta/elasticjobs/Configurations.xml
 echo "修改IP成功"
 docker-compose -f docker-compose.yaml up -d 
 echo "AutoTester部署成功，访问入口 http://$local_ip:8084  默认账户密码admin wawa521"

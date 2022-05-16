@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<globalConfiguration>
+    <registryCenterConfigurations>
+        <registryCenterConfiguration name="testcenter-jobs" zkAddressList="192.168.1.7:2181" namespace="testcenter-jobs" digest="" activated="false"/>
+        <registryCenterConfiguration name="dispatch-jobs" zkAddressList="192.168.1.7:2181" namespace="dispatch-jobs" digest="" activated="true"/>
+    </registryCenterConfigurations>
+    <eventTraceDataSourceConfigurations>
+        <eventTraceDataSourceConfiguration name="com.mysql.jdbc.Driver" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://192.168.1.7:3406/elasticjob?useUnicode=true&amp;useSSL=false&amp;allowMultiQueries=true&amp;characterEncoding=utf-8&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" username="root" password="123456" activated="true"/>
+    </eventTraceDataSourceConfigurations>
+</globalConfiguration>
